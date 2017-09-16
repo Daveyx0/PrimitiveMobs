@@ -130,7 +130,7 @@ public class PrimitiveMobsWorldSpawner
                                 {
                                     ++successCount;
 
-                                    if(entity instanceof EntityLilyLurker) {PrimitiveMobsLogger.PMlogger.info("Got here: " +" "+ entity.posX +" "+ entity.posY +" "+ entity.posZ);}
+//                                    if(entity instanceof EntityLilyLurker) {PrimitiveMobsLogger.PMlogger.info("Got here: " +" "+ entity.posX +" "+ entity.posY +" "+ entity.posZ);}
                                     worldServerIn.spawnEntity(entity);
                                 }
                                 else
