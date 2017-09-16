@@ -15,8 +15,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBanner;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -28,13 +30,13 @@ public class ModelManagerPrimitiveMobs
 
 	private ModelManagerPrimitiveMobs() {
 	}
-
-	public void registerAllModels() {
-
+	
+	@SubscribeEvent
+    public void registerModels(ModelRegistryEvent event) {
 		registerBlockModels();
 		registerItemModels();
 	}
-	
+
 	private void registerBlockModels() {
 		
 		//ModBlocks.BLOCKS.stream().filter(block -> !itemsRegistered.contains(Item.getItemFromBlock(block))).forEach(this::registerBlockItemModel);
@@ -110,6 +112,7 @@ public class ModelManagerPrimitiveMobs
 
 	private void registerItemModel(Item item, String modelLocation) {
 		final ModelResourceLocation fullModelLocation = new ModelResourceLocation(modelLocation, "inventory");
+		System.out.println("Registering " + item + " " + modelLocation);
 		registerItemModel(item, fullModelLocation);
 	}
 

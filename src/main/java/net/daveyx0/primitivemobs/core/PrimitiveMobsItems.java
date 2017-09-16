@@ -36,7 +36,6 @@ public class PrimitiveMobsItems {
 
 	    @Mod.EventBusSubscriber(modid = PrimitiveMobsReference.MODID)
 		public static class RegistrationHandler {
-			public static final Set<Item> ITEMS = new HashSet<>();
 
 			@SubscribeEvent
 			public static void registerItems(final RegistryEvent.Register<Item> event) {

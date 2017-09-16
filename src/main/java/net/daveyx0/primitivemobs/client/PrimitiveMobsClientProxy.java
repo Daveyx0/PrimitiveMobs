@@ -9,10 +9,13 @@ import net.daveyx0.primitivemobs.core.PrimitiveMobsEntities;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsItems;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsReference;
 import net.daveyx0.primitivemobs.entity.passive.EntityChameleon;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -21,14 +24,13 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
-public class PrimitiveMobsClientProxy extends PrimitiveMobsCommonProxy 
-{
+public class PrimitiveMobsClientProxy extends PrimitiveMobsCommonProxy {
 	
 	 @Override
 	    public void preInit(FMLPreInitializationEvent event) {
-		 	
 	        OBJLoader.INSTANCE.addDomain(PrimitiveMobsReference.MODID);
-	        ModelManagerPrimitiveMobs.INSTANCE.registerAllModels();
+	        
+	        MinecraftForge.EVENT_BUS.register(ModelManagerPrimitiveMobs.INSTANCE);
 	        
 	        PrimitiveMobsEntities.registerRenderers();
 	    }
@@ -42,6 +44,5 @@ public class PrimitiveMobsClientProxy extends PrimitiveMobsCommonProxy
 	    public void postInit(FMLPostInitializationEvent event) {
 	    	ModelManagerPrimitiveMobs.INSTANCE.registerItemColors();
 	    }
-
-   
+	    
 }
