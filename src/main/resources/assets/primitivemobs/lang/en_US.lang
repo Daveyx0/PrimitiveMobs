@@ -1,18 +1,18 @@
 #Entities
 
-entity.primitivemobs.chameleon.name=Chameleon
-entity.primitivemobs.treasure_slime.name=Treasure Slime
-entity.primitivemobs.haunted_tool.name=Haunted Tool
-entity.primitivemobs.grovesprite.name=Grove Sprite
-entity.primitivemobs.bewitched_tome.name=Bewitched Tome
-entity.primitivemobs.filch_lizard.name=Filch Lizard
-entity.primitivemobs.brain_slime.name=Brain Slime
-entity.primitivemobs.rocket_creeper.name=Rocket Creeper
-entity.primitivemobs.festive_creeper.name=Festive Creeper
-entity.primitivemobs.support_creeper.name=Support Creeper
-entity.primitivemobs.skeleton_warrior.name=Skeleton Warrior
-entity.primitivemobs.blazing_juggernaut.name=Blazing Juggernaut
-entity.primitivemobs.lily_lurker.name=Lily Lurker
+entity.chameleon.name=Chameleon
+entity.treasure_slime.name=Treasure Slime
+entity.haunted_tool.name=Haunted Tool
+entity.grovesprite.name=Grove Sprite
+entity.bewitched_tome.name=Bewitched Tome
+entity.filch_lizard.name=Filch Lizard
+entity.brain_slime.name=Brain Slime
+entity.rocket_creeper.name=Rocket Creeper
+entity.festive_creeper.name=Festive Creeper
+entity.support_creeper.name=Support Creeper
+entity.skeleton_warrior.name=Skeleton Warrior
+entity.blazing_juggernaut.name=Blazing Juggernaut
+entity.lily_lurker.name=Lily Lurker
 
 #Items
 
@@ -27,24 +27,24 @@ item.primitivemobs:camouflage_boots.name=Camouflage Boots
 
 #Old
 
-entity.primitivemobs.MimicChest.name=Mimic Chest
-entity.primitivemobs.TravelingMerchant.name=Traveling Merchant
-entity.primitivemobs.LostMiner.name=Lost Miner
-entity.primitivemobs.MotherSpider.name=Mother Spider
-entity.primitivemobs.BabySpider.name=Baby Spider
-entity.primitivemobs.Sheepman.name=Sheepman
-entity.primitivemobs.Summoner.name=Summoner
-entity.primitivemobs.Minion.name=Skull Minion
-entity.primitivemobs.SheepmanSmith.name=Sheepman Smith
-entity.primitivemobs.Spider+.name=Spider+
-entity.primitivemobs.OreGolem.name=Ore Golem
-entity.primitivemobs.BlazeCow.name=Blaze Cow
-entity.primitivemobs.EnderChicken.name=Ender Chicken
-entity.primitivemobs.Sheeper.name=Sheeper
-entity.primitivemobs.Dodo.name=Dodo
-entity.primitivemobs.Goblin.name=Goblin
-entity.primitivemobs.BewitchedTomeSpecial.name=Dungeon Bewitched Tome
-entity.primitivemobs.Wizard.name=Wizard
+entity.MimicChest.name=Mimic Chest
+entity.TravelingMerchant.name=Traveling Merchant
+entity.LostMiner.name=Lost Miner
+entity.MotherSpider.name=Mother Spider
+entity.BabySpider.name=Baby Spider
+entity.Sheepman.name=Sheepman
+entity.Summoner.name=Summoner
+entity.Minion.name=Skull Minion
+entity.SheepmanSmith.name=Sheepman Smith
+entity.Spider+.name=Spider+
+entity.OreGolem.name=Ore Golem
+entity.BlazeCow.name=Blaze Cow
+entity.EnderChicken.name=Ender Chicken
+entity.Sheeper.name=Sheeper
+entity.Dodo.name=Dodo
+entity.Goblin.name=Goblin
+entity.BewitchedTomeSpecial.name=Dungeon Bewitched Tome
+entity.Wizard.name=Wizard
 
 item.primitivemobs.SpiderEgg.name=Spider Egg
 item.primitivemobs.MysteryEgg.name=Mystery Egg
