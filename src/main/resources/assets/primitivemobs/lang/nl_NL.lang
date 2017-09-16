@@ -1,0 +1,29 @@
+
+entity.primitivemobs.RocketCreeper.name=Raket Creeper
+entity.primitivemobs.FestiveCreeper.name=Feestelijke Creeper
+entity.primitivemobs.SupportCreeper.name=Hulp Creeper
+entity.primitivemobs.Chameleon.name=Kameleon
+entity.primitivemobs.TreasureSlime.name=Schat Slijm
+entity.primitivemobs.HauntedTool.name=Bezeten Gereedschap
+entity.primitivemobs.MimicChest.name=Mimic Kist
+entity.primitivemobs.BewitchedTome.name=Behekst Boek
+entity.primitivemobs.TravelingMerchant.name=Reizende Handelaar
+entity.primitivemobs.LostMiner.name=Verdwaalde Mijner
+entity.primitivemobs.BrainSlime.name=Brijn Slijm
+entity.primitivemobs.SkeletonWarrior.name=Skelet Strijder
+entity.primitivemobs.MotherSpider.name=Moeder Spin
+entity.primitivemobs.BabySpider.name=Baby Spin
+entity.primitivemobs.BlazingJuggernaut.name=Felle Jaggernaut
+entity.primitivemobs.Sheepman.name=Schaapman
+entity.primitivemobs.Summoner.name=Monster Oproeper
+entity.primitivemobs.Minion.name=Schedel Onderling
+entity.primitivemobs.SheepmanSmith.name=Sheepman Smid
+
+item.primitivemobs.SpiderEgg.name=Spin Ei
+item.primitivemobs.MysteryEgg.name=Mysterieus Ei
+item.primitivemobs.SpiderEggShell.name=Spin Ei Omhulsel
+item.primitivemobs.CamouflageDye.name=Kamouflage Verf
+item.primitivemobs.SkullMinionOrb.name=Schedel Onderling Bol
+
+key.primitivemobs.category=PrimitiveMobs
+key.primitivemobs.desc=Schakel Camouflage om

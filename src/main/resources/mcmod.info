@@ -1,0 +1,16 @@
+[
+{
+  "modid": "primitivemobs",
+  "name": "Primitive Mobs",
+  "description": "A mod with familiar mobs.",
+  "version": "1.1 alpha",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Daveyx0"],
+  "credits": "KodaichiZero for SpiderFamily, KodasCreepers and BrainSlime. Gibea for TravelingMerchant Model. TehPhailed for Blazing Juggernaut Model. Choonster for 1.12 code reference.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": [mod_minecraftForge]
+}
+]

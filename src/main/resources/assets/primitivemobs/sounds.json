@@ -1,0 +1,89 @@
+{
+    "entity.brainslime.slimecharge":
+    {
+        "category": "neutral",
+        "sounds":
+        [
+            "primitivemobs:entity/brainslime/slimecharge"
+        ]
+    },
+	    "entity.motherspider.spiderscreech":
+    {
+        "category": "neutral",
+        "sounds":
+        [
+            "primitivemobs:entity/motherspider/spiderscreech"
+        ]
+    },
+    "entity.grovesprite.angry":
+    {
+        "category": "neutral",
+        "sounds":
+        [
+            "primitivemobs:entity/grovesprite/angry1"
+        ]
+    },
+    "entity.grovesprite.death":
+    {
+        "category": "neutral",
+        "sounds":
+        [
+            "primitivemobs:entity/grovesprite/death1",
+            "primitivemobs:entity/grovesprite/death2"
+        ]
+    },
+    "entity.grovesprite.friend":
+    {
+        "category": "neutral",
+        "sounds":
+        [
+            "primitivemobs:entity/grovesprite/friend1",
+            "primitivemobs:entity/grovesprite/friend2"
+        ]
+    },
+    "entity.grovesprite.hurt": {
+        "category": "neutral",
+        "sounds": [
+            "primitivemobs:entity/grovesprite/hurt1",
+            "primitivemobs:entity/grovesprite/hurt2",
+            "primitivemobs:entity/grovesprite/hurt3"
+        ]
+    },
+    "entity.grovesprite.idle":
+    {
+        "category": "neutral",
+        "sounds":
+         [
+            "primitivemobs:entity/grovesprite/idle1",
+            "primitivemobs:entity/grovesprite/idle2",
+            "primitivemobs:entity/grovesprite/idle3"
+		] 
+    },
+    "entity.grovesprite.thanks":
+    {
+        "category": "neutral",
+        "sounds":
+        [
+            "primitivemobs:entity/grovesprite/thanks1",
+            "primitivemobs:entity/grovesprite/thanks2",
+            "primitivemobs:entity/grovesprite/thanks3"
+        ]
+    },
+    "dig.squish":
+    {
+        "category": "neutral",
+        "sounds":
+        [
+            "primitivemobs:block/squish"
+        ]
+    },
+    "step.squish":
+    {
+        "category": "neutral",
+        "sounds":
+        [
+            "primitivemobs:block/squish"
+        ]
+    }
+
+}
