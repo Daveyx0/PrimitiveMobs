@@ -110,7 +110,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
     {
     	if(rand.nextInt(tameableChance) != 0)
     	{
-    		while(this.getHeldItemMainhand() == null && !getEntityWorld().isRemote)
+    		while(this.getHeldItemMainhand().isEmpty() && !getEntityWorld().isRemote)
     		{
     			this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, TreasureSlimeLoot.getRandomLootItem(this.rand));
     		}
@@ -268,7 +268,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
     @Override
     protected Item getDropItem()
     {
-        return this.getSlimeSize() == 1 && this.getHeldItemMainhand() != null ? this.getHeldItemMainhand().getItem() : null;
+        return this.getSlimeSize() == 1 ? this.getHeldItemMainhand().getItem() : null;
     }
 
     @Nullable
@@ -292,7 +292,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
     {
         ItemStack stack = this.getHeldItemMainhand();
 
-        if (stack != null && this.getSlimeSize() == 1 && !getEntityWorld().isRemote)
+        if (!stack.isEmpty() && this.getSlimeSize() == 1 && !getEntityWorld().isRemote)
         {
             int i = 1;
 
@@ -321,11 +321,11 @@ public class EntityTreasureSlime extends EntityTameableSlime {
     }
 
 	
-	public boolean processInteract(EntityPlayer player, EnumHand hand, @Nullable ItemStack stack)
+	public boolean processInteract(EntityPlayer player, EnumHand hand, ItemStack stack)
     {
         if (this.isTamed())
         {
-            if (stack != null)
+            if (!stack.isEmpty())
             {
                 if (this.isHealingItem(stack))
                 {
@@ -346,7 +346,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
                     	stack.shrink(1);
                     }
                     
-                    if(this.getHeldItemMainhand() != null && !getEntityWorld().isRemote)
+                    if(!this.getHeldItemMainhand().isEmpty() && !getEntityWorld().isRemote)
                     {
                     	this.dropItemStack(this.getHeldItemMainhand(), 0.0f);
                     }
@@ -363,7 +363,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
                     this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, newStack);
                 }
             }
-            else if (stack == null && this.isOwner(player))
+            else if (stack.isEmpty() && this.isOwner(player))
             {
                 if(!getEntityWorld().isRemote)
             	{
@@ -377,7 +377,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
             	}
             }
         }
-        else if (stack != null && this.isTamingItem(stack) && this.getHeldItemMainhand() == null)
+        else if (!stack.isEmpty() && this.isTamingItem(stack) && this.getHeldItemMainhand().isEmpty())
         {
             if (!player.capabilities.isCreativeMode)
             {
@@ -471,7 +471,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
         	int[] newColor = new int[3];
         	ItemStack heldItem = this.getHeldItemMainhand();
         		
-        	if(heldItem != null && heldItem != currentItem)
+        	if(!heldItem.isEmpty() && heldItem != currentItem)
         		{
         		currentItem = heldItem;
 
@@ -511,7 +511,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
 
         	}
         	
-        	if(heldItem == null)
+        	if(heldItem.isEmpty())
         	{	
             	setNewSkinRGB(new int[]{255,255,255});
         	}

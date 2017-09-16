@@ -89,7 +89,7 @@ public class ModelLilyLurker extends ModelBase
     if(entity != null && entity instanceof EntityLiving)
     {
     	EntityLiving living = (EntityLiving)entity;
-    	if(living.getHeldItemMainhand() != null)
+    	if(!living.getHeldItemMainhand().isEmpty())
     	{
     		Root1.render(f5);
     		Root2.render(f5);

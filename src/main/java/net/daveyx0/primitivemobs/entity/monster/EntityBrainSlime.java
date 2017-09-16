@@ -288,12 +288,12 @@ public class EntityBrainSlime extends EntitySlime {
 	public void damageHelmetOrEntity(EntityLivingBase base)
 	{
 		ItemStack stack = base.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-		if(stack != null)
+		if(!stack.isEmpty())
 		{
 			stack.damageItem(this.getAttackStrength(), base);
 			if(stack.getItemDamage() == 0)
 			{
-				base.setItemStackToSlot(EntityEquipmentSlot.HEAD, null);
+				base.setItemStackToSlot(EntityEquipmentSlot.HEAD, ItemStack.EMPTY);
 			}
 		}
 		else if(base.attackEntityFrom(DamageSource.causeMobDamage(this), (float)this.getAttackStrength() * 1.5F))

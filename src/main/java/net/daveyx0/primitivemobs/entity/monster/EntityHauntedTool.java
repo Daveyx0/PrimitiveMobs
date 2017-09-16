@@ -81,7 +81,7 @@ public class EntityHauntedTool extends EntityMob {
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
     {
-    	while(this.getHeldItemMainhand() == null && !getEntityWorld().isRemote)
+    	while(this.getHeldItemMainhand().isEmpty() && !getEntityWorld().isRemote)
     	{
     		ItemStack tool = HauntedToolLoot.getRandomLootItem(this.rand);
     		this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, tool);
@@ -132,7 +132,7 @@ public class EntityHauntedTool extends EntityMob {
         	getEntityWorld().spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + (rand.nextFloat()/2 - rand.nextFloat()/2), posY + (rand.nextFloat()/2 - rand.nextFloat()/2) + 1F, posZ + (rand.nextFloat()/2 - rand.nextFloat()/2), 0, 0, 0);
         }
         
-        if(this.getHeldItemMainhand() == null)
+        if(this.getHeldItemMainhand().isEmpty())
         {
         	this.setDead();
         }
@@ -142,7 +142,7 @@ public class EntityHauntedTool extends EntityMob {
     @Override
     protected Item getDropItem()
     {
-        return this.getHeldItemMainhand() != null ? this.getHeldItemMainhand().getItem() : null;
+        return this.getHeldItemMainhand().getItem();
     }
 
     @Nullable
@@ -174,7 +174,7 @@ public class EntityHauntedTool extends EntityMob {
     {
         ItemStack stack = this.getHeldItemMainhand();
 
-        if (stack != null && !getEntityWorld().isRemote)
+        if (!stack.isEmpty() && !getEntityWorld().isRemote)
         {
             int i = 1;
 

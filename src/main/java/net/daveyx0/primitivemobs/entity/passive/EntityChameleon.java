@@ -1,29 +1,11 @@
 package net.daveyx0.primitivemobs.entity.passive;
 
-import java.awt.Color;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableCollection;
-import com.google.common.collect.ImmutableMap;
-
-import net.daveyx0.primitivemobs.common.PrimitiveMobs;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.daveyx0.primitivemobs.util.ColorUtil;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -41,18 +23,14 @@ import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import scala.Tuple2;
 
 
 public class EntityChameleon extends EntityTameable
@@ -197,26 +175,26 @@ public class EntityChameleon extends EntityTameable
 		super.onUpdate();
 	}
 	
-    public boolean isHealingItem(@Nullable ItemStack stack)
+    public boolean isHealingItem(ItemStack stack)
     {
-        return stack == null ? false : stack.getItem() == Items.SPIDER_EYE;
+        return stack.getItem() == Items.SPIDER_EYE;
     }
     
-    public boolean isTamingItem(@Nullable ItemStack stack)
+    public boolean isTamingItem(ItemStack stack)
     {
-        return stack == null ? false : stack.getItem() == Items.MELON;
+        return stack.getItem() == Items.MELON;
     }
     
-    public boolean isBreedingItem(@Nullable ItemStack stack)
+    public boolean isBreedingItem(ItemStack stack)
     {
-        return stack == null ? false : stack.getItem() == Items.FERMENTED_SPIDER_EYE;
+        return stack.getItem() == Items.FERMENTED_SPIDER_EYE;
     }
 	
-	public boolean processInteract(EntityPlayer player, EnumHand hand, @Nullable ItemStack stack)
+	public boolean processInteract(EntityPlayer player, EnumHand hand, ItemStack stack)
     {
         if (this.isTamed())
         {
-            if (stack != null)
+            if (!stack.isEmpty())
             {
                 if (this.isHealingItem(stack))
                 {
@@ -245,7 +223,7 @@ public class EntityChameleon extends EntityTameable
             	}
             }
         }
-        else if (stack != null && this.isTamingItem(stack))
+        else if (!stack.isEmpty() && this.isTamingItem(stack))
         {
             if (!player.capabilities.isCreativeMode)
             {
@@ -270,7 +248,7 @@ public class EntityChameleon extends EntityTameable
         {
         	int[] newColor = new int[3];
         	
-        	if(stack != null)
+        	if(!stack.isEmpty())
         	{
         			newColor = ColorUtil.getItemStackColor(stack, worldObj);
             		

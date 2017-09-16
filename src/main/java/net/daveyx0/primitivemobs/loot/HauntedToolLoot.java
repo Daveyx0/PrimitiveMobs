@@ -67,7 +67,7 @@ public class HauntedToolLoot {
 	
 	public static float getHealthFromTool(ItemStack tool)
 	{
-		if(tool != null && tool.getItem() != null && tool.getItem().isDamageable())
+		if(!tool.isEmpty() && tool.getItem().isDamageable())
 		{
 			float health = tool.getItem().getMaxDamage(tool)/10f;
 			if(health > 100f)
@@ -82,7 +82,7 @@ public class HauntedToolLoot {
 	
 	public static double getDamageFromHeldItem(EntityLiving entity)
 	{
-		if(entity.getHeldItemMainhand() != null && entity.getHeldItemMainhand().getItem() != null && entity.getHeldItemMainhand().getItem().isDamageable());
+		if(!entity.getHeldItemMainhand().isEmpty() && entity.getHeldItemMainhand().getItem().isDamageable());
 		{
 			Collection<AttributeModifier> modifiers = entity.getHeldItemMainhand().getAttributeModifiers(entity.getSlotForItemStack(entity.getHeldItemMainhand())).get(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
 			if(modifiers != null && !modifiers.isEmpty())
@@ -108,7 +108,7 @@ public class HauntedToolLoot {
 	
 	public static double getSpeedFromHeldItem(EntityLiving entity)
 	{
-		if(entity.getHeldItemMainhand() != null && entity.getHeldItemMainhand().getItem() != null && entity.getHeldItemMainhand().getItem().isDamageable())
+		if(!entity.getHeldItemMainhand().isEmpty() && entity.getHeldItemMainhand().getItem().isDamageable())
 		{
 			Collection<AttributeModifier> modifiers = entity.getHeldItemMainhand().getAttributeModifiers(entity.getSlotForItemStack(entity.getHeldItemMainhand())).get(SharedMonsterAttributes.ATTACK_SPEED.getName());
 			if(modifiers != null && !modifiers.isEmpty())
@@ -246,7 +246,7 @@ public class HauntedToolLoot {
 				
 				ItemStack randomStack = new ItemStack(items[randomIndex], 1, metas[randomIndex]);
 				
-				if(randomStack != null)
+				if(!randomStack.isEmpty())
 				{
 					return randomStack;
 				}

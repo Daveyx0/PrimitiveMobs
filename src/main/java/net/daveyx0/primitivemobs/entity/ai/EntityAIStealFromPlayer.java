@@ -64,7 +64,7 @@ public class EntityAIStealFromPlayer extends EntityAIBase {
     		return false;
     	}
 
-    	if(this.temptedEntity.getHeldItemMainhand() != null)
+    	if(!this.temptedEntity.getHeldItemMainhand().isEmpty())
     	{
     		return false;
     	}
@@ -86,7 +86,7 @@ public class EntityAIStealFromPlayer extends EntityAIBase {
 			{
 				ItemStack item = this.temptingPlayer.inventory.getStackInSlot(i);
 			
-				if(item != null)
+				if(!item.isEmpty())
 				{
 					if(this.isTempting(item))
 					{
@@ -99,9 +99,9 @@ public class EntityAIStealFromPlayer extends EntityAIBase {
         return false;
     }
 
-    protected boolean isTempting(@Nullable ItemStack stack)
+    protected boolean isTempting(ItemStack stack)
     {
-    	if(stack != null)
+    	if(!stack.isEmpty())
     	{
     		for(ItemStack item : temptItem)
     		{
@@ -162,11 +162,11 @@ public class EntityAIStealFromPlayer extends EntityAIBase {
 			{
 				ItemStack item = this.temptingPlayer.inventory.getStackInSlot(i);
 			
-				if(item != null)
+				if(!item.isEmpty())
 				{
 		    		for(ItemStack itemstack : temptItem)
 		    		{
-		    			if(itemstack != null && itemstack.getItem() == item.getItem() && itemstack.getMetadata() == item.getMetadata())
+		    			if(!itemstack.isEmpty() && itemstack.getItem() == item.getItem() && itemstack.getMetadata() == item.getMetadata())
 		    			{
 		    				if(!temptingPlayer.capabilities.isCreativeMode)
 		    				{

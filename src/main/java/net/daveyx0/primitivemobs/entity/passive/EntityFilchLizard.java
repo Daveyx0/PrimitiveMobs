@@ -98,7 +98,7 @@ public class EntityFilchLizard extends EntityCreature implements IAnimals {
     {
     	if(rand.nextInt(itemChance) == 0)
     	{
-    		while(this.getHeldItemMainhand() == null && !getEntityWorld().isRemote)
+    		while(this.getHeldItemMainhand().isEmpty() && !getEntityWorld().isRemote)
     		{
     			this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, FilchLizardLoot.getRandomLootItem(this.rand));
     		}
@@ -121,11 +121,11 @@ public class EntityFilchLizard extends EntityCreature implements IAnimals {
 	    
         ItemStack stack = this.getHeldItemMainhand();
 
-        if (stack != null && !getEntityWorld().isRemote)
+        if (!stack.isEmpty() && !getEntityWorld().isRemote)
         {
             ItemStack newStack = new ItemStack(stack.getItem(), 1, stack.getMetadata());
             this.dropItemStack(newStack, 1);
-            this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, null);
+            this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
         }
 
 	    return super.attackEntityFrom(par1DamageSource, par2);
@@ -143,7 +143,7 @@ public class EntityFilchLizard extends EntityCreature implements IAnimals {
          */
         public boolean shouldExecute()
         {
-        	return entity.getHeldItemMainhand() != null && super.shouldExecute();
+        	return !entity.getHeldItemMainhand().isEmpty() && super.shouldExecute();
         }	
     }
     

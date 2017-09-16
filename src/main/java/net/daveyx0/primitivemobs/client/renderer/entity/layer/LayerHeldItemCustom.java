@@ -38,7 +38,7 @@ public class LayerHeldItemCustom implements LayerRenderer<EntityLivingBase>
         boolean flag = entitylivingbaseIn.getPrimaryHand() == EnumHandSide.RIGHT;
         ItemStack itemstack = entitylivingbaseIn.getHeldItemMainhand();
 
-        if (itemstack != null)
+        if (!itemstack.isEmpty())
         {
             GlStateManager.pushMatrix();
 
@@ -62,7 +62,7 @@ public class LayerHeldItemCustom implements LayerRenderer<EntityLivingBase>
             else if(entitylivingbaseIn instanceof EntityFilchLizard)
             {
             	EntityFilchLizard sprite = (EntityFilchLizard)entitylivingbaseIn;
-            	if(sprite.getHeldItemMainhand() != null)
+            	if(!sprite.getHeldItemMainhand().isEmpty())
             	{
             		ModelFilchLizard spriteModel = (ModelFilchLizard)this.livingEntityRenderer.getMainModel();
             		this.renderHeldItemLizard(entitylivingbaseIn, itemstack, ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND, spriteModel.Leg1);
@@ -70,7 +70,7 @@ public class LayerHeldItemCustom implements LayerRenderer<EntityLivingBase>
             }else if (entitylivingbaseIn instanceof EntitySkeletonWarrior)
             {
             	EntitySkeletonWarrior sprite = (EntitySkeletonWarrior)entitylivingbaseIn;
-            	if(sprite.getBackItem() != null)
+            	if(!sprite.getBackItem().isEmpty())
             	{
             		itemstack = sprite.getBackItem();
             		ModelSkeleton spriteModel = (ModelSkeleton)this.livingEntityRenderer.getMainModel();
@@ -80,7 +80,7 @@ public class LayerHeldItemCustom implements LayerRenderer<EntityLivingBase>
             else if (entitylivingbaseIn instanceof EntityLilyLurker)
             {
             	EntityLilyLurker sprite = (EntityLilyLurker)entitylivingbaseIn;
-            	if(sprite.getHeldItemMainhand() != null)
+            	if(!sprite.getHeldItemMainhand().isEmpty())
             	{
             		itemstack = sprite.getHeldItemMainhand();
             		ModelLilyLurker spriteModel = (ModelLilyLurker)this.livingEntityRenderer.getMainModel();
@@ -93,7 +93,7 @@ public class LayerHeldItemCustom implements LayerRenderer<EntityLivingBase>
 
     private void renderHeldItemSprite(EntityLivingBase p_188358_1_, ItemStack p_188358_2_, ItemCameraTransforms.TransformType p_188358_3_, ModelRenderer renderer)
     {
-        if (p_188358_2_ != null)
+        if (!p_188358_2_.isEmpty())
         {
             GlStateManager.pushMatrix();
 
@@ -114,7 +114,7 @@ public class LayerHeldItemCustom implements LayerRenderer<EntityLivingBase>
     
     private void renderHeldItemLizard(EntityLivingBase p_188358_1_, ItemStack p_188358_2_, ItemCameraTransforms.TransformType p_188358_3_, ModelRenderer renderer)
     {
-        if (p_188358_2_ != null)
+        if (!p_188358_2_.isEmpty())
         {
             GlStateManager.pushMatrix();
 
@@ -136,7 +136,7 @@ public class LayerHeldItemCustom implements LayerRenderer<EntityLivingBase>
     
     private void renderBackItemSkeletonWarrior(EntityLivingBase p_188358_1_, ItemStack p_188358_2_, ItemCameraTransforms.TransformType p_188358_3_, ModelRenderer renderer)
     {
-        if (p_188358_2_ != null)
+        if (!p_188358_2_.isEmpty())
         {
             GlStateManager.pushMatrix();
 
@@ -154,7 +154,7 @@ public class LayerHeldItemCustom implements LayerRenderer<EntityLivingBase>
     
     private void renderLily(EntityLivingBase p_188358_1_, ItemStack p_188358_2_, ItemCameraTransforms.TransformType p_188358_3_, ModelRenderer renderer)
     {
-        if (p_188358_2_ != null)
+        if (!p_188358_2_.isEmpty())
         {
             GlStateManager.pushMatrix();
 

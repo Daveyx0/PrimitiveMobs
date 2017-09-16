@@ -34,7 +34,7 @@ public class LayerHeldItemHaunted implements LayerRenderer<EntityHauntedTool>
         float f3 = (MathHelper.sin(f1) + 0.5F) * f2 * 1.5F;
         float var6 = f3 + 0.5F;
         
-        if (itemstack != null)
+        if (!itemstack.isEmpty())
         {
             GlStateManager.color(1.0F, 1.0F, 1.0F);
             GlStateManager.pushMatrix();

@@ -53,7 +53,7 @@ public class MessagePrimitiveColor implements IMessage
             {
             	ItemStack armor = entity.getItemStackFromSlot(message.slot);
             
-            	if(armor != null && armor.getItem() instanceof ItemCamouflageArmor)
+            	if(armor.getItem() instanceof ItemCamouflageArmor)
             	{
             		ItemCamouflageArmor camo = (ItemCamouflageArmor)armor.getItem();
             		camo.setColor(armor, message.color);

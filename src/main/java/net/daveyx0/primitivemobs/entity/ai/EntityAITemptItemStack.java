@@ -74,9 +74,9 @@ public class EntityAITemptItemStack extends EntityAIBase
         }
     }
 
-    protected boolean isTempting(@Nullable ItemStack stack)
+    protected boolean isTempting(ItemStack stack)
     {
-    	if(stack != null)
+    	if(!stack.isEmpty())
     	{
     		for(ItemStack item : temptItem)
     		{
@@ -87,7 +87,7 @@ public class EntityAITemptItemStack extends EntityAIBase
     		}
     		
     		ItemStack heldItem = temptedEntity.getHeldItemMainhand();
-    		if(heldItem != null && heldItem.getItem() == stack.getItem() && heldItem.getMetadata() == stack.getMetadata())
+    		if(!heldItem.isEmpty() && heldItem.getItem() == stack.getItem() && heldItem.getMetadata() == stack.getMetadata())
 			{
 				return true;
 			}

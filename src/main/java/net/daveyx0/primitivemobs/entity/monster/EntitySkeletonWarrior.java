@@ -84,12 +84,12 @@ public class EntitySkeletonWarrior extends EntitySkeleton {
 
         this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * difficulty.getClampedAdditionalDifficulty());
 
-        if (this.getItemStackFromSlot(EntityEquipmentSlot.HEAD) == null)
+        if (this.getItemStackFromSlot(EntityEquipmentSlot.HEAD).isEmpty())
         {
             this.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Items.LEATHER_HELMET));
         }
         
-        if (this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND) == null)
+        if (this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).isEmpty())
         {
             this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
         }

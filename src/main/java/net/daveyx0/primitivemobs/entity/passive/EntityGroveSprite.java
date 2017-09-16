@@ -101,7 +101,7 @@ public class EntityGroveSprite extends EntityCreature
     		determineLogAndLeaves();
 
     		ItemStack sapling = new ItemStack(this.getLeaves().getBlock().getItemDropped(this.getLeaves(), rand, 100), 1, this.getLeaves().getBlock().damageDropped(this.getLeaves()));
-			if(sapling != null)
+			if(!sapling.isEmpty())
 			{
 				this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, sapling);
 			}

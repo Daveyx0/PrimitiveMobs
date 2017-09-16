@@ -1,26 +1,14 @@
 package net.daveyx0.primitivemobs.entity.ai;
 
-import java.awt.List;
 import java.util.Set;
 
-import javax.annotation.Nullable;
-
-import com.google.common.collect.Sets;
-
-import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathNavigateGround;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.world.World;
 
 public class EntityAIGrabItemFromFloor extends EntityAIBase {
 
@@ -68,7 +56,7 @@ public class EntityAIGrabItemFromFloor extends EntityAIBase {
     		return false;
     	}
 
-    	if(this.temptedEntity.getHeldItemMainhand() != null)
+    	if(!this.temptedEntity.getHeldItemMainhand().isEmpty())
     	{
     		return false;
     	}
@@ -99,7 +87,7 @@ public class EntityAIGrabItemFromFloor extends EntityAIBase {
  	            {
  	            	EntityItem item = (EntityItem)entity;
  	            	ItemStack stack = item.getItem();
- 	            	if(stack != null)
+ 	            	if(!stack.isEmpty())
  	            	{
  	            		if(this.isTempting(stack))
  						{
@@ -115,9 +103,9 @@ public class EntityAIGrabItemFromFloor extends EntityAIBase {
         return false;
     }
 
-    protected boolean isTempting(@Nullable ItemStack stack)
+    protected boolean isTempting(ItemStack stack)
     {
-    	if(stack != null)
+    	if(!stack.isEmpty())
     	{
     		for(ItemStack item : temptItem)
     		{

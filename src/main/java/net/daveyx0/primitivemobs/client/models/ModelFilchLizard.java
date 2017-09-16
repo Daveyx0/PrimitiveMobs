@@ -124,7 +124,7 @@ public class ModelFilchLizard extends ModelBase
 	    setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 	    
 	    EntityFilchLizard lizard = (EntityFilchLizard)entity;
-	    if(lizard.getHeldItemMainhand() != null)
+	    if(!lizard.getHeldItemMainhand().isEmpty())
 	    {
 	    	Head.render(f5);
 	    }
@@ -156,7 +156,7 @@ public class ModelFilchLizard extends ModelBase
 	    
 	    EntityFilchLizard lizard = (EntityFilchLizard)entity;
 	    
-	    if(lizard.getHeldItemMainhand() != null)
+	    if(!lizard.getHeldItemMainhand().isEmpty())
 	    {
 		    Leg1.setRotationPoint(-2F, 13F, -1F);
 		    setRotation(Leg1, 0F, 1.047198F, 0.6981317F);

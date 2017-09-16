@@ -17,7 +17,7 @@ public class NBTUtil {
 	 public static void setCamouflageArmorNBT(EntityLivingBase entity, EntityEquipmentSlot slot)
 	    {
 	    	ItemStack stack = entity.getItemStackFromSlot(slot);
-	    	if(stack != null && stack.getItem() instanceof ItemCamouflageArmor)
+	    	if(stack.getItem() instanceof ItemCamouflageArmor)
 			{
 				ItemCamouflageArmor item = (ItemCamouflageArmor)stack.getItem();
 				

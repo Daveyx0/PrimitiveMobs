@@ -28,7 +28,7 @@ public class LayerHeldItemSlime implements LayerRenderer<EntityTreasureSlime>
     {
         ItemStack itemstack = entitylivingbaseIn.getHeldItemMainhand();
 
-        if (itemstack != null)
+        if (!itemstack.isEmpty())
         {
             GlStateManager.color(1.0F, 1.0F, 1.0F);
             GlStateManager.pushMatrix();

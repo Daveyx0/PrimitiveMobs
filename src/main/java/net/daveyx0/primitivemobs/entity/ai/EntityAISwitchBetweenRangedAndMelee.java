@@ -44,7 +44,7 @@ public class EntityAISwitchBetweenRangedAndMelee extends EntityAIAttackMelee
 
     protected boolean isBowInMainhand()
     {
-        return this.entity.getHeldItemMainhand() != null && this.entity.getHeldItemMainhand().getItem() == Items.BOW;
+        return this.entity.getHeldItemMainhand().getItem() instanceof ItemBow;
     }
 
     /**

@@ -97,7 +97,7 @@ public class ItemCamouflageArmor extends ItemArmor{
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-    	if(stack != null && stack.getItem() != null && stack.getItem() instanceof ItemCamouflageArmor)
+    	if(!stack.isEmpty() && stack.getItem() instanceof ItemCamouflageArmor)
     	{
     	ItemCamouflageArmor armor = (ItemCamouflageArmor)stack.getItem();
     		

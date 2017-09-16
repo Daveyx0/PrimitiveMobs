@@ -66,14 +66,14 @@ public abstract class EntityTameableSlime extends EntitySlime implements IEntity
     
 
 	
-    public boolean isHealingItem(@Nullable ItemStack stack)
+    public boolean isHealingItem(ItemStack stack)
     {
-        return stack == null ? false : stack.getItem() == Items.SLIME_BALL;
+        return stack.getItem() == Items.SLIME_BALL;
     }
     
-    public boolean isTamingItem(@Nullable ItemStack stack)
+    public boolean isTamingItem(ItemStack stack)
     {
-        return stack == null ? false : stack.getItem() == Items.SLIME_BALL;
+        return stack.getItem() == Items.SLIME_BALL;
     }
     
 	

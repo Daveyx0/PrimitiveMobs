@@ -186,7 +186,7 @@ public class FilchLizardLoot {
 				
 				ItemStack randomStack = new ItemStack(items[randomIndex], 1, metas[randomIndex]);
 				
-				if(randomStack != null)
+				if(!randomStack.isEmpty())
 				{
 					return randomStack;
 				}

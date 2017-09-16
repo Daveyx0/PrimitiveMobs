@@ -1,6 +1,8 @@
 package net.daveyx0.primitivemobs.recipe;
 
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsRecipes;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsReference;
 import net.daveyx0.primitivemobs.item.ItemCamouflageArmor;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
@@ -25,9 +27,9 @@ import java.util.Map.Entry;
 
 public class CamouflageArmorRecipe implements IRecipe
 {
-    protected ItemStack output = null;
+    protected ItemStack output = ItemStack.EMPTY;
     protected ArrayList<Object> input = new ArrayList<Object>();
-    protected ItemStack inputStack = null;
+    protected ItemStack inputStack = ItemStack.EMPTY;
     protected String nbtKey = "";
 
     public CamouflageArmorRecipe(ItemStack recipe)
@@ -57,7 +59,7 @@ public class CamouflageArmorRecipe implements IRecipe
     	{
     	ItemStack stack = var1.getStackInSlot(i).copy();
     	
-    	if(stack != null && stack.getItem() instanceof ItemCamouflageArmor)
+    	if(stack.getItem() instanceof ItemCamouflageArmor)
     	{
     		ItemCamouflageArmor armor = (ItemCamouflageArmor)stack.getItem();
     		int color = armor.getColor(stack);
@@ -84,7 +86,7 @@ public class CamouflageArmorRecipe implements IRecipe
         {
             ItemStack slot = var1.getStackInSlot(x);
 
-            if (slot != null)
+            if (!slot.isEmpty())
             {
                 boolean inRecipe = false;
                 Iterator<Object> req = required.iterator();
@@ -158,7 +160,7 @@ public class CamouflageArmorRecipe implements IRecipe
 	@Override
 	public ResourceLocation getRegistryName() {
 		
-		return null;
+		return new ResourceLocation(PrimitiveMobsReference.MODID, "camo_armor");
 	}
 
 
