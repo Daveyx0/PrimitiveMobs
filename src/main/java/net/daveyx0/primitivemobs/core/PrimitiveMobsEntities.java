@@ -13,6 +13,7 @@ import net.daveyx0.primitivemobs.client.renderer.entity.RenderPrimitiveTNTPrimed
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderSkeletonWarrior;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderTreasureSlime;
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
 import net.daveyx0.primitivemobs.entity.item.EntityPrimitiveTNTPrimed;
 import net.daveyx0.primitivemobs.entity.monster.EntityBlazingJuggernaut;
 import net.daveyx0.primitivemobs.entity.monster.EntityBrainSlime;
@@ -41,19 +42,19 @@ public class PrimitiveMobsEntities {
 	    public static void preInit()
 	    {
 	    	id = 0;
-	    	addEntities(EntityChameleon.class, "chameleon", ++id ,0x048C00, 0x025600);
-	    	addEntities(EntityTreasureSlime.class, "treasure_slime", ++id , 0xFFF399, 0xFFE332);
-	    	addEntities(EntityHauntedTool.class, "haunted_tool", ++id , 0x493615, 0x684E1E);
-	    	addEntities(EntityGroveSprite.class, "grovesprite", ++id , 0x5B4E3D, 0x62A72F);
-	    	addEntities(EntityEnchantedBook.class, "bewitched_tome", ++id , 0xB77A35, 0xD0D0D0);
-	    	addEntities(EntityFilchLizard.class, "filch_lizard", ++id , 0xC2B694, 0xD1CDC0);
-	    	addEntities(EntityBrainSlime.class, "brain_slime", ++id , 0xC696B0, 0xD1A5BD);
-	    	addEntities(EntityRocketCreeper.class, "rocket_creeper", ++id ,0x4CA9D0, 0x000000);
-	    	addEntities(EntityFestiveCreeper.class, "festive_creeper", ++id ,0xBC3608, 0x000000);
-	    	addEntities(EntitySupportCreeper.class, "support_creeper", ++id ,0xDBBD2F, 0x000000);
-	    	addEntities(EntitySkeletonWarrior.class, "skeleton_warrior", ++id ,0xABA188, 0x6C5239);
-	    	addEntities(EntityBlazingJuggernaut.class, "blazing_juggernaut", ++id ,0x30181C, 0xB0A938);
-	    	addEntities(EntityLilyLurker.class, "lily_lurker", ++id, 0x593D29, 0x3D3C1C);
+	    	addEntities(EntityChameleon.class, "chameleon", ++id ,0x048C00, 0x025600, PrimitiveMobsConfigMobs.enableChameleon);
+	    	addEntities(EntityTreasureSlime.class, "treasure_slime", ++id , 0xFFF399, 0xFFE332, PrimitiveMobsConfigMobs.enableTreasureSlime);
+	    	addEntities(EntityHauntedTool.class, "haunted_tool", ++id , 0x493615, 0x684E1E, PrimitiveMobsConfigMobs.enableHauntedTool);
+	    	addEntities(EntityGroveSprite.class, "grovesprite", ++id , 0x5B4E3D, 0x62A72F, PrimitiveMobsConfigMobs.enableGroveSprite);
+	    	addEntities(EntityEnchantedBook.class, "bewitched_tome", ++id , 0xB77A35, 0xD0D0D0, PrimitiveMobsConfigMobs.enableEnchantedBook);
+	    	addEntities(EntityFilchLizard.class, "filch_lizard", ++id , 0xC2B694, 0xD1CDC0, PrimitiveMobsConfigMobs.enableFilchLizard);
+	    	addEntities(EntityBrainSlime.class, "brain_slime", ++id , 0xC696B0, 0xD1A5BD, PrimitiveMobsConfigMobs.enableBrainSlime);
+	    	addEntities(EntityRocketCreeper.class, "rocket_creeper", ++id ,0x4CA9D0, 0x000000, PrimitiveMobsConfigMobs.enableRocketCreeper);
+	    	addEntities(EntityFestiveCreeper.class, "festive_creeper", ++id ,0xBC3608, 0x000000, PrimitiveMobsConfigMobs.enableFestiveCreeper);
+	    	addEntities(EntitySupportCreeper.class, "support_creeper", ++id ,0xDBBD2F, 0x000000, PrimitiveMobsConfigMobs.enableSupportCreeper);
+	    	addEntities(EntitySkeletonWarrior.class, "skeleton_warrior", ++id ,0xABA188, 0x6C5239, PrimitiveMobsConfigMobs.enableSkeletonWarrior);
+	    	addEntities(EntityBlazingJuggernaut.class, "blazing_juggernaut", ++id ,0x30181C, 0xB0A938, PrimitiveMobsConfigMobs.enableBlazingJuggernaut);
+	    	addEntities(EntityLilyLurker.class, "lily_lurker", ++id, 0x593D29, 0x3D3C1C, PrimitiveMobsConfigMobs.enableLilyLurker);
 	    	
 	    	addCustomEntities(EntityPrimitiveTNTPrimed.class, "primitive_tnt_primed", ++id, 64, 20, true);
 	    }
@@ -77,8 +78,11 @@ public class PrimitiveMobsEntities {
 	    }
 	    
 	    
-	    private static void addEntities(Class var1, String name1,  int entityid, int bkEggColor, int fgEggColor )
+	    private static void addEntities(Class var1, String name1,  int entityid, int bkEggColor, int fgEggColor, boolean flag)
 	    {
+	    	if(!flag)
+	    		return;
+	    	
 	    	int trackingRange = 80;
 	    	int updateFrequency = 3;
 	    	boolean sendsVelocityUpdates = true;
