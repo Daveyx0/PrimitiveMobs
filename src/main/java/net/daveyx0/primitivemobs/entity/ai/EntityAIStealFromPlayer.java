@@ -166,7 +166,7 @@ public class EntityAIStealFromPlayer extends EntityAIBase {
 				{
 		    		for(ItemStack itemstack : temptItem)
 		    		{
-		    			if(!itemstack.isEmpty() && itemstack.getItem() == item.getItem() && itemstack.getMetadata() == item.getMetadata())
+		    			if(itemstack != null && !itemstack.isEmpty() && itemstack.getItem() == item.getItem() && itemstack.getMetadata() == item.getMetadata())
 		    			{
 		    				if(!temptingPlayer.capabilities.isCreativeMode)
 		    				{
