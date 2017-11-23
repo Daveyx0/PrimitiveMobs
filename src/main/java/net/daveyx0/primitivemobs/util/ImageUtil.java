@@ -1,5 +1,7 @@
 package net.daveyx0.primitivemobs.util;
 
+import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
@@ -32,7 +34,7 @@ public class ImageUtil {
 
         if (!iter.hasNext())
         {
-            System.out.println("Cannot load the specified file ");
+            PrimitiveMobs.LOGGER.error("Cannot load the specified file ");
             //System.exit(1);
         }
         ImageReader imageReader = (ImageReader)iter.next();

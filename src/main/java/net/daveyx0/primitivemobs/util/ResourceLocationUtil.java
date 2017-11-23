@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
@@ -45,7 +47,7 @@ public class ResourceLocationUtil
 	        try {
 	            while( reader.ready() ) 
 	            {
-	                System.out.println(reader.readLine());
+	                PrimitiveMobs.LOGGER.info(reader.readLine());
 	            }
 	        } catch( IOException e ) {
 	            e.printStackTrace();

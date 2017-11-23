@@ -3,6 +3,7 @@ package net.daveyx0.primitivemobs.client.models;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsItems;
 import net.daveyx0.primitivemobs.util.IVariant;
 import net.minecraft.block.Block;
@@ -112,7 +113,7 @@ public class ModelManagerPrimitiveMobs
 
 	private void registerItemModel(Item item, String modelLocation) {
 		final ModelResourceLocation fullModelLocation = new ModelResourceLocation(modelLocation, "inventory");
-		System.out.println("Registering " + item + " " + modelLocation);
+		PrimitiveMobs.LOGGER.info("Registering " + item + " " + modelLocation);
 		registerItemModel(item, fullModelLocation);
 	}
 

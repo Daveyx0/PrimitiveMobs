@@ -13,7 +13,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import net.daveyx0.primitivemobs.client.TabPrimitiveMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfig;
@@ -41,7 +42,9 @@ import net.minecraft.world.storage.loot.LootTableList;
 		guiFactory = "net.daveyx0."+ PrimitiveMobsReference.MODID+".config.PrimitiveMobsFactoryGui")
 
 public class PrimitiveMobs {
-	
+
+	public static final Logger LOGGER = LogManager.getLogger(PrimitiveMobsReference.MODID);
+
 	@Instance(PrimitiveMobsReference.MODID)
 	public static PrimitiveMobs instance = new PrimitiveMobs();
 	
