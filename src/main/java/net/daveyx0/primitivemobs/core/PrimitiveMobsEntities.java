@@ -1,5 +1,7 @@
 package net.daveyx0.primitivemobs.core;
 
+import java.util.HashMap;
+
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderBlazingJuggernaut;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderBrainSlime;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderChameleon;
@@ -28,9 +30,7 @@ import net.daveyx0.primitivemobs.entity.monster.EntityTreasureSlime;
 import net.daveyx0.primitivemobs.entity.passive.EntityChameleon;
 import net.daveyx0.primitivemobs.entity.passive.EntityFilchLizard;
 import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
-import net.minecraft.client.renderer.entity.RenderCreeper;
-import net.minecraft.client.renderer.entity.RenderTNTPrimed;
-import net.minecraft.entity.EntityList;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
@@ -38,6 +38,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 public class PrimitiveMobsEntities {
 
 		public static int id;
+		public static final HashMap<Class<? extends Entity>, Boolean> enabledEntities = new HashMap();
 		
 	    public static void preInit()
 	    {
@@ -57,6 +58,8 @@ public class PrimitiveMobsEntities {
 	    	addEntities(EntityLilyLurker.class, "lily_lurker", ++id, 0x593D29, 0x3D3C1C, PrimitiveMobsConfigMobs.enableLilyLurker);
 	    	
 	    	addCustomEntities(EntityPrimitiveTNTPrimed.class, "primitive_tnt_primed", ++id, 64, 20, true);
+	    	
+	    	PrimitiveMobsSpawnList.preInit();
 	    }
 
 	    public static void registerRenderers()
@@ -86,8 +89,10 @@ public class PrimitiveMobsEntities {
 	    	int trackingRange = 80;
 	    	int updateFrequency = 3;
 	    	boolean sendsVelocityUpdates = true;
-	    		final ResourceLocation registryName = new ResourceLocation(PrimitiveMobsReference.MODID, name1);
-			    EntityRegistry.registerModEntity(registryName, var1, name1, entityid,  PrimitiveMobs.instance, trackingRange, updateFrequency, sendsVelocityUpdates, bkEggColor, fgEggColor);
+	    	final ResourceLocation registryName = new ResourceLocation(PrimitiveMobsReference.MODID, name1);
+			EntityRegistry.registerModEntity(registryName, var1, name1, entityid,  PrimitiveMobs.instance, trackingRange, updateFrequency, sendsVelocityUpdates, bkEggColor, fgEggColor);
+
+			enabledEntities.put(var1, flag);
 	    }
 	    
 	    
@@ -97,17 +102,7 @@ public class PrimitiveMobsEntities {
 	    	int updateFrequency = freq;
 	    	boolean sendsVelocityUpdates = vel;
 	    	final ResourceLocation registryName = new ResourceLocation(PrimitiveMobsReference.MODID, name1);
-			    EntityRegistry.registerModEntity(registryName,var1, name1, entityid,  PrimitiveMobs.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
-	    }
-	    
-	    
-	    private static void addEntities(Class var1, String name1,  int entityid)
-	    {
-	    	int trackingRange = 80;
-	    	int updateFrequency = 3;
-	    	boolean sendsVelocityUpdates = true;
-	    	final ResourceLocation registryName = new ResourceLocation(PrimitiveMobsReference.MODID, name1);
-			    EntityRegistry.registerModEntity(registryName,var1, name1, entityid,  PrimitiveMobs.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
+			EntityRegistry.registerModEntity(registryName,var1, name1, entityid,  PrimitiveMobs.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
 	    }
 		 
 	}
