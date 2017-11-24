@@ -87,7 +87,7 @@ public class PrimitiveMobsEntities {
 	    	int updateFrequency = 3;
 	    	boolean sendsVelocityUpdates = true;
 	    		final ResourceLocation registryName = new ResourceLocation(PrimitiveMobsReference.MODID, name1);
-			    EntityRegistry.registerModEntity(registryName, var1, name1, entityid,  PrimitiveMobs.instance, trackingRange, updateFrequency, sendsVelocityUpdates, bkEggColor, fgEggColor);
+			    EntityRegistry.registerModEntity(registryName, var1, PrimitiveMobsReference.MODID + "." + name1, entityid,  PrimitiveMobs.instance, trackingRange, updateFrequency, sendsVelocityUpdates, bkEggColor, fgEggColor);
 	    }
 	    
 	    
@@ -97,7 +97,7 @@ public class PrimitiveMobsEntities {
 	    	int updateFrequency = freq;
 	    	boolean sendsVelocityUpdates = vel;
 	    	final ResourceLocation registryName = new ResourceLocation(PrimitiveMobsReference.MODID, name1);
-			    EntityRegistry.registerModEntity(registryName,var1, name1, entityid,  PrimitiveMobs.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
+			    EntityRegistry.registerModEntity(registryName,var1, PrimitiveMobsReference.MODID + "." + name1, entityid,  PrimitiveMobs.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
 	    }
 	    
 	    
@@ -107,7 +107,7 @@ public class PrimitiveMobsEntities {
 	    	int updateFrequency = 3;
 	    	boolean sendsVelocityUpdates = true;
 	    	final ResourceLocation registryName = new ResourceLocation(PrimitiveMobsReference.MODID, name1);
-			    EntityRegistry.registerModEntity(registryName,var1, name1, entityid,  PrimitiveMobs.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
+			    EntityRegistry.registerModEntity(registryName,var1, PrimitiveMobsReference.MODID + "." + name1, entityid,  PrimitiveMobs.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
 	    }
 		 
 	}

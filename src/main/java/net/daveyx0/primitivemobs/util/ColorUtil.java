@@ -13,6 +13,7 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.resources.IResource;
@@ -72,12 +73,18 @@ public class ColorUtil
 				
 				if(model != null)
 				{
-					List<BakedQuad> quads = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(state).getQuads(state, face, 1);	
+					IBakedModel bakedModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(state);
 					
-					if(quads!= null && !quads.isEmpty() && quads.size() > 0)
+					if(bakedModel != null)
 					{
-						topTextureName = quads.get(0).getSprite().getIconName();
+						List<BakedQuad> quads = bakedModel.getQuads(state, face, 1);
+						 
+						if(quads!= null && !quads.isEmpty() && quads.size() > 0)
+						{
+							topTextureName = quads.get(0).getSprite().getIconName();
+						}
 					}
+
 				}
 
 				if(!topTextureName.equals("") && !topTextureName.equals("missingno"))
