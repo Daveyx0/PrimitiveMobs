@@ -180,7 +180,7 @@ public class EntityHauntedTool extends EntityMob {
 
             if (lootingModifier > 0)
             {
-                i += this.rand.nextInt(lootingModifier + 1);
+                lootingModifier = 0;
             }
 
             for (int j = 0; j < i; ++j)
