@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.IBlockColor;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.entity.Entity;
@@ -65,15 +66,19 @@ public class ColorUtil
 			}
 			else
 			{
-				String textureName = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getTexture(state).getIconName();
+				TextureAtlasSprite sprite = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getTexture(state);
 				
-				String modelName = textureName.replaceAll(":", ":models/");
-				ModelResourceLocation model = new ModelResourceLocation(modelName);
-				String topTextureName = "";
-				
-				if(model != null)
+				if(sprite != null)
 				{
-					IBakedModel bakedModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(state);
+					String textureName = sprite.getIconName();
+				
+					String modelName = textureName.replaceAll(":", ":models/");
+					ModelResourceLocation model = new ModelResourceLocation(modelName);
+					String topTextureName = "";
+				
+					if(model != null)
+					{
+						IBakedModel bakedModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(state);
 					
 					if(bakedModel != null)
 					{
@@ -94,6 +99,7 @@ public class ColorUtil
 				else if(!textureName.equals("") && !textureName.equals("missingno"))
 				{
 					color = getTextureColor(textureName, "blocks");
+				}
 				}
 			}
 			
