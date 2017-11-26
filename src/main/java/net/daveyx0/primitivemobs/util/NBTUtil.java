@@ -21,10 +21,10 @@ public class NBTUtil {
 			{
 				ItemCamouflageArmor item = (ItemCamouflageArmor)stack.getItem();
 				
-				if(!item.getCannotChange(stack))
+				if(!item.getCannotChange(stack) && entity.getEntityWorld().isRemote)
 				{
 					int color = ColorUtil.getBlockColor(entity);
-					if(color < -1 && entity.getEntityWorld().isRemote)
+					if(color < -1)
 					{
 						item.setColor(stack, color);
 						PrimitiveMobs.getSimpleNetworkWrapper().sendToServer(new MessagePrimitiveColor(item.getColor(stack), slot,  entity.getUniqueID().toString()));
