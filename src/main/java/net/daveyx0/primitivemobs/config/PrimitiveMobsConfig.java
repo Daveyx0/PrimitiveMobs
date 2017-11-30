@@ -26,6 +26,7 @@ public class PrimitiveMobsConfig {
 	private static void reloadConfig() {
 		
 		PrimitiveMobsConfigMobs.load(config);
+		PrimitiveMobsConfigSpawns.load(config);
 		TreasureSlimeLoot.load();
 		HauntedToolLoot.load();
 		FilchLizardLoot.load();

@@ -352,13 +352,6 @@ public class EntityTreasureSlime extends EntityTameableSlime {
                     }
                     
                     ItemStack newStack = new ItemStack(stack.getItem(), 1, stack.getMetadata());
-                    
-                    if(getEntityWorld().isRemote && PrimitiveMobsConfigMobs.getDebug())
-                    {
-                    	String[] divided = stack.getItem().getRegistryName().toString().split(":");
-                    	
-                    	Minecraft.getMinecraft().player.sendChatMessage("modName: " + divided[0] + " itemName: " + divided[1] +  " metaData: " + stack.getMetadata());
-                    }
 
                     this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, newStack);
                 }

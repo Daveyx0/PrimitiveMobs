@@ -2,6 +2,7 @@ package net.daveyx0.primitivemobs.core;
 
 import java.util.HashMap;
 
+import net.daveyx0.primitivemobs.client.renderer.entity.RenderBabySpider;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderBlazingJuggernaut;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderBrainSlime;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderChameleon;
@@ -10,6 +11,7 @@ import net.daveyx0.primitivemobs.client.renderer.entity.RenderFilchLizard;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderGroveSprite;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderHauntedTool;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderLilyLurker;
+import net.daveyx0.primitivemobs.client.renderer.entity.RenderMotherSpider;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderPrimitiveCreeper;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderPrimitiveTNTPrimed;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderSkeletonWarrior;
@@ -17,12 +19,14 @@ import net.daveyx0.primitivemobs.client.renderer.entity.RenderTreasureSlime;
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
 import net.daveyx0.primitivemobs.entity.item.EntityPrimitiveTNTPrimed;
+import net.daveyx0.primitivemobs.entity.monster.EntityBabySpider;
 import net.daveyx0.primitivemobs.entity.monster.EntityBlazingJuggernaut;
 import net.daveyx0.primitivemobs.entity.monster.EntityBrainSlime;
 import net.daveyx0.primitivemobs.entity.monster.EntityEnchantedBook;
 import net.daveyx0.primitivemobs.entity.monster.EntityFestiveCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntityHauntedTool;
 import net.daveyx0.primitivemobs.entity.monster.EntityLilyLurker;
+import net.daveyx0.primitivemobs.entity.monster.EntityMotherSpider;
 import net.daveyx0.primitivemobs.entity.monster.EntityRocketCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntitySkeletonWarrior;
 import net.daveyx0.primitivemobs.entity.monster.EntitySupportCreeper;
@@ -56,6 +60,10 @@ public class PrimitiveMobsEntities {
 	    	addEntities(EntitySkeletonWarrior.class, "skeleton_warrior", ++id ,0xABA188, 0x6C5239, PrimitiveMobsConfigMobs.enableSkeletonWarrior);
 	    	addEntities(EntityBlazingJuggernaut.class, "blazing_juggernaut", ++id ,0x30181C, 0xB0A938, PrimitiveMobsConfigMobs.enableBlazingJuggernaut);
 	    	addEntities(EntityLilyLurker.class, "lily_lurker", ++id, 0x593D29, 0x3D3C1C, PrimitiveMobsConfigMobs.enableLilyLurker);
+	    	addEntities(EntityMotherSpider.class, "mother_spider", ++id, 0x250522, 11013646, PrimitiveMobsConfigMobs.enableSpiderFamily);
+	    	addEntities(EntityBabySpider.class, "baby_spider", ++id, 0xB59468, 11013646, PrimitiveMobsConfigMobs.enableSpiderFamily);
+	    	
+	    	//addEntitiesWithoutEgg(EntityBabySpider.class, "baby_spider", ++id, PrimitiveMobsConfigMobs.enableBabySpider);
 	    	
 	    	addCustomEntities(EntityPrimitiveTNTPrimed.class, "primitive_tnt_primed", ++id, 64, 20, true);
 	    	
@@ -78,6 +86,8 @@ public class PrimitiveMobsEntities {
 	    	RenderingRegistry.registerEntityRenderingHandler(EntitySkeletonWarrior.class, RenderSkeletonWarrior::new);
 	    	RenderingRegistry.registerEntityRenderingHandler(EntityBlazingJuggernaut.class, RenderBlazingJuggernaut::new);
 	    	RenderingRegistry.registerEntityRenderingHandler(EntityLilyLurker.class, RenderLilyLurker::new);
+	    	RenderingRegistry.registerEntityRenderingHandler(EntityMotherSpider.class, RenderMotherSpider::new);
+	    	RenderingRegistry.registerEntityRenderingHandler(EntityBabySpider.class, RenderBabySpider::new);
 	    }
 	    
 	    
@@ -91,6 +101,20 @@ public class PrimitiveMobsEntities {
 	    	boolean sendsVelocityUpdates = true;
 	    	final ResourceLocation registryName = new ResourceLocation(PrimitiveMobsReference.MODID, name1);
 			EntityRegistry.registerModEntity(registryName, var1, PrimitiveMobsReference.MODID + "." + name1, entityid,  PrimitiveMobs.instance, trackingRange, updateFrequency, sendsVelocityUpdates, bkEggColor, fgEggColor);
+
+			enabledEntities.put(var1, flag);
+	    }
+	    
+	    private static void addEntitiesWithoutEgg(Class var1, String name1,  int entityid, boolean flag)
+	    {
+	    	if(!flag)
+	    		return;
+	    	
+	    	int trackingRange = 80;
+	    	int updateFrequency = 3;
+	    	boolean sendsVelocityUpdates = true;
+	    	final ResourceLocation registryName = new ResourceLocation(PrimitiveMobsReference.MODID, name1);
+			EntityRegistry.registerModEntity(registryName, var1, PrimitiveMobsReference.MODID + "." + name1, entityid,  PrimitiveMobs.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
 
 			enabledEntities.put(var1, flag);
 	    }

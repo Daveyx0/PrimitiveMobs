@@ -13,6 +13,8 @@ entity.primitivemobs.support_creeper.name=Support Creeper
 entity.primitivemobs.skeleton_warrior.name=Skeleton Warrior
 entity.primitivemobs.blazing_juggernaut.name=Blazing Juggernaut
 entity.primitivemobs.lily_lurker.name=Lily Lurker
+entity.primitivemobs.mother_spider.name=Mother Spider
+entity.primitivemobs.baby_spider.name=Baby Spider
 
 #Items
 
@@ -30,8 +32,6 @@ item.primitivemobs:camouflage_boots.name=Camouflage Boots
 entity.primitivemobs.MimicChest.name=Mimic Chest
 entity.primitivemobs.TravelingMerchant.name=Traveling Merchant
 entity.primitivemobs.LostMiner.name=Lost Miner
-entity.primitivemobs.MotherSpider.name=Mother Spider
-entity.primitivemobs.BabySpider.name=Baby Spider
 entity.primitivemobs.Sheepman.name=Sheepman
 entity.primitivemobs.Summoner.name=Summoner
 entity.primitivemobs.Minion.name=Skull Minion

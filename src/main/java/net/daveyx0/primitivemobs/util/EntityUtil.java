@@ -1,7 +1,13 @@
 package net.daveyx0.primitivemobs.util;
 
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 import com.google.common.base.Predicate;
 
+import net.daveyx0.primitivemobs.entity.monster.EntityMotherSpider;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
@@ -12,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -26,6 +33,28 @@ public class EntityUtil {
         return p -> !(p instanceof EntityPlayer);
     }
     
+    @Nullable
+    public static EntityLivingBase getLoadedEntityByUUID(UUID uuid, World world)
+    {
+    	
+        for (int i = 0; i < world.loadedEntityList.size(); ++i)
+        {
+            Entity entity = world.loadedEntityList.get(i);
+
+            if (uuid.equals(entity.getUniqueID()))
+            {
+            	if(entity instanceof EntityLivingBase){return (EntityLivingBase)entity;}
+            	else{return null;}
+            }
+        }
+
+        return null;
+    }
+    
+	public void attemptToRideEntity(Entity entity)
+	{
+		
+	}
 	
     /**
      * Checks to make sure the light is not too bright where the mob is spawning
