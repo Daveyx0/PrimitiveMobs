@@ -8,6 +8,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsParticles;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
@@ -94,6 +95,10 @@ public class EntityBrainSlime extends EntitySlime {
         super.entityInit();
         this.getDataManager().register(ATTACK_DELAY, Integer.valueOf(0));
         this.dismountRidingEntity();
+        if(!PrimitiveMobsConfigMobs.enableBrainSlime)
+        {
+        	this.setDead();
+        }
     }
 	
     @Nullable
@@ -106,6 +111,7 @@ public class EntityBrainSlime extends EntitySlime {
 	
 	public void onUpdate()
 	{
+		
 		suckinge = suckingb;
 	    suckingd = suckingc;
 	    setAttackDelay(getAttackDelay() - 1);
@@ -120,9 +126,9 @@ public class EntityBrainSlime extends EntitySlime {
 		    {
 		    	EntityPlayer player = this.getEntityWorld().getNearestAttackablePlayer(this, 2D, 2D);
 		    	
-		    	if(player != null && !getEntityWorld().isRemote)
+		    	if(player != null)
 		    	{
-		    		if(this.startRidingTopEntity(player, false))
+		    		if(!getEntityWorld().isRemote && this.startRidingTopEntity(player, false))
 		    		{
 		    	        if(player instanceof EntityPlayerMP) {
 		    	            PrimitiveMobs.network.sendPacket(player, new SPacketSetPassengers(player));

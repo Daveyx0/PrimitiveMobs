@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import javax.annotation.Nullable;
 
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.minecraft.init.Items;
@@ -25,7 +26,7 @@ public class TreasureSlimeLoot {
 	public static void load()
 	{
 		possibleLoot.clear();
-		String[] finalTreasureLoot = PrimitiveMobsConfigMobs.getTreasureSlimeLoot();
+		String[] finalTreasureLoot = PrimitiveMobsConfigSpecial.getTreasureSlimeLoot();
 
 		for(String entry : finalTreasureLoot)
 		{

@@ -25,4 +25,14 @@ public class PrimitiveMobsLogger {
 			PMlogger.info("Server log: " + message);
 		}
 	}
+	
+	public static void info(String message)
+	{
+		PMlogger.info(message);
+	}
+	
+	public static void gotHere()
+	{
+		PMlogger.info("got here");
+	}
 }

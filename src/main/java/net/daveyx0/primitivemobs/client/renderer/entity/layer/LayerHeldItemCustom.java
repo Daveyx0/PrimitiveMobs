@@ -3,11 +3,18 @@ package net.daveyx0.primitivemobs.client.renderer.entity.layer;
 import net.daveyx0.primitivemobs.client.models.ModelFilchLizard;
 import net.daveyx0.primitivemobs.client.models.ModelGroveSprite;
 import net.daveyx0.primitivemobs.client.models.ModelLilyLurker;
+import net.daveyx0.primitivemobs.client.models.ModelLostMiner;
+import net.daveyx0.primitivemobs.client.models.ModelTrollager;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderGroveSprite;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.entity.monster.EntityLilyLurker;
 import net.daveyx0.primitivemobs.entity.monster.EntitySkeletonWarrior;
+import net.daveyx0.primitivemobs.entity.monster.EntityTrollager;
 import net.daveyx0.primitivemobs.entity.passive.EntityFilchLizard;
 import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
+import net.daveyx0.primitivemobs.entity.passive.EntityLostMiner;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
@@ -38,7 +45,7 @@ public class LayerHeldItemCustom implements LayerRenderer<EntityLivingBase>
         boolean flag = entitylivingbaseIn.getPrimaryHand() == EnumHandSide.RIGHT;
         ItemStack itemstack = entitylivingbaseIn.getHeldItemMainhand();
 
-        if (!itemstack.isEmpty())
+        if (!itemstack.isEmpty() || entitylivingbaseIn instanceof EntityTrollager)
         {
             GlStateManager.pushMatrix();
 
@@ -87,6 +94,30 @@ public class LayerHeldItemCustom implements LayerRenderer<EntityLivingBase>
             		this.renderLily(entitylivingbaseIn, itemstack, ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND, spriteModel.Root1);
             	}
             }
+            else if (entitylivingbaseIn instanceof EntityTrollager)
+            {
+            	EntityTrollager sprite = (EntityTrollager)entitylivingbaseIn;
+            	IBlockState state = sprite.getEntityWorld().getBlockState(sprite.getThrownBlock());
+            	if(state != null && sprite.getAnimationState() == 1)
+            	{	
+            		itemstack = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
+            		ModelTrollager spriteModel = (ModelTrollager)this.livingEntityRenderer.getMainModel();
+            		this.renderThrownBlock(entitylivingbaseIn, itemstack, ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND, spriteModel.BlockHolder);
+            	}
+            }
+            else if(entitylivingbaseIn instanceof EntityLostMiner)
+            {
+            	EntityLostMiner sprite = (EntityLostMiner)entitylivingbaseIn;
+            	ModelLostMiner spriteModel = (ModelLostMiner)this.livingEntityRenderer.getMainModel();
+            	if(sprite.isSaved())
+            	{
+                	this.renderHeldItemLostMiner(entitylivingbaseIn, itemstack, ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND, spriteModel.villagerBody, true);
+            	}
+            	else
+            	{
+            		this.renderHeldItemLostMiner(entitylivingbaseIn, itemstack, ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND, spriteModel.ArmRightHand, false);
+            	}
+            }
             GlStateManager.popMatrix();
         }
     }
@@ -109,6 +140,31 @@ public class LayerHeldItemCustom implements LayerRenderer<EntityLivingBase>
             GlStateManager.translate((float)(flag ? -1 : 1) / 16.0F + 0.1F, 0.125F, -0.625F + 0.35f);
             Minecraft.getMinecraft().getItemRenderer().renderItemSide(p_188358_1_, p_188358_2_, p_188358_3_, flag);
             GlStateManager.popMatrix();
+        }
+    }
+    
+    private void renderHeldItemLostMiner(EntityLivingBase p_188358_1_, ItemStack p_188358_2_, ItemCameraTransforms.TransformType p_188358_3_, ModelRenderer renderer, boolean state)
+    {
+        if (!p_188358_2_.isEmpty())
+        {
+        	if(state)
+        	{
+        		GlStateManager.pushMatrix();
+                GlStateManager.rotate(90.0F, 0.0F, -1.0F, 0.0F);
+                GlStateManager.translate(0.25F, 0.15F, -0.1F);
+                Minecraft.getMinecraft().getItemRenderer().renderItemSide(p_188358_1_, p_188358_2_, p_188358_3_, true);
+                GlStateManager.popMatrix();
+        	}
+        	else
+        	{
+                GlStateManager.pushMatrix();
+                renderer.postRender(0.0625F);
+                GlStateManager.translate(-0.25F, -0.5F, -0.1F);
+                GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
+                GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+                Minecraft.getMinecraft().getItemRenderer().renderItemSide(p_188358_1_, p_188358_2_, p_188358_3_, true);
+                GlStateManager.popMatrix();
+        	}
         }
     }
     
@@ -163,6 +219,24 @@ public class LayerHeldItemCustom implements LayerRenderer<EntityLivingBase>
             GlStateManager.translate(-0.025F, -0.2F, -0.9F);
             GlStateManager.scale(2D, 2D, 2D);
             Minecraft.getMinecraft().getItemRenderer().renderItemSide(p_188358_1_, p_188358_2_, p_188358_3_, flag);
+            GlStateManager.popMatrix();
+        }
+    }
+    
+    private void renderThrownBlock(EntityLivingBase p_188358_1_, ItemStack p_188358_2_, ItemCameraTransforms.TransformType p_188358_3_, ModelRenderer renderer)
+    {
+        if (!p_188358_2_.isEmpty())
+        {
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(1.5F, 1.5F, 1.5F);
+            if (p_188358_1_.isSneaking())
+            {
+                GlStateManager.translate(0.0F, 0.2F, 0.0F);
+            }
+            // Forge: moved this call down, fixes incorrect offset while sneaking.
+            renderer.postRender(0.0625F);
+            GlStateManager.translate(0.5F, 0.5F, 0.0F);
+            Minecraft.getMinecraft().getItemRenderer().renderItemSide(p_188358_1_, p_188358_2_, p_188358_3_, true);
             GlStateManager.popMatrix();
         }
     }

@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class PrimitiveMobsLootTables {
 
 	public static final ResourceLocation ENTITIES_CHAMELEON = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/chameleon");
+	public static final ResourceLocation ENTITIES_ROCKETCREEPER = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/rocket_creeper");
 	
     public static void preInit() {
     	registerLootTables();
@@ -19,6 +20,7 @@ public class PrimitiveMobsLootTables {
 
     public static void registerLootTables() {
     	LootTableList.register(ENTITIES_CHAMELEON);
+    	LootTableList.register(ENTITIES_ROCKETCREEPER);
     }
 
 }

@@ -23,15 +23,15 @@ public class PrimitiveMobsSpawnEntry
     {
     	return entityClass;
     }
-
-    public boolean isBiomeTypeSuitable(Biome biome)
-    {
-        return !BiomeDictionary.hasType(biome, BiomeDictionary.Type.NETHER) && !BiomeDictionary.hasType(biome, BiomeDictionary.Type.END);
-    }
     
     public boolean isBiomeSuitable(Biome biome)
     {
         return !BiomeDictionary.hasType(biome, BiomeDictionary.Type.NETHER) && !BiomeDictionary.hasType(biome, BiomeDictionary.Type.END);
+    }
+    
+    public boolean isDimensionSuitable(World world)
+    {
+    	return world.provider.getDimension() == 0;
     }
     
     public boolean isWaterCreature()

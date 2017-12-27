@@ -1,6 +1,7 @@
 package net.daveyx0.primitivemobs.entity.item;
 
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MoverType;
@@ -116,7 +117,17 @@ public class EntityPrimitiveTNTPrimed extends Entity
 
     private void explode()
     {
-    	boolean flag = this.getEntityWorld().getGameRules().getBoolean("mobGriefing");
+    	boolean flag = true;
+    	
+    	if(!PrimitiveMobsConfigSpecial.getFestiveCreeperDestruction())
+    	{
+    		flag = false;
+    	}
+    	else
+    	{
+        	flag = this.getEntityWorld().getGameRules().getBoolean("mobGriefing");
+    	}
+
         this.getEntityWorld().createExplosion(this, this.posX, this.posY + (double)(this.height / 16.0F), this.posZ, strength, flag);
     }
 

@@ -82,7 +82,6 @@ public class PrimitiveMobs {
 	@EventHandler
 	public void Init(FMLInitializationEvent event)
 	{
-
 		proxy.init(event);
 	}
 

@@ -11,6 +11,7 @@ import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsSpawnList;
 import net.daveyx0.primitivemobs.entity.monster.EntityLilyLurker;
 import net.daveyx0.primitivemobs.entity.monster.EntityMotherSpider;
+import net.daveyx0.primitivemobs.entity.monster.EntityTrollager;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -76,7 +77,7 @@ public class PrimitiveMobsWorldSpawner
             int entityCount = worldServerIn.countEntities(entry.entityClass);
             int max = Math.round((float)chunkCount * entry.rarity * 0.1F);
 
-            if (entityCount <= max)
+            if (entry.rarity != 0 && entityCount <= max)
             {
                 List<ChunkPos> shuffled = Lists.newArrayList(this.chunksForSpawning);
                 Collections.shuffle(shuffled);
@@ -95,7 +96,7 @@ public class PrimitiveMobsWorldSpawner
                     {
                         Biome biome = worldServerIn.getBiome(pos);
 
-                        if (!entry.isBiomeSuitable(biome))
+                        if (!entry.isBiomeSuitable(biome) || !entry.isDimensionSuitable(worldServerIn))
                         {
                             continue;
                         }
@@ -131,12 +132,11 @@ public class PrimitiveMobsWorldSpawner
                                 {
                                     ++successCount;
 
-                                    
+                                	//if(entity instanceof EntityTrollager) {PrimitiveMobsLogger.PMlogger.info("Got here: " +" "+ entity.posX +" "+ entity.posY +" "+ entity.posZ);}
                                     worldServerIn.spawnEntity(entity);
                                 }
                                 else
                                 {
-                                	if(entity instanceof EntityMotherSpider) {PrimitiveMobsLogger.PMlogger.info("Got here: " +" "+ entity.posX +" "+ entity.posY +" "+ entity.posZ);}
                                     entity.setDead();
                                 }
                             }

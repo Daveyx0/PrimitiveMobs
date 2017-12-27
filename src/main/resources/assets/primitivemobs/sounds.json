@@ -69,6 +69,38 @@
             "primitivemobs:entity/grovesprite/thanks3"
         ]
     },
+	    "entity.trollager.attack":
+    {
+        "category": "neutral",
+        "sounds":
+        [
+            "primitivemobs:entity/trollager/attack"
+        ]
+    },
+		"entity.trollager.death":
+    {
+        "category": "neutral",
+        "sounds":
+        [
+            "primitivemobs:entity/trollager/death"
+        ]
+    },
+		"entity.trollager.hit":
+    {
+        "category": "neutral",
+        "sounds":
+        [
+            "primitivemobs:entity/trollager/hit"
+        ]
+    },
+		"entity.trollager.idle":
+    {
+        "category": "neutral",
+        "sounds":
+        [
+            "primitivemobs:entity/trollager/idle"
+        ]
+    },
     "dig.squish":
     {
         "category": "neutral",

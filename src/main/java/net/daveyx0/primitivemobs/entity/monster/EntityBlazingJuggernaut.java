@@ -1,5 +1,6 @@
 package net.daveyx0.primitivemobs.entity.monster;
 
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -114,6 +115,7 @@ public class EntityBlazingJuggernaut extends EntityMob {
      */
     public void onLivingUpdate()
     {
+    	
         if (!this.onGround && this.motionY < 0.0D)
         {
             this.motionY *= 0.6D;

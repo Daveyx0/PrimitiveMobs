@@ -43,7 +43,7 @@ public class RenderSkeletonWarrior extends RenderBiped<EntitySkeleton> {
      */
     protected void preRenderCallback(EntitySkeleton skeleton, float partialTickTime)
     {
-    	EntitySpider spider = new EntitySpider(skeleton.getEntityWorld());
+    	EntitySkeleton spider = new EntitySkeleton(skeleton.getEntityWorld());
     	Minecraft.getMinecraft().getRenderManager().getEntityRenderObject(spider).doRender(spider, skeleton.posX, skeleton.posY, skeleton.posZ, skeleton.rotationYawHead, partialTickTime);   
     }
 

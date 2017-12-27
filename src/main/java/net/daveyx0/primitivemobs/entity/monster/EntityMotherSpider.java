@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
 import net.daveyx0.primitivemobs.entity.ai.EntityAIFollowerHurtByTarget;
@@ -38,13 +40,22 @@ import net.minecraft.world.World;
 public class EntityMotherSpider extends EntityPrimitiveSpider {
 
 	private final int minFollowers = 3;
-	private final int maxFollowers = 6;
+	private final int maxFollowers = PrimitiveMobsConfigSpecial.getMaxSpiderFamilySize();
 	private EntityLivingBase[] followers = new EntityLivingBase[maxFollowers];
 	
 	public EntityMotherSpider(World worldIn) {
 		super(worldIn);
 		
 	}
+	
+    protected void entityInit()
+    {
+        super.entityInit();
+        if(!PrimitiveMobsConfigMobs.enableSpiderFamily)
+        {
+        	this.setDead();
+        }
+    }
 	
     protected void initEntityAI()
     {
@@ -63,6 +74,7 @@ public class EntityMotherSpider extends EntityPrimitiveSpider {
 	public void onUpdate()
 	{
 		super.onUpdate();
+		
 		if(!this.getPassengers().isEmpty())
 		{
 	        if (this.getPassengers().get(0) instanceof EntityBabySpider)

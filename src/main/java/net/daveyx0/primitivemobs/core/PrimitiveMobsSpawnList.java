@@ -15,12 +15,15 @@ import net.daveyx0.primitivemobs.entity.monster.EntityRocketCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntitySkeletonWarrior;
 import net.daveyx0.primitivemobs.entity.monster.EntitySupportCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntityTreasureSlime;
+import net.daveyx0.primitivemobs.entity.monster.EntityTrollager;
 import net.daveyx0.primitivemobs.entity.passive.EntityChameleon;
 import net.daveyx0.primitivemobs.entity.passive.EntityFilchLizard;
 import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
+import net.daveyx0.primitivemobs.entity.passive.EntityLostMiner;
 import net.daveyx0.primitivemobs.spawn.PrimitiveMobsSpawnEntry;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
@@ -32,6 +35,7 @@ public class PrimitiveMobsSpawnList {
 	public static PrimitiveMobsSpawnEntry CHAMELEON_SPAWNS;
 	public static PrimitiveMobsSpawnEntry FILCHLIZARD_SPAWNS;
 	public static PrimitiveMobsSpawnEntry GROVESPRITE_SPAWNS;
+	public static PrimitiveMobsSpawnEntry LOSTMINER_SPAWNS;
 
 	// Mob spawns
 	public static PrimitiveMobsSpawnEntry BRAINSLIME_SPAWNS;
@@ -44,6 +48,7 @@ public class PrimitiveMobsSpawnList {
 	public static PrimitiveMobsSpawnEntry SKELETONWARRIOR_SPAWNS;
 	public static PrimitiveMobsSpawnEntry LILYLURKER_SPAWNS;
 	public static PrimitiveMobsSpawnEntry SPIDERFAMILY_SPAWNS;
+	public static PrimitiveMobsSpawnEntry TROLL_SPAWNS;
 
 	// Nether spawns
 	public static PrimitiveMobsSpawnEntry BLAZINGJUGGERNAUT_SPAWNS;
@@ -56,7 +61,8 @@ public class PrimitiveMobsSpawnList {
 		CHAMELEON_SPAWNS = registerSpawnNormal(new PrimitiveMobsSpawnEntry(EntityChameleon.class, PrimitiveMobsConfigSpawns.chameleonSpawnRate) {
 			@Override
 			public boolean isBiomeSuitable(Biome biome) {
-				return BiomeDictionary.hasType(biome, BiomeDictionary.Type.PLAINS) && super.isBiomeSuitable(biome);
+				return BiomeDictionary.hasType(biome, BiomeDictionary.Type.FOREST) && super.isBiomeSuitable(biome) ||
+						BiomeDictionary.hasType(biome, BiomeDictionary.Type.JUNGLE) && super.isBiomeSuitable(biome);
 			}
 		});
 
@@ -105,9 +111,17 @@ public class PrimitiveMobsSpawnList {
 						return (BiomeDictionary.hasType(biome, BiomeDictionary.Type.NETHER))
 								&& !BiomeDictionary.hasType(biome, BiomeDictionary.Type.END);
 					}
+					
+					@Override
+					public boolean isDimensionSuitable(World world)
+					{
+						return  world.provider.getDimension() == 0 || world.provider.getDimension() == -1;
+					}
 				});
 		
 		SPIDERFAMILY_SPAWNS = registerSpawnNormal(new PrimitiveMobsSpawnEntry(EntityMotherSpider.class, PrimitiveMobsConfigSpawns.spiderFamilySpawnRate));
+		TROLL_SPAWNS = registerSpawnNormal(new PrimitiveMobsSpawnEntry(EntityTrollager.class, PrimitiveMobsConfigSpawns.trollSpawnRate));
+		LOSTMINER_SPAWNS = registerSpawnNormal(new PrimitiveMobsSpawnEntry(EntityLostMiner.class, PrimitiveMobsConfigSpawns.lostMinerSpawnRate));
 	}
 
 	public static void postInit() {
@@ -121,7 +135,7 @@ public class PrimitiveMobsSpawnList {
 
 	private static PrimitiveMobsSpawnEntry registerSpawnNormal(PrimitiveMobsSpawnEntry entry,
 			BiomeDictionary.Type[]... array) {
-		if (PrimitiveMobsEntities.enabledEntities.containsKey(entry.entityClass) && !PrimitiveMobsEntities.enabledEntities.get(entry.entityClass))
+		if (!PrimitiveMobsEntities.enabledEntities.containsKey(entry.entityClass) || PrimitiveMobsEntities.enabledEntities.containsKey(entry.entityClass) && !PrimitiveMobsEntities.enabledEntities.get(entry.entityClass))
 			return entry;
 
 		SPAWNS.add(entry);
@@ -131,7 +145,7 @@ public class PrimitiveMobsSpawnList {
 	}
 
 	private static PrimitiveMobsSpawnEntry registerSpawnWater(PrimitiveMobsSpawnEntry entry) {
-		if (PrimitiveMobsEntities.enabledEntities.containsKey(entry.entityClass) && !PrimitiveMobsEntities.enabledEntities.get(entry.entityClass))
+		if (!PrimitiveMobsEntities.enabledEntities.containsKey(entry.entityClass) || PrimitiveMobsEntities.enabledEntities.containsKey(entry.entityClass) && !PrimitiveMobsEntities.enabledEntities.get(entry.entityClass))
 			return entry;
 
 		SPAWNS.add(entry);
@@ -140,7 +154,7 @@ public class PrimitiveMobsSpawnList {
 	}
 
 	private static PrimitiveMobsSpawnEntry registerSpawnFlying(PrimitiveMobsSpawnEntry entry) {
-		if (PrimitiveMobsEntities.enabledEntities.containsKey(entry.entityClass) && !PrimitiveMobsEntities.enabledEntities.get(entry.entityClass))
+		if (!PrimitiveMobsEntities.enabledEntities.containsKey(entry.entityClass) || PrimitiveMobsEntities.enabledEntities.containsKey(entry.entityClass) && !PrimitiveMobsEntities.enabledEntities.get(entry.entityClass))
 			return entry;
 
 		SPAWNS.add(entry);

@@ -33,6 +33,18 @@ public class PrimitiveMobsSoundEvents
 	
 	@ObjectHolder("entity.grovesprite.thanks")
 	public static final SoundEvent ENTITY_GROVESPRITE_THANKS = createSoundEvent("entity.grovesprite.thanks");
+	
+	@ObjectHolder("entity.trollager.idle")
+	public static final SoundEvent ENTITY_TROLLAGER_IDLE = createSoundEvent("entity.trollager.idle");
+	
+	@ObjectHolder("entity.trollager.hit")
+	public static final SoundEvent ENTITY_TROLLAGER_HIT = createSoundEvent("entity.trollager.hit");
+	
+	@ObjectHolder("entity.trollager.death")
+	public static final SoundEvent ENTITY_TROLLAGER_DEATH = createSoundEvent("entity.trollager.death");
+	
+	@ObjectHolder("entity.trollager.attack")
+	public static final SoundEvent ENTITY_TROLLAGER_ATTACK = createSoundEvent("entity.trollager.attack");
 
 	
 	private static SoundEvent createSoundEvent(final String soundName) {
@@ -51,7 +63,11 @@ public class PrimitiveMobsSoundEvents
 					ENTITY_GROVESPRITE_DEATH,
 					ENTITY_GROVESPRITE_HURT,
 					ENTITY_GROVESPRITE_IDLE,
-					ENTITY_GROVESPRITE_THANKS
+					ENTITY_GROVESPRITE_THANKS,
+					ENTITY_TROLLAGER_IDLE,
+					ENTITY_TROLLAGER_HIT,
+					ENTITY_TROLLAGER_DEATH,
+					ENTITY_TROLLAGER_ATTACK
 			);
 		}
 	}

@@ -1,5 +1,8 @@
 package net.daveyx0.primitivemobs.entity.monster;
 
+import javax.annotation.Nullable;
+
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -24,6 +27,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -108,6 +112,12 @@ public class EntityRocketCreeper extends EntityPrimitiveCreeper {
         }
 
         super.onUpdate();
+    }
+    
+    @Nullable
+    protected ResourceLocation getLootTable()
+    {
+        return PrimitiveMobsLootTables.ENTITIES_ROCKETCREEPER;
     }
     
     public void setRocket(boolean rocket)

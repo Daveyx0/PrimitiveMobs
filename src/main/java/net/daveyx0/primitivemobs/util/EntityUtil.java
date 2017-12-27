@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 
+import net.daveyx0.primitivemobs.core.PrimitiveMobsEntities;
 import net.daveyx0.primitivemobs.entity.monster.EntityMotherSpider;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
@@ -15,6 +16,7 @@ import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -31,6 +33,14 @@ public class EntityUtil {
     public static Predicate<Entity> isNotPlayer()
     {
         return p -> !(p instanceof EntityPlayer);
+    }
+    
+    public static void removeWhenDisabled(EntityLiving entity)
+    {
+		if (PrimitiveMobsEntities.enabledEntities.containsKey(entity.getClass()) && !PrimitiveMobsEntities.enabledEntities.get(entity.getClass()))
+		{
+			entity.setDead();
+		}
     }
     
     @Nullable
@@ -51,11 +61,6 @@ public class EntityUtil {
         return null;
     }
     
-	public void attemptToRideEntity(Entity entity)
-	{
-		
-	}
-	
     /**
      * Checks to make sure the light is not too bright where the mob is spawning
      */

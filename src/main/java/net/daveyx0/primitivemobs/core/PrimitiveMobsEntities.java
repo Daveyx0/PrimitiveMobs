@@ -11,14 +11,18 @@ import net.daveyx0.primitivemobs.client.renderer.entity.RenderFilchLizard;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderGroveSprite;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderHauntedTool;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderLilyLurker;
+import net.daveyx0.primitivemobs.client.renderer.entity.RenderLostMiner;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderMotherSpider;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderPrimitiveCreeper;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderPrimitiveTNTPrimed;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderSkeletonWarrior;
+import net.daveyx0.primitivemobs.client.renderer.entity.RenderThownBlock;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderTreasureSlime;
+import net.daveyx0.primitivemobs.client.renderer.entity.RenderTrollager;
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
 import net.daveyx0.primitivemobs.entity.item.EntityPrimitiveTNTPrimed;
+import net.daveyx0.primitivemobs.entity.item.EntityThrownBlock;
 import net.daveyx0.primitivemobs.entity.monster.EntityBabySpider;
 import net.daveyx0.primitivemobs.entity.monster.EntityBlazingJuggernaut;
 import net.daveyx0.primitivemobs.entity.monster.EntityBrainSlime;
@@ -31,13 +35,22 @@ import net.daveyx0.primitivemobs.entity.monster.EntityRocketCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntitySkeletonWarrior;
 import net.daveyx0.primitivemobs.entity.monster.EntitySupportCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntityTreasureSlime;
+import net.daveyx0.primitivemobs.entity.monster.EntityTrollager;
 import net.daveyx0.primitivemobs.entity.passive.EntityChameleon;
 import net.daveyx0.primitivemobs.entity.passive.EntityFilchLizard;
 import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
+import net.daveyx0.primitivemobs.entity.passive.EntityLostMiner;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.VillagerRegistry;
+import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerCareer;
+import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
 
 public class PrimitiveMobsEntities {
 
@@ -62,10 +75,13 @@ public class PrimitiveMobsEntities {
 	    	addEntities(EntityLilyLurker.class, "lily_lurker", ++id, 0x593D29, 0x3D3C1C, PrimitiveMobsConfigMobs.enableLilyLurker);
 	    	addEntities(EntityMotherSpider.class, "mother_spider", ++id, 0x250522, 11013646, PrimitiveMobsConfigMobs.enableSpiderFamily);
 	    	addEntities(EntityBabySpider.class, "baby_spider", ++id, 0xB59468, 11013646, PrimitiveMobsConfigMobs.enableSpiderFamily);
+	    	addEntities(EntityTrollager.class, "trollager", ++id, 0x56845D, 0x35251F, PrimitiveMobsConfigMobs.enableTrollager);
+	    	addEntities(EntityLostMiner.class, "lost_miner", ++id, 0x6C3626, 0xBD8B72, PrimitiveMobsConfigMobs.enableLostMiner);
 	    	
 	    	//addEntitiesWithoutEgg(EntityBabySpider.class, "baby_spider", ++id, PrimitiveMobsConfigMobs.enableBabySpider);
 	    	
 	    	addCustomEntities(EntityPrimitiveTNTPrimed.class, "primitive_tnt_primed", ++id, 64, 20, true);
+	    	addCustomEntities(EntityThrownBlock.class, "thrown_block", ++id, 64, 20, true);
 	    	
 	    	PrimitiveMobsSpawnList.preInit();
 	    }
@@ -88,6 +104,9 @@ public class PrimitiveMobsEntities {
 	    	RenderingRegistry.registerEntityRenderingHandler(EntityLilyLurker.class, RenderLilyLurker::new);
 	    	RenderingRegistry.registerEntityRenderingHandler(EntityMotherSpider.class, RenderMotherSpider::new);
 	    	RenderingRegistry.registerEntityRenderingHandler(EntityBabySpider.class, RenderBabySpider::new);
+	    	RenderingRegistry.registerEntityRenderingHandler(EntityTrollager.class, RenderTrollager::new);
+	    	RenderingRegistry.registerEntityRenderingHandler(EntityThrownBlock.class, RenderThownBlock::new);
+	    	RenderingRegistry.registerEntityRenderingHandler(EntityLostMiner.class, RenderLostMiner::new);
 	    }
 	    
 	    
@@ -128,5 +147,6 @@ public class PrimitiveMobsEntities {
 	    	final ResourceLocation registryName = new ResourceLocation(PrimitiveMobsReference.MODID, name1);
 			EntityRegistry.registerModEntity(registryName,var1, PrimitiveMobsReference.MODID + "." + name1, entityid,  PrimitiveMobs.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
 	    }
+	    
 		 
 	}

@@ -15,6 +15,8 @@ entity.primitivemobs.blazing_juggernaut.name=Blazing Juggernaut
 entity.primitivemobs.lily_lurker.name=Lily Lurker
 entity.primitivemobs.mother_spider.name=Mother Spider
 entity.primitivemobs.baby_spider.name=Baby Spider
+entity.primitivemobs.trollager.name=Trollager
+entity.primitivemobs.lost_miner.name=Lost Miner
 
 #Items
 
@@ -26,6 +28,11 @@ item.primitivemobs:camouflage_helmet.name=Camouflage Helmet
 item.primitivemobs:camouflage_chestplate.name=Camouflage Chestplate
 item.primitivemobs:camouflage_leggings.name=Camouflage Leggings
 item.primitivemobs:camouflage_boots.name=Camouflage Boots
+
+#Villager Professions
+entity.Villager.primitivemobs.ore_miner=Ore Miner
+entity.Villager.primitivemobs.gem_miner=Gem Miner
+entity.Villager.primitivemobs.stone_miner=Stone Miner
 
 #Old
 

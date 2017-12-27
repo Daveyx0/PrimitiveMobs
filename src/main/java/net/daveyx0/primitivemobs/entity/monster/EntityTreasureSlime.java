@@ -108,7 +108,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
     {
-    	if(rand.nextInt(tameableChance) != 0)
+    	if(!world.isRemote && rand.nextInt(tameableChance) != 0)
     	{
     		while(this.getHeldItemMainhand().isEmpty() && !getEntityWorld().isRemote)
     		{

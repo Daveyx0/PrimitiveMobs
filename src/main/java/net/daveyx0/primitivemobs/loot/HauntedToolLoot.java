@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import javax.annotation.Nullable;
 
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.minecraft.entity.Entity;
@@ -30,7 +31,7 @@ public class HauntedToolLoot {
 	public static void load()
 	{
 		possibleLoot.clear();
-		String[] finalToolLoot = PrimitiveMobsConfigMobs.getHauntedToolLoot();
+		String[] finalToolLoot = PrimitiveMobsConfigSpecial.getHauntedToolLoot();
 
 		for(String entry : finalToolLoot)
 		{

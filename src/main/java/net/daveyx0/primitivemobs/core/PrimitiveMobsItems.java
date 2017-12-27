@@ -3,6 +3,7 @@ package net.daveyx0.primitivemobs.core;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.item.ItemCamouflageArmor;
 import net.daveyx0.primitivemobs.item.ItemCamouflageDye;
 import net.minecraft.block.material.Material;

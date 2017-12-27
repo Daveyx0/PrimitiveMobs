@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Optional;
 
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.entity.ai.EntityAICustomFollowOwner;
 import net.daveyx0.primitivemobs.entity.ai.EntityAICustomOwnerHurtByTarget;
@@ -77,8 +78,6 @@ public class EntityBabySpider extends EntityPrimitiveSpider
 	public void onUpdate()
 	{
 		super.onUpdate();
-
-		
         if(!initChild && this.getOwner() != null && this.getOwner() instanceof EntityMotherSpider)
         {
         	EntityMotherSpider mother = (EntityMotherSpider)this.getOwner();
