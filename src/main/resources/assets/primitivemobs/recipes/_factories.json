@@ -1,0 +1,5 @@
+{
+	"recipes": {
+		"camouflage_toggle": "net.daveyx0.primitivemobs.crafting.CamouflageToggleRecipe$Factory"
+	}
+}

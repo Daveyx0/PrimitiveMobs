@@ -274,23 +274,11 @@ public class ModelTrollager extends ModelBase
     			Head.offsetZ = 0F;
     			}
     		    break;
-    		case 8:
-    			ArmLeft.rotateAngleX = 0.0f;
-    			ArmRight.rotateAngleX = 0.0f;
-    			ArmLeft.rotateAngleZ = 0.0f;
-    			ArmRight.rotateAngleZ = 0.0f;
-    			ArmLeft.offsetY = 0F;
-    			ArmRight.offsetY = 0F;
-    			
-    			Body.rotateAngleX = 0.9599311F;
-    			Body.offsetY = 0F;
-    			Head.offsetY = 0F;
-    			Head.offsetZ = 0F;
     		default: 
     			break;
     	}
     	
-    	if(troll.getAnimationState() != 2 && troll.getAnimationState() != 4 && troll.getAnimationState() != 8)
+    	if(troll.getAnimationState() != 2 && troll.getAnimationState() != 4 && !troll.isStone())
     	{
 		    idleMouth((float)entity.ticksExisted * 0.5F);
     	}

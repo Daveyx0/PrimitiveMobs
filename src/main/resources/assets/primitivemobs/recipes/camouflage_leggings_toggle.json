@@ -1,0 +1,12 @@
+{
+  "type": "primitivemobs:camouflage_toggle",
+  "ingredients": [
+    {
+      "item": "primitivemobs:camouflage_leggings",
+      "data": 32767
+    }
+  ],
+  "result": {
+    "item": "primitivemobs:camouflage_leggings"
+  }
+}

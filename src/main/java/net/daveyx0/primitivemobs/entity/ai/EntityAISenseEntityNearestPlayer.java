@@ -169,6 +169,6 @@ public class EntityAISenseEntityNearestPlayer extends EntityAIBase
     protected double maxTargetRange()
     {
         IAttributeInstance iattributeinstance = this.entityLiving.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE);
-        return iattributeinstance == null ? 18.0D : iattributeinstance.getAttributeValue();
+        return iattributeinstance == null ? 30.0D : iattributeinstance.getAttributeValue();
     }
 }

@@ -38,14 +38,17 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityFallingBlock;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -85,7 +88,7 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 		int prio = 0;
         this.tasks.addTask(++prio, new EntityAISwimming(this));
         this.tasks.addTask(++prio, new EntityAIMoveTowardsRestriction(this, 1.0D));
-        this.tasks.addTask(++prio, new EntityAITrollagerAttacks(this, 1.0D, 8F, 35.0F));
+        this.tasks.addTask(++prio, new EntityAITrollagerAttacks(this, 1.0D, 7F, 35.0F));
         this.tasks.addTask(++prio, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(++prio, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(++prio, new EntityAILookIdle(this));
@@ -157,6 +160,60 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
     	
         return false;
     }
+    
+    public EntityItem dropItemStack(ItemStack itemIn, float offsetY)
+    {
+        return this.entityDropItem(itemIn, offsetY);
+    }
+
+    /**
+     * Drop 0-2 items of this living's type
+     */
+    @Override
+    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier)
+    {
+        if (!this.isStone() && !getEntityWorld().isRemote)
+        {
+            int i = 1 + rand.nextInt(2);
+
+            if (lootingModifier > 0)
+            {
+                i += this.rand.nextInt(lootingModifier + 1);
+            }
+
+            for (int j = 0; j < i; ++j)
+            {
+            	ItemStack newStack = this.getRandomLoot();
+            	
+            	if(newStack != null)
+            	{
+            		this.dropItemStack(newStack, 1);
+            	}
+            }
+        }
+        else if(this.isStone() && !getEntityWorld().isRemote)
+        {
+        	this.dropItemStack(new ItemStack(Item.getItemFromBlock(Blocks.STONE), 32), 1);
+        }
+    }
+    
+    public ItemStack getRandomLoot()
+    {
+    	int chance = rand.nextInt(100);
+    	
+    	if(chance > 50)
+    	{
+    		return new ItemStack(Item.getItemFromBlock(Blocks.OBSIDIAN));
+    	}
+    	else if(chance > 10)
+    	{
+    		return new ItemStack(Items.EMERALD);
+    	}
+    	else
+    	{
+    		return new ItemStack(Items.GOLDEN_APPLE);
+    	}
+    }
 	
 	public void onLivingUpdate()
     {
@@ -186,11 +243,6 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
         else if(!this.world.isDaytime() && !this.world.isRemote)
         {     	
         	this.setStone(false);
-        }
-        
-        if(isStone())
-        {
-        	this.setAnimationState(8);
         }
         
         super.onLivingUpdate();
@@ -224,18 +276,21 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 	
 	public void animationHandling()
 	{
-		if(this.getPreviousState() != this.getAnimationState())
+		if(!isStone())
 		{
-			this.setPreviousState(this.getAnimationState());
-			animVar = 0;
-		}
+			if(this.getPreviousState() != this.getAnimationState())
+			{
+				this.setPreviousState(this.getAnimationState());
+				animVar = 0;
+			}
 		
-		if(animVar < 1f)
-		{
-			animVar += 0.01f;
-		}
+			if(animVar < 1f)
+			{
+				animVar += 0.01f;
+			}
 		
-		else{animVar = 1f;}
+			else{animVar = 1f;}
+		}
 	}
 	
 	public void setThrowingBlockFromFloor()
@@ -270,7 +325,7 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
     }
     
     protected void entityInit()
@@ -456,14 +511,19 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
      */
     public boolean getCanSpawnHere()
     {
+    	boolean flag = true;
+    	
+    	if(this.posY > 40D)
+    	{
+    		flag = rand.nextInt(5) == 0;
+    	}
+    	
     	if(PrimitiveMobsConfigSpecial.getTrollUnderground())
     	{
-            return super.getCanSpawnHere() && this.posY < 40D;
+            flag = this.posY < 40D;
     	}
-    	else
-    	{
-            return super.getCanSpawnHere();
-    	}
+    	
+        return flag && super.getCanSpawnHere();
     }
     
     /**
@@ -497,6 +557,14 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
     	{
     		return super.getCollisionBoundingBox();
     	}
+    }
+    
+    /**
+     * Checks that the entity is not colliding with any blocks / liquids
+     */
+    public boolean isNotColliding()
+    {
+        return !this.world.containsAnyLiquid(this.getEntityBoundingBox()) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().expand(1.5D, 1.5D, 1.5D)).isEmpty() && this.world.checkNoEntityCollision(this.getEntityBoundingBox(), this);
     }
     
 }

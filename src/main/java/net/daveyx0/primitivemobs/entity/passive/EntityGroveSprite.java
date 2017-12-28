@@ -76,7 +76,8 @@ public class EntityGroveSprite extends EntityCreature
 	
 	public EntityGroveSprite(World worldIn) {
 		super(worldIn);
-		
+		this.inventoryHandsDropChances[0] = 1f;
+		this.inventoryHandsDropChances[1] = 1f;
 	}
 
 	protected void initEntityAI()

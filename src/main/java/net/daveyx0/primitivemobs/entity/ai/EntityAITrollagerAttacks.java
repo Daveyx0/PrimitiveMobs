@@ -44,7 +44,7 @@ public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob>
      */
     public boolean shouldContinueExecuting()
     {
-        return this.shouldExecute() || !this.entity.getNavigator().noPath();
+        return this.shouldExecute();
     }
 
     /**
@@ -130,7 +130,6 @@ public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob>
             }
             else
             {
-            	seeTime = 100;
                 this.entity.getNavigator().tryMoveToEntityLiving(entitylivingbase, this.moveSpeedAmp);
             }
             

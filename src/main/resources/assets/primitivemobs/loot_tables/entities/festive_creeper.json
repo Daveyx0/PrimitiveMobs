@@ -1,7 +1,7 @@
 {
     "pools": [
         {
-            "name":  "rocket_creeper_drops",
+            "name":  "festive_creeper_drops",
             "rolls": 1,
             "entries": [
                 {
@@ -28,12 +28,12 @@
             ]
         },
         {
-            "name":  "rocket_creeper_rare_drops",
+            "name":  "festive_creeper_rare_drops",
             "rolls": 1,
             "entries": [
                 {
                     "type": "item",
-                    "name": "minecraft:firework_charge",
+                    "name": "minecraft:tnt",
                     "weight": 1,
                     "functions": [
                         {

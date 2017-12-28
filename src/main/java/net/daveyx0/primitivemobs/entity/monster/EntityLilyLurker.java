@@ -6,7 +6,9 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Optional;
 
+import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.daveyx0.primitivemobs.entity.EntitySwimmingCreature;
 import net.daveyx0.primitivemobs.entity.ai.EntityAISwimmingUnderwater;
 import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
@@ -48,10 +50,14 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 
 public class EntityLilyLurker extends EntitySwimmingCreature {
 
@@ -157,6 +163,7 @@ public class EntityLilyLurker extends EntitySwimmingCreature {
 			this.setSize(0.5F, 0.98F);
 			this.rotationYaw = 0.25F;
 			this.rotationYawHead = 0.25F;
+			this.setNoGravity(true);
 			this.getNavigator().setPath(null, 0);
 			if(!getEntityWorld().isRemote)
 			{
@@ -198,6 +205,7 @@ public class EntityLilyLurker extends EntitySwimmingCreature {
 		}
 		else
 		{
+			this.setNoGravity(false);
 			this.setSize(0.5F, 0.5F);
 			
 	    	if((this.getAttackTarget() == null || !this.getAttackTarget().isEntityAlive()) && ++this.aggroTimer > 250)
@@ -235,28 +243,15 @@ public class EntityLilyLurker extends EntitySwimmingCreature {
     {
         return isCamouflaged() || super.isMovementBlocked();
     }
-	
-    public void moveRelative(float strafe, float up, float forward, float friction)
-    {
-		if(!isCamouflaged())
-		{
-			super.moveRelative(strafe, up,  forward, friction);
-		}
-    }
     
     public boolean handleWaterMovement()
     {
-        return isCamouflaged() || super.handleWaterMovement();
+    	if(!isCamouflaged()) return  super.handleWaterMovement();
+    	else
+    	{
+    		return false;
+    	}
     }
-	
-	@Override
-	public void fall(float f, float f1)
-	    {
-	    	if(!isCamouflaged())
-	    	{
-	    		super.fall(f, f1);
-	    	}
-	    }
 	
     /**
      * Called when a player attacks an entity. If this returns true the attack will not happen.
@@ -271,6 +266,12 @@ public class EntityLilyLurker extends EntitySwimmingCreature {
     {
         return this.entityDropItem(itemIn, offsetY);
     }	
+    
+    @Nullable
+    protected ResourceLocation getLootTable()
+    {
+        return PrimitiveMobsLootTables.ENTITIES_LILYLURKER;
+    }
     /**
      * Called when the entity is attacked.
      */

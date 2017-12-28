@@ -19,6 +19,7 @@ public class PrimitiveMobsConfigSpecial {
 	public static int maxSpiderFamilySize;
 	public static boolean trollDestruction;
 	public static boolean trollOnlyUnderground;
+	public static int tameableSlimeChance;
 
 	public static void load(Configuration config) {
 		String category = "Loot Settings";
@@ -37,6 +38,7 @@ public class PrimitiveMobsConfigSpecial {
 		lostMinerSounds = config.get(category1, "Lost Miner makes villager sounds", true, "Enable/Disable if the Lost Miner should make villager sounds").getBoolean();
 		trollDestruction = config.get(category1, "Trollager can destroy terrain", true, "Enable/Disable if the Trollager can destroy terrain with its attack").getBoolean();
 		trollOnlyUnderground = config.get(category1, "Trollager can only spawn underground", false, "Enable/Disable if the Trollager can only spawn underground (below Y=40)").getBoolean();
+		tameableSlimeChance = config.get(category1, "Chance that a tameable Treasure Slime spawns", 5, "Set the chance that a tameable Treasure Slime can spawn in percentage").getInt();
 	}
 	
 	public static String[] getTreasureSlimeLoot()
@@ -84,5 +86,8 @@ public class PrimitiveMobsConfigSpecial {
 		return trollOnlyUnderground;
 	}
 	
-	
+	public static int getTameableSlimeChance()
+	{
+		return tameableSlimeChance;
+	}
 }

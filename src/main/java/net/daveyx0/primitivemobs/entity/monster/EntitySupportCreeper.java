@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -28,6 +29,7 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiScreenEvent.PotionShiftEvent;
 
@@ -149,10 +151,9 @@ public class EntitySupportCreeper extends EntityPrimitiveCreeper {
             {
             	EntityCreeper entitycreeper = (EntityCreeper)mobIdol;
             	
-            	if(!entitycreeper.getPowered() && creeper.getEntityWorld().getClosestPlayerToEntity(this.creeper, 10D) != null && !getEntityWorld().isRemote)	
+            	if(!entitycreeper.getPowered() && !getEntityWorld().isRemote)	
             	{
-                    EntityLightningBolt var6 = new EntityLightningBolt(this.creeper.getEntityWorld(), entitycreeper.posX, entitycreeper.posY, entitycreeper.posZ, false);
-                    this.creeper.getEntityWorld().spawnEntity(var6);
+                    this.creeper.onStruckByLightning(null);
             	}
             	
             	if(entitycreeper.getActivePotionEffect(MobEffects.FIRE_RESISTANCE) == null)
@@ -190,6 +191,11 @@ public class EntitySupportCreeper extends EntityPrimitiveCreeper {
     	
     }
     
-    
+    @Nullable
+    protected ResourceLocation getLootTable()
+    {
+        return PrimitiveMobsLootTables.ENTITIES_SUPPORTCREEPER;
+    }
+
 
 }

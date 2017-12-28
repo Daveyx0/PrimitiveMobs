@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "primitivemobs:camouflage_dye",
+      "data": 0
+    },
+    {
+      "item": "minecraft:leather_boots",
+      "data": 0
+    }
+  ],
+  "result": {
+    "item": "primitivemobs:camouflage_boots",
+    "data": 0
+  }
+}

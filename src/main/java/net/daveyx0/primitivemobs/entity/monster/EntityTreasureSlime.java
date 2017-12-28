@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsParticles;
 import net.daveyx0.primitivemobs.entity.ai.EntityAISlimeSit;
 import net.daveyx0.primitivemobs.loot.TreasureSlimeLoot;
@@ -72,7 +73,6 @@ public class EntityTreasureSlime extends EntityTameableSlime {
 	private float NewG;
 	private float NewB;
 	private int colorSpeed = 10;
-	private int tameableChance = 10;
 	
 	private ItemStack currentItem;
 	private boolean wasOnGround;
@@ -108,7 +108,9 @@ public class EntityTreasureSlime extends EntityTameableSlime {
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
     {
-    	if(!world.isRemote && rand.nextInt(tameableChance) != 0)
+    	int chance = PrimitiveMobsConfigSpecial.getTameableSlimeChance();
+    	
+    	if(!world.isRemote && chance > 100 && (rand.nextInt(100-chance) != 0 || chance <= 0))
     	{
     		while(this.getHeldItemMainhand().isEmpty() && !getEntityWorld().isRemote)
     		{

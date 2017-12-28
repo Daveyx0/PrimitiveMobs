@@ -1,6 +1,9 @@
 package net.daveyx0.primitivemobs.entity.monster;
 
+import javax.annotation.Nullable;
+
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -22,6 +25,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
@@ -162,6 +166,13 @@ public class EntityBlazingJuggernaut extends EntityMob {
 
         super.updateAITasks();
     }
+    
+    @Nullable
+    protected ResourceLocation getLootTable()
+    {
+        return PrimitiveMobsLootTables.ENTITIES_BLAZINGJUGGERNAUT;
+    }
+    
 
     public void fall(float distance, float damageMultiplier)
     {
