@@ -80,7 +80,7 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 	    
 	public EntityTrollager(World worldIn) {
 		super(worldIn);
-		this.setSize(2.75f, 3f);
+		this.setSize(2.25f, 3f);
 	}
 	
 	protected void initEntityAI()
@@ -88,7 +88,7 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 		int prio = 0;
         this.tasks.addTask(++prio, new EntityAISwimming(this));
         this.tasks.addTask(++prio, new EntityAIMoveTowardsRestriction(this, 1.0D));
-        this.tasks.addTask(++prio, new EntityAITrollagerAttacks(this, 1.0D, 7F, 35.0F));
+        this.tasks.addTask(++prio, new EntityAITrollagerAttacks(this, 1.25D, 2.5F, 20.0F));
         this.tasks.addTask(++prio, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(++prio, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(++prio, new EntityAILookIdle(this));
@@ -101,7 +101,7 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 	public void onUpdate()
 	{
 		super.onUpdate();
-		
+	
 		animationHandling();
 
 		if(!(this.getAnimationState() == 1 || this.getAnimationState() == 2) && this.ticksExisted % 5 == 0)
@@ -307,7 +307,7 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 				}
 				IBlockState state = this.getEntityWorld().getBlockState(blockPos);
 				
-				if(state != null && !state.getBlock().equals(Blocks.AIR))
+				if(state != null && !state.getBlock().equals(Blocks.AIR) && state.getBlock().isFullBlock(state))
 				{
 					this.setThrownBlock(blockPos);
 					break;
@@ -391,7 +391,12 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 	
     public boolean canBlockAreaSeeEntity(Entity entityIn)
     {
-        return this.world.rayTraceBlocks(new Vec3d(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ), new Vec3d(entityIn.posX, entityIn.posY + (double)entityIn.getEyeHeight(), entityIn.posZ), false, true, false) == null;
+    	boolean flag = true;
+    	for(int i = 0; i < 4; i++)
+    	{
+    		flag = this.world.rayTraceBlocks(new Vec3d(this.posX, this.posY + (double)this.getEyeHeight() + i, this.posZ), new Vec3d(entityIn.posX, entityIn.posY + (double)entityIn.getEyeHeight(), entityIn.posZ), false, true, false) == null;
+    	}
+        return flag;
     }
 
     /**
@@ -414,9 +419,26 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 		}
 		case 1:
 		{
-			double explosionX = this.posX + ((this.getLookHelper().getLookPosX() - this.posX) / 4D);
-			double explosionZ = this.posZ + ((this.getLookHelper().getLookPosZ() - this.posZ) / 4D);
-			double explosionY = this.posY + (this.getEyeHeight() / 4F);
+			double distanceX = (this.getLookHelper().getLookPosX() - this.posX);
+			double distanceZ = (this.getLookHelper().getLookPosZ() - this.posZ);
+		    double length = Math.sqrt((distanceX*distanceX) +(distanceZ*distanceZ) );
+		    if (length != 0) {
+		    	distanceX = distanceX/length;
+		    	distanceZ = distanceZ/length;
+		      }
+
+		    double addedHeight = 0D;
+		    if(target.posY > this.posY)
+		    {
+		    	addedHeight = 0.5D;
+		    }
+		    else if(target.posY < this.posY)
+		    {
+		    	addedHeight = -0.5D;
+		    }
+			double explosionX = this.posX + (distanceX * 2D);
+			double explosionZ = this.posZ + (distanceZ * 2D);
+			double explosionY = this.posY + addedHeight;
 			boolean flag = true;
 			if(!this.getEntityWorld().getGameRules().getBoolean("mobGriefing") || !PrimitiveMobsConfigSpecial.getTrollDestruction())
 			{

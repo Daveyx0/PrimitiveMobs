@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.base.Predicate;
 
+import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
@@ -168,7 +169,6 @@ public class EntityAISenseEntityNearestPlayer extends EntityAIBase
      */
     protected double maxTargetRange()
     {
-        IAttributeInstance iattributeinstance = this.entityLiving.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE);
-        return iattributeinstance == null ? 30.0D : iattributeinstance.getAttributeValue();
+        return 30;
     }
 }

@@ -1,5 +1,6 @@
 package net.daveyx0.primitivemobs.entity.ai;
 
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.entity.IAttackAnimationMob;
 import net.daveyx0.primitivemobs.entity.monster.EntityTrollager;
 import net.minecraft.block.Block;
@@ -20,7 +21,9 @@ public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob>
     private final float meleeAttackDistance;
     private int attackTime = -1;
     private int animTime = -1;
+    private int attackDelay = -1;
     private int seeTime;
+    private boolean isAttacking;
 
     public EntityAITrollagerAttacks(T entity, double moveSpeed, float meleeAttackDistance, float maxAttackDistance)
     {
@@ -28,7 +31,7 @@ public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob>
         this.moveSpeedAmp = moveSpeed;
         this.maxAttackDistance = maxAttackDistance * maxAttackDistance;
         this.meleeAttackDistance = meleeAttackDistance * meleeAttackDistance;
-        this.setMutexBits(5);
+        this.setMutexBits(3);
     }
 
     /**
@@ -53,32 +56,11 @@ public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob>
     public void startExecuting()
     {
         super.startExecuting();
-        this.seeTime = 100;
-        EntityLivingBase entitylivingbase = this.entity.getAttackTarget();
-        if (entitylivingbase != null)
-        {
-        	double distanceToEnemy = this.entity.getDistanceSq(entitylivingbase.posX, entitylivingbase.getEntityBoundingBox().minY, entitylivingbase.posZ);
-        	boolean flag = this.entity.getEntitySenses().canSee(entitylivingbase);
-            boolean flag1 = distanceToEnemy <= (double)this.meleeAttackDistance && flag;
-            boolean flag3 = checkCanThrow();
-            boolean flag4 = distanceToEnemy <= (double)this.maxAttackDistance && (!flag || !flag3);
-            
-            if(flag1)
-            {
-            	((IAttackAnimationMob)this.entity).setAnimationState(0);
-                this.attackTime = 20;
-            }
-            else if(flag4)
-        	{
-        		((IAttackAnimationMob)this.entity).setAnimationState(3);
-                this.attackTime = 40;
-        	}
-        	else
-        	{
-        		((IAttackAnimationMob)this.entity).setAnimationState(1);
-                this.attackTime = 40;
-        	}
-        }
+        this.seeTime = 0;
+        this.attackTime = -1;
+        this.animTime = -1;
+        this.isAttacking = false;
+        determineAttackAndPerform();
     }
 
     /**
@@ -88,9 +70,10 @@ public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob>
     {
         super.resetTask();
         ((IAttackAnimationMob)this.entity).setAnimationState(0);
-        this.seeTime = 100;
+        this.seeTime = 0;
         this.attackTime = -1;
         this.animTime = -1;
+        this.isAttacking = false;
     }
     
     public boolean checkCanThrow()
@@ -113,27 +96,28 @@ public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob>
      */
     public void updateTask()
     {
+    	determineAttackAndPerform();
+    }
+    
+    public void determineAttackAndPerform()
+    {
         EntityLivingBase entitylivingbase = this.entity.getAttackTarget();
 
         if (entitylivingbase != null)
         {
             double distanceToEnemy = this.entity.getDistanceSq(entitylivingbase.posX, entitylivingbase.getEntityBoundingBox().minY, entitylivingbase.posZ);
-            boolean flag = this.entity.getEntitySenses().canSee(entitylivingbase) && this.entity.getNavigator().tryMoveToEntityLiving(entitylivingbase, this.moveSpeedAmp);
-            boolean flag1 = distanceToEnemy <= (double)this.meleeAttackDistance && flag;
-            boolean flag3 = distanceToEnemy > (double)this.meleeAttackDistance && distanceToEnemy <= (double)this.maxAttackDistance && flag;
-            boolean flag4 = checkCanThrow();  
-            boolean flag5 = distanceToEnemy <= (double)this.maxAttackDistance && (!flag || !flag4);
-
-            if (distanceToEnemy >= (double)this.maxAttackDistance)
-            {
-                this.entity.getNavigator().clearPathEntity();
-            }
-            else
-            {
-                this.entity.getNavigator().tryMoveToEntityLiving(entitylivingbase, this.moveSpeedAmp);
-            }
             
-            if (--this.attackTime <= 0)
+            boolean canSeeEnemy = this.entity.getEntitySenses().canSee(entitylivingbase);
+            boolean canNavigateToEnemy = this.entity.getNavigator().tryMoveToEntityLiving(entitylivingbase, this.moveSpeedAmp);
+            boolean isWithinMeleeRange = distanceToEnemy <= (double)this.meleeAttackDistance * (double)this.meleeAttackDistance;
+            boolean isWithinAttackRange = distanceToEnemy <= (double)this.maxAttackDistance * (double)this.maxAttackDistance;
+            boolean canThrowBlock = checkCanThrow();  
+
+            boolean canPerformMeleeAttack = isWithinMeleeRange && canSeeEnemy;
+            boolean canPerformSmashAttack = PrimitiveMobsConfigSpecial.getTrollDestruction() && ((isWithinAttackRange && (!canSeeEnemy || !canThrowBlock)) || this.entity.world.rand.nextInt(4) == 0);
+            boolean canPerformThrowAttack = canSeeEnemy && canThrowBlock;
+            
+            if (--this.attackTime <= 0 && this.isAttacking)
             {
             	if(((IAttackAnimationMob)this.entity).getAnimationState() == 3)
             	{
@@ -151,7 +135,7 @@ public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob>
             	{
                    ((IAttackAnimationMob)this.entity).performAttack(entitylivingbase, 0);
                    ((IAttackAnimationMob)this.entity).setAnimationState(2);
-                   this.animTime = 30;
+                   this.animTime = 20;
             	}
                this.attackTime = Integer.MAX_VALUE;
             }
@@ -170,27 +154,40 @@ public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob>
             	}
             	else
             	{
-                	if(flag1)
-                	{
-                    	((IAttackAnimationMob)this.entity).setAnimationState(0);
-                    	this.attackTime = 20;
-                	}
-                	else if(flag5)
-                	{
-                		((IAttackAnimationMob)this.entity).setAnimationState(3);
-                    	this.attackTime = 40;
-                	}
-                	else
-                	{
-                    	((IAttackAnimationMob)this.entity).setAnimationState(1);
-                    	this.attackTime = 40;
-                	}
                 	this.animTime = -1;
+                	this.isAttacking = false;
             	}
             }
-
-           this.entity.getLookHelper().setLookPositionWithEntity(entitylivingbase, 30.0F, 30.0F);
-
+            
+            if(!this.isAttacking)
+            {
+            	if(canPerformMeleeAttack)
+        		{
+            		((IAttackAnimationMob)this.entity).setAnimationState(0);
+            		this.attackTime = 10;
+            		this.isAttacking = true;
+        		}
+        		else if(canPerformSmashAttack)
+        		{
+        			((IAttackAnimationMob)this.entity).setAnimationState(3);
+            		this.attackTime = 40;
+            		this.isAttacking = true;
+        		}
+        		else if(canPerformThrowAttack)
+        		{
+            		((IAttackAnimationMob)this.entity).setAnimationState(1);
+            		this.attackTime = 30;
+            		this.isAttacking = true;
+        		}
+        		else
+        		{
+        			((IAttackAnimationMob)this.entity).setAnimationState(0);
+        			this.attackTime = Integer.MAX_VALUE;
+        		}
+            }
+ 
+            this.entity.getNavigator().tryMoveToEntityLiving(entitylivingbase, this.moveSpeedAmp);
+            this.entity.getLookHelper().setLookPositionWithEntity(entitylivingbase, 30.0F, 30.0F);
         }
     }
 }

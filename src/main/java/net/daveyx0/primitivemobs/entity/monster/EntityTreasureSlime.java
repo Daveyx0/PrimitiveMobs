@@ -110,7 +110,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
     {
     	int chance = PrimitiveMobsConfigSpecial.getTameableSlimeChance();
     	
-    	if(!world.isRemote && chance > 100 && (rand.nextInt(100-chance) != 0 || chance <= 0))
+    	if(!world.isRemote && chance < 100 && (rand.nextInt(100-chance) != 0 || chance <= 0))
     	{
     		while(this.getHeldItemMainhand().isEmpty() && !getEntityWorld().isRemote)
     		{
@@ -322,9 +322,10 @@ public class EntityTreasureSlime extends EntityTameableSlime {
         return this.entityDropItem(itemIn, offsetY);
     }
 
-	
-	public boolean processInteract(EntityPlayer player, EnumHand hand, ItemStack stack)
+	@Override
+	public boolean processInteract(EntityPlayer player, EnumHand hand)
     {
+		ItemStack stack = player.getHeldItem(hand);
         if (this.isTamed())
         {
             if (!stack.isEmpty())

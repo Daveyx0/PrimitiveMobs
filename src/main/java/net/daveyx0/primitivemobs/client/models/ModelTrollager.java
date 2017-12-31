@@ -141,7 +141,7 @@ public class ModelTrollager extends ModelBase
     		case 1: 
     		{
     			//Prepare throwing attack animation\\
-    			speed = 3f;
+    			speed = 4f;
     			if(troll.getAnimVar() != 1)
     			{
     			ArmLeft.rotateAngleX = (float)MathHelper.clampedLerp(0, 3.5f, troll.getAnimVar() * speed);

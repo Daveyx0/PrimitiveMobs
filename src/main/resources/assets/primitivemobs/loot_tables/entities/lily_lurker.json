@@ -6,7 +6,7 @@
             "entries": [
                 {
                     "type": "item",
-                    "name": "minecraft:lily_pad",
+                    "name": "minecraft:waterlily",
                     "weight": 1,
                     "functions": [
                         {

@@ -9,8 +9,10 @@ import com.google.common.collect.Sets;
 
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsSpawnList;
+import net.daveyx0.primitivemobs.entity.monster.EntityBlazingJuggernaut;
 import net.daveyx0.primitivemobs.entity.monster.EntityLilyLurker;
 import net.daveyx0.primitivemobs.entity.monster.EntityMotherSpider;
+import net.daveyx0.primitivemobs.entity.monster.EntityRocketCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntityTrollager;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
@@ -118,7 +120,7 @@ public class PrimitiveMobsWorldSpawner
                             
 
                             entity.setLocationAndAngles((double)x1, (double)y, (double)z1, worldServerIn.rand.nextFloat() * 360.0F, 0.0F);
-                            Event.Result canSpawn = ForgeEventFactory.canEntitySpawn(entity, worldServerIn, x1, (float)y, z1);
+                            Event.Result canSpawn = ForgeEventFactory.canEntitySpawn(entity, worldServerIn, x1, (float)y, z1, false);
 
 
                             if (canSpawn == Event.Result.ALLOW || (canSpawn == Event.Result.DEFAULT && (entity.getCanSpawnHere() && entity.isNotColliding())))
@@ -132,7 +134,7 @@ public class PrimitiveMobsWorldSpawner
                                 {
                                     ++successCount;
 
-                                	//if(entity instanceof EntityTrollager) {PrimitiveMobsLogger.PMlogger.info("Got here: " +" "+ entity.posX +" "+ entity.posY +" "+ entity.posZ);}
+                                	if(entity instanceof EntityBlazingJuggernaut) {PrimitiveMobsLogger.PMlogger.info("Got here: " +" "+ entity.posX +" "+ entity.posY +" "+ entity.posZ);}
                                     worldServerIn.spawnEntity(entity);
                                 }
                                 else

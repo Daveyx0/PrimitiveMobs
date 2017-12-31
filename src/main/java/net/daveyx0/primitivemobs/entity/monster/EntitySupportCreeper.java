@@ -70,13 +70,41 @@ public class EntitySupportCreeper extends EntityPrimitiveCreeper {
 			creeper = entitySupportCreeper;
 			mobIdol = null;
 			strength = 1;
-			this.setMutexBits(3);
 		}
 		/**
 		* Returns whether the EntityAIBase should begin execution.
 		*/
 		public boolean shouldExecute()
 		{
+	        return true;
+		}
+
+		/**
+	    * Returns whether an in-progress EntityAIBase should continue executing
+		*/
+		public boolean continueExecuting()
+	    {
+			return this.mobIdol.isEntityAlive() && this.creeper.getDistanceSqToEntity(this.mobIdol) <= 25D * 25D;
+	    }
+		
+	    /**
+	     * Execute a one shot task or start executing a continuous task
+	     */
+	    public void startExecuting()
+	    {
+	    	this.mobIdol = this.findMobToSupport();
+	    }
+
+	    /**
+	     * Resets the task
+	     */
+	    public void resetTask()
+	    {
+	        this.mobIdol = null;
+	    }
+	    
+	    public EntityMob findMobToSupport()
+	    {
 	        List<Entity> list = this.creeper.getEntityWorld().getEntitiesWithinAABBExcludingEntity(this.creeper, this.creeper.getEntityBoundingBox().expand(10.0D, 4.0D, 10.0D));
 	        EntityMob mob = null;
 	        double d0 = Double.MAX_VALUE;
@@ -87,7 +115,7 @@ public class EntitySupportCreeper extends EntityPrimitiveCreeper {
 	        	{
 	        		EntityMob mob1 = (EntityMob)entity;
 	        		
-	        		if(mob1.getActivePotionEffects().isEmpty() && this.creeper.canEntityBeSeen(mob1))
+	        		if(mob1.getActivePotionEffects().isEmpty())
 	        		{
 	        			double d1 = this.creeper.getDistanceSqToEntity(mob1);
 
@@ -100,38 +128,12 @@ public class EntitySupportCreeper extends EntityPrimitiveCreeper {
 	        	}
 	        }
 	        
-	        if(mob == null)
+	        if(mob != null)
 	        {
-	        	 return false;
+	        	 return mob;
 	        }
-	        else
-	        {
-	        	 mobIdol = mob;
-	        	 return true;
-	        }
-		}
 
-		/**
-	    * Returns whether an in-progress EntityAIBase should continue executing
-		*/
-		public boolean continueExecuting()
-	    {
-			return this.mobIdol.isEntityAlive() && this.creeper.getDistanceSqToEntity(this.mobIdol) <= 25D;
-	    }
-		
-	    /**
-	     * Execute a one shot task or start executing a continuous task
-	     */
-	    public void startExecuting()
-	    {
-	    }
-
-	    /**
-	     * Resets the task
-	     */
-	    public void resetTask()
-	    {
-	        this.mobIdol = null;
+	        return null;
 	    }
 	    
 	    /**
@@ -139,6 +141,12 @@ public class EntitySupportCreeper extends EntityPrimitiveCreeper {
 	     */
 	    public void updateTask()
 	    {
+	    	if(mobIdol == null)
+	    	{
+	    		this.mobIdol = this.findMobToSupport();
+	    	}
+	    	else
+	    	{
 	    	if(this.creeper.getPowered()) {strength = 2;}
 	    	else {strength = 1;}
 	    	
@@ -153,7 +161,7 @@ public class EntitySupportCreeper extends EntityPrimitiveCreeper {
             	
             	if(!entitycreeper.getPowered() && !getEntityWorld().isRemote)	
             	{
-                    this.creeper.onStruckByLightning(null);
+            		entitycreeper.onStruckByLightning(null);
             	}
             	
             	if(entitycreeper.getActivePotionEffect(MobEffects.FIRE_RESISTANCE) == null)
@@ -186,6 +194,7 @@ public class EntitySupportCreeper extends EntityPrimitiveCreeper {
             {
             	creeper.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60, strength));
             }
+	    	}
 	        
 	    }
     	

@@ -86,7 +86,13 @@ public class EntityMotherSpider extends EntityPrimitiveSpider {
 	        		baby.getMoveHelper().read(this.getMoveHelper());
 	        	}
 	        }
+	        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.18);
 		}
+		else
+		{
+	        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
+		}
+
 	}
 	
 	@Override
