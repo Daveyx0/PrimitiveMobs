@@ -77,6 +77,9 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 	 private int previousState = 0;
 	 private boolean resetAnimation;
 	 private float animVar = 0;
+	 private float previousYawStone = -2;
+	 private float previousPitchStone = -2;
+	 private float previousYawHeadStone = -2;
 	    
 	public EntityTrollager(World worldIn) {
 		super(worldIn);
@@ -115,9 +118,21 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 			this.getNavigator().setPath(null, 0);
 			this.setAttackTarget(null);
 			this.setNoAI(true);
+			if(previousYawStone == -2)
+			{
+				previousYawStone = rotationYaw;
+				previousYawHeadStone = rotationYawHead;
+				previousPitchStone = rotationPitch;
+			}
+			
+			this.setRotation(previousYawStone, previousPitchStone);
+			this.setRotationYawHead(previousYawHeadStone);
 		}
 		else
 		{
+			this.previousPitchStone = -2;
+			this.previousYawHeadStone = -2;
+			this.previousYawStone = -2;
 			this.setNoAI(false);
 		}
 	}
@@ -445,7 +460,7 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 				flag = false;
 			}
 			this.newExplosion(this, explosionX ,this.posY + this.getEyeHeight(), explosionZ, 3F, false, flag);
-			PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(this.getUniqueID().toString(), (float)explosionX, (float)explosionY, (float)explosionZ));
+			PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(this.getEntityId(), (float)explosionX, (float)explosionY, (float)explosionZ));
 			break;
 		}
 		case 2:

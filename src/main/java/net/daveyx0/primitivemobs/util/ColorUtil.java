@@ -80,14 +80,14 @@ public class ColorUtil
 					{
 						IBakedModel bakedModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(state);
 					
-					if(bakedModel != null)
+					if(bakedModel != null && bakedModel.isBuiltInRenderer())
 					{
-						List<BakedQuad> quads = bakedModel.getQuads(state, face, 1);
+							List<BakedQuad> quads = bakedModel.getQuads(state, face, 1);
 						 
-						if(quads!= null && !quads.isEmpty() && quads.size() > 0)
-						{
-							topTextureName = quads.get(0).getSprite().getIconName();
-						}
+							if(quads!= null && !quads.isEmpty() && quads.size() > 0)
+							{
+								topTextureName = quads.get(0).getSprite().getIconName();
+							}
 					}
 
 				}
