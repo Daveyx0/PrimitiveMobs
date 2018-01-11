@@ -11,6 +11,7 @@ import net.daveyx0.primitivemobs.core.PrimitiveMobsEntities;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsItems;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsReference;
 import net.daveyx0.primitivemobs.entity.passive.EntityChameleon;
+import net.daveyx0.primitivemobs.tileentity.TileEntityPrimitiveChest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +22,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -39,7 +41,7 @@ public class PrimitiveMobsClientProxy extends PrimitiveMobsCommonProxy {
 	        OBJLoader.INSTANCE.addDomain(PrimitiveMobsReference.MODID);
 	        
 	        MinecraftForge.EVENT_BUS.register(ModelManagerPrimitiveMobs.INSTANCE);
-	        
+	        //ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPrimitiveChest.class, new TileEntityPrimitiveChestRenderer());
 	        PrimitiveMobsEntities.registerRenderers();
 	    }
 

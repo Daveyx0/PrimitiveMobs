@@ -118,7 +118,7 @@ public class EntityUtil {
     {
     	Object[] states = new Object[3];
     	
-    	AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(d, d, d);
+    	AxisAlignedBB axisalignedbb = new AxisAlignedBB(entity.posX - d, entity.posY - d, entity.posZ - d, entity.posX + d, entity.posY + d, entity.posZ + d);
         int n = MathHelper.floor(axisalignedbb.minX);
         int o = MathHelper.floor(axisalignedbb.maxX);
         int p = MathHelper.floor(axisalignedbb.minY);

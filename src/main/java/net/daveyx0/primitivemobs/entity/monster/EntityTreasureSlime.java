@@ -110,7 +110,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
     {
     	int chance = PrimitiveMobsConfigSpecial.getTameableSlimeChance();
     	
-    	if(!world.isRemote && chance < 100 && (rand.nextInt(100-chance) != 0 || chance <= 0))
+    	if(chance < 100 && (rand.nextInt(100/chance) != 0 || chance <= 0))
     	{
     		while(this.getHeldItemMainhand().isEmpty() && !getEntityWorld().isRemote)
     		{

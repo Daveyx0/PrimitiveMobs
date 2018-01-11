@@ -5,7 +5,9 @@ import java.util.Set;
 
 import com.google.common.base.Preconditions;
 
+import net.daveyx0.primitivemobs.client.models.ModelManagerPrimitiveMobs;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockChest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -21,6 +23,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class PrimitiveMobsBlocks {
 	
+	
 	public static final Set<Block> BLOCKS = new HashSet<>();
 	
 	@Mod.EventBusSubscriber(modid = PrimitiveMobsReference.MODID)
@@ -33,9 +36,8 @@ public class PrimitiveMobsBlocks {
 			final IForgeRegistry<Block> registry = event.getRegistry();
 
 			final Block[] blocks = {
-					
+					//CHEST
 			};
-
 			registry.registerAll(blocks);
 		}
 
@@ -45,7 +47,7 @@ public class PrimitiveMobsBlocks {
 		@SubscribeEvent
 		public static void registerItemBlocks(final RegistryEvent.Register<Item> event) {
 			final ItemBlock[] items = {
-					
+					//new ItemBlock(CHEST)
 			};
 
 			final IForgeRegistry<Item> registry = event.getRegistry();
@@ -53,6 +55,7 @@ public class PrimitiveMobsBlocks {
 			for (final ItemBlock item : items) {
 				final Block block = item.getBlock();
 				final ResourceLocation registryName = Preconditions.checkNotNull(block.getRegistryName(), "Block %s has null registry name", block);
+				PrimitiveMobsLogger.info("Setting itemblock to " + registryName);
 				registry.register(item.setRegistryName(registryName));
 				ITEM_BLOCKS.add(item);
 			}
@@ -62,7 +65,7 @@ public class PrimitiveMobsBlocks {
 	}
 
 	private static void registerTileEntities() {
-		
+		//registerTileEntity(TileEntityPrimitiveChest.class, "chest");
 	}
 
 	private static void registerTileEntity(final Class<? extends TileEntity> tileEntityClass, final String name) {

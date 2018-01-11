@@ -75,6 +75,13 @@ public class EntityBabySpider extends EntityPrimitiveSpider
         this.targetTasks.addTask(3, new EntityAICustomOwnerHurtTarget(this));
     }
     
+    protected void applyEntityAttributes()
+    {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
+    }
+    
 	public void onUpdate()
 	{
 		super.onUpdate();

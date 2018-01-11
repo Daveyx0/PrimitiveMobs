@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -28,6 +29,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeColorHelper;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -80,7 +82,7 @@ public class ColorUtil
 					{
 						IBakedModel bakedModel = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(state);
 					
-					if(bakedModel != null && bakedModel.isBuiltInRenderer())
+					if(bakedModel != null && !Loader.isModLoaded("codechickenlib"))
 					{
 							List<BakedQuad> quads = bakedModel.getQuads(state, face, 1);
 						 
@@ -134,7 +136,9 @@ public class ColorUtil
 			else
 			{
 	        	String textureName = ""; //Minecraft.getMinecraft().getRenderItem().getItemModelWithOverrides(stack, worldObj, null).getQuads(null, null, 1).get(0).getSprite().getIconName();
-	        	List<BakedQuad> quads = Minecraft.getMinecraft().getRenderItem().getItemModelWithOverrides(stack, worldObj, null).getQuads(null, null, 1);
+	        	IBakedModel model = Minecraft.getMinecraft().getRenderItem().getItemModelWithOverrides(stack, worldObj, null);
+
+	        	List<BakedQuad> quads = model.getQuads(null, null, 1);
 
 				if(quads!= null && !quads.isEmpty() && quads.size() > 0)
 				{
@@ -153,12 +157,46 @@ public class ColorUtil
 	//Used the get the color of any texture
 	public static int[] getTextureColor(String name, String type)
 	{
+		int[] rgb = null;
+		
+		IResource resource = getResource(name, type);
+
+		if(resource != null)
+		{
+			InputStream stream = resource.getInputStream();
+			
+		
+			try 
+			{
+				rgb = ImageUtil.main(stream);
+			} catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+			finally 
+				{
+				try 
+				{
+					stream.close();
+					
+				} 
+				catch (IOException ioex) 
+				{
+					
+				}
+		}
+		
+	}
+		return rgb;
+	}
+	
+	public static IResource getResource(String name, String type)
+	{
 		SimpleReloadableResourceManager resourceManager;
 		resourceManager = (SimpleReloadableResourceManager)Minecraft.getMinecraft().getResourceManager();
 		Set set = resourceManager.getResourceDomains(); 
 		Object[] domains = set.toArray();
 		IResource resource = null;
-		int[] rgb = null;
 		
 		if(name.contains(":"))
 		{
@@ -189,34 +227,7 @@ public class ColorUtil
 				}
 			}
 		}
-		
-		if(resource != null)
-		{
-			InputStream stream = resource.getInputStream();
-			
-		
-			try 
-			{
-				rgb = ImageUtil.main(stream);
-			} catch (Exception e) 
-			{
-				e.printStackTrace();
-			}
-			finally 
-				{
-				try 
-				{
-					stream.close();
-					
-				} 
-				catch (IOException ioex) 
-				{
-					
-				}
-		}
-		
-	}
-		return rgb;
+		return resource;
 	}
 	
 	public static int[] setBrightness(int[] rgb, float brightness)

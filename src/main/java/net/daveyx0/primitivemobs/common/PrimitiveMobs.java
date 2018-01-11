@@ -23,6 +23,7 @@ import net.daveyx0.primitivemobs.core.PrimitiveMobsEntities;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsItems;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsMapGen;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsMessages;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsParticles;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsRecipes;
@@ -83,6 +84,7 @@ public class PrimitiveMobs {
 	public void Init(FMLInitializationEvent event)
 	{
 		proxy.init(event);
+		PrimitiveMobsMapGen.registerWorldGenerators();
 	}
 
 	@EventHandler

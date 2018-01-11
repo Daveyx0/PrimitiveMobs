@@ -6,21 +6,26 @@ import net.daveyx0.primitivemobs.client.renderer.entity.RenderBabySpider;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderBlazingJuggernaut;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderBrainSlime;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderChameleon;
+import net.daveyx0.primitivemobs.client.renderer.entity.RenderDodo;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderEchantedBook;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderFilchLizard;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderGroveSprite;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderHauntedTool;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderLilyLurker;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderLostMiner;
+import net.daveyx0.primitivemobs.client.renderer.entity.RenderMimic;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderMotherSpider;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderPrimitiveCreeper;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderPrimitiveTNTPrimed;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderSkeletonWarrior;
+import net.daveyx0.primitivemobs.client.renderer.entity.RenderSquirrel;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderThownBlock;
+import net.daveyx0.primitivemobs.client.renderer.entity.RenderTravelingMerchant;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderTreasureSlime;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderTrollager;
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
+import net.daveyx0.primitivemobs.entity.item.EntityPrimitiveEgg;
 import net.daveyx0.primitivemobs.entity.item.EntityPrimitiveTNTPrimed;
 import net.daveyx0.primitivemobs.entity.item.EntityThrownBlock;
 import net.daveyx0.primitivemobs.entity.monster.EntityBabySpider;
@@ -30,6 +35,7 @@ import net.daveyx0.primitivemobs.entity.monster.EntityEnchantedBook;
 import net.daveyx0.primitivemobs.entity.monster.EntityFestiveCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntityHauntedTool;
 import net.daveyx0.primitivemobs.entity.monster.EntityLilyLurker;
+import net.daveyx0.primitivemobs.entity.monster.EntityMimic;
 import net.daveyx0.primitivemobs.entity.monster.EntityMotherSpider;
 import net.daveyx0.primitivemobs.entity.monster.EntityRocketCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntitySkeletonWarrior;
@@ -37,9 +43,14 @@ import net.daveyx0.primitivemobs.entity.monster.EntitySupportCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntityTreasureSlime;
 import net.daveyx0.primitivemobs.entity.monster.EntityTrollager;
 import net.daveyx0.primitivemobs.entity.passive.EntityChameleon;
+import net.daveyx0.primitivemobs.entity.passive.EntityDodo;
 import net.daveyx0.primitivemobs.entity.passive.EntityFilchLizard;
 import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
 import net.daveyx0.primitivemobs.entity.passive.EntityLostMiner;
+import net.daveyx0.primitivemobs.entity.passive.EntitySquirrel;
+import net.daveyx0.primitivemobs.entity.passive.EntityTravelingMerchant;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -77,15 +88,21 @@ public class PrimitiveMobsEntities {
 	    	addEntities(EntityBabySpider.class, "baby_spider", ++id, 0xB59468, 11013646, PrimitiveMobsConfigMobs.enableSpiderFamily);
 	    	addEntities(EntityTrollager.class, "trollager", ++id, 0x56845D, 0x35251F, PrimitiveMobsConfigMobs.enableTrollager);
 	    	addEntities(EntityLostMiner.class, "lost_miner", ++id, 0x6C3626, 0xBD8B72, PrimitiveMobsConfigMobs.enableLostMiner);
+	    	addEntities(EntityTravelingMerchant.class, "traveling_merchant", ++id, 0x606051, 0xBD8B72, PrimitiveMobsConfigMobs.enableMerchant);
+	    	addEntities(EntityDodo.class, "dodo", ++id, 0x725643, 0xBCA18C, PrimitiveMobsConfigMobs.enableDodo);
+	    	addEntities(EntityMimic.class, "mimic", ++id, 0xAB792D, 0x2A251D, PrimitiveMobsConfigMobs.enableMimic);
 	    	
 	    	//addEntitiesWithoutEgg(EntityBabySpider.class, "baby_spider", ++id, PrimitiveMobsConfigMobs.enableBabySpider);
+	    	//Test entities
+	    	//addEntities(EntitySquirrel.class, "squirrel", ++id, 0x856649, 0x745840, PrimitiveMobsConfigMobs.enableSquirrel);
 	    	
 	    	addCustomEntities(EntityPrimitiveTNTPrimed.class, "primitive_tnt_primed", ++id, 64, 20, true);
 	    	addCustomEntities(EntityThrownBlock.class, "thrown_block", ++id, 64, 20, true);
+	    	addCustomEntities(EntityPrimitiveEgg.class, "primitive_egg", ++id, 64, 20, true);
 	    	
 	    	PrimitiveMobsSpawnList.preInit();
 	    }
-
+	    
 	    public static void registerRenderers()
 	    {
 	    	RenderingRegistry.registerEntityRenderingHandler(EntityChameleon.class, RenderChameleon::new);
@@ -107,6 +124,12 @@ public class PrimitiveMobsEntities {
 	    	RenderingRegistry.registerEntityRenderingHandler(EntityTrollager.class, RenderTrollager::new);
 	    	RenderingRegistry.registerEntityRenderingHandler(EntityThrownBlock.class, RenderThownBlock::new);
 	    	RenderingRegistry.registerEntityRenderingHandler(EntityLostMiner.class, RenderLostMiner::new);
+	    	RenderingRegistry.registerEntityRenderingHandler(EntityTravelingMerchant.class, RenderTravelingMerchant::new);
+	    	RenderingRegistry.registerEntityRenderingHandler(EntityDodo.class, RenderDodo::new);
+	    	RenderingRegistry.registerEntityRenderingHandler(EntityMimic.class, RenderMimic::new);
+	    	
+	    	RenderingRegistry.registerEntityRenderingHandler(EntityPrimitiveEgg.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), PrimitiveMobsItems.DODO_EGG, Minecraft.getMinecraft().getRenderItem()));
+	    	//RenderingRegistry.registerEntityRenderingHandler(EntitySquirrel.class, RenderSquirrel::new);
 	    }
 	    
 	    

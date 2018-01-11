@@ -62,31 +62,15 @@ public class PrimitiveMobsRecipes {
 	 public static final Set<IRecipe> RECIPES = new HashSet<>();
 	 
     public static void init() {
-        registerRecipes();
+    	initializeRecipes();
     }
     
-    public static void registerRecipes() {
+    public static void initializeRecipes() {
     	
     	//RecipeSorter.register("primitivemobs:camouflagerecipe", CamouflageArmorRecipe.class, SHAPELESS, "after:forge:shapelessore");
-    	
-    	//Camouflage armor
-		//GameRegistry.addShapelessRecipe(new ItemStack(PrimitiveMobsItems.CAMOUFLAGE_HELMET, 1), new Object [] {new ItemStack(Items.LEATHER_HELMET) , new ItemStack(PrimitiveMobsItems.CAMOUFLAGE_DYE, 1)});
-		//GameRegistry.addShapelessRecipe(new ItemStack(PrimitiveMobsItems.CAMOUFLAGE_CHEST, 1), new Object [] {new ItemStack(Items.LEATHER_CHESTPLATE) , new ItemStack(PrimitiveMobsItems.CAMOUFLAGE_DYE, 1)});
-		//GameRegistry.addShapelessRecipe(new ItemStack(PrimitiveMobsItems.CAMOUFLAGE_LEGS, 1), new Object [] {new ItemStack(Items.LEATHER_LEGGINGS) , new ItemStack(PrimitiveMobsItems.CAMOUFLAGE_DYE, 1)});
-		//GameRegistry.addShapelessRecipe(new ItemStack(PrimitiveMobsItems.CAMOUFLAGE_BOOTS, 1), new Object [] {new ItemStack(Items.LEATHER_BOOTS) , new ItemStack(PrimitiveMobsItems.CAMOUFLAGE_DYE, 1)});
-		
-		//ItemStack stack = new ItemStack(PrimitiveMobsItems.CAMOUFLAGE_BOOTS, 1);
-		//GameRegistry.addShapelessRecipe(stack, stack);
-		/*
-		GameRegistry.addRecipe(new CamouflageArmorRecipe(new ItemStack(PrimitiveMobsItems.CAMOUFLAGE_HELMET, 1)));
-		GameRegistry.addRecipe(new CamouflageArmorRecipe(new ItemStack(PrimitiveMobsItems.CAMOUFLAGE_CHEST, 1)));
-		GameRegistry.addRecipe(new CamouflageArmorRecipe(new ItemStack(PrimitiveMobsItems.CAMOUFLAGE_LEGS, 1)));
-		GameRegistry.addRecipe(new CamouflageArmorRecipe(new ItemStack(PrimitiveMobsItems.CAMOUFLAGE_BOOTS, 1)));*/
+    	GameRegistry.addSmelting(PrimitiveMobsItems.RAW_DODO, new ItemStack(PrimitiveMobsItems.COOKED_DODO), 0.45f);
     }
-    
-    private static void initialiseRecipes() {
 
-	 }
 
 	    @Mod.EventBusSubscriber(modid = PrimitiveMobsReference.MODID)
 		public static class RegistrationHandler {
@@ -96,8 +80,6 @@ public class PrimitiveMobsRecipes {
 				final IRecipe[] recipes = {
 						
 				};
-
-				initialiseRecipes();
 				
 				final IForgeRegistry<IRecipe> registry = event.getRegistry();
 			}

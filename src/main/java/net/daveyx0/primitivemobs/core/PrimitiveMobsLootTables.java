@@ -11,12 +11,19 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class PrimitiveMobsLootTables {
 
+	//Entity drops
 	public static final ResourceLocation ENTITIES_CHAMELEON = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/chameleon");
 	public static final ResourceLocation ENTITIES_ROCKETCREEPER = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/rocket_creeper");
 	public static final ResourceLocation ENTITIES_FESTIVECREEPER = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/festive_creeper");
 	public static final ResourceLocation ENTITIES_SUPPORTCREEPER = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/support_creeper");
 	public static final ResourceLocation ENTITIES_BLAZINGJUGGERNAUT = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/blazing_juggernaut");
 	public static final ResourceLocation ENTITIES_LILYLURKER = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/lily_lurker");
+	public static final ResourceLocation ENTITIES_DODO = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/dodo");
+	public static final ResourceLocation ENTITIES_MIMIC = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/mimic");
+	
+	//Mimic chest loot
+	public static final ResourceLocation MIMIC_TREASURE= new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "chests/mimic_treasure");
+	public static final ResourceLocation MIMIC_TRAP = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "chests/mimic_trap");
 	
     public static void preInit() {
     	registerLootTables();
@@ -29,6 +36,11 @@ public class PrimitiveMobsLootTables {
     	LootTableList.register(ENTITIES_SUPPORTCREEPER);
     	LootTableList.register(ENTITIES_BLAZINGJUGGERNAUT);
     	LootTableList.register(ENTITIES_LILYLURKER);
+    	LootTableList.register(ENTITIES_DODO);
+    	LootTableList.register(ENTITIES_MIMIC);
+    	
+    	LootTableList.register(MIMIC_TREASURE);
+    	LootTableList.register(MIMIC_TRAP);
     }
 
 }

@@ -20,10 +20,13 @@ public class PrimitiveMobsConfigSpecial {
 	public static boolean trollDestruction;
 	public static boolean trollOnlyUnderground;
 	public static int tameableSlimeChance;
+	public static int filchLizardLootChance;
+	public static boolean merchantCanSettle;
+	public static boolean mimicGenerates;
 
 	public static void load(Configuration config) {
 		String category = "Loot Settings";
-				
+
 		config.addCustomCategoryComment(category, "Change the special loot of mobs, like which loot the treasure slime spawns with.");
 		treasureSlimeLoot = config.get(category, "Treasure Slime Loot List", TreasureSlimeLoot.getDefaultValues(), "List of items the Treasure Slime can have inside it on spawn").getStringList();
 		hauntedToolLoot = config.get(category, "Haunted Tool Loot List", HauntedToolLoot.getDefaultValues(), "List of tools the Haunted Tool can spawn as").getStringList();
@@ -39,6 +42,9 @@ public class PrimitiveMobsConfigSpecial {
 		trollDestruction = config.get(category1, "Trollager can destroy terrain", true, "Enable/Disable if the Trollager can destroy terrain with its attack").getBoolean();
 		trollOnlyUnderground = config.get(category1, "Trollager can only spawn underground", false, "Enable/Disable if the Trollager can only spawn underground (below Y=40)").getBoolean();
 		tameableSlimeChance = config.get(category1, "Chance that a tameable Treasure Slime spawns", 5, "Set the chance that a tameable Treasure Slime can spawn in percentage").getInt();
+		filchLizardLootChance = config.get(category1, "Chance that a Filch Lizard spawns holding loot", 25, "Set the chance that a Filch Lizard spawns holding loot in percentage").getInt();
+		merchantCanSettle = config.get(category1, "Traveling Merchant can settle", true, "Enable/Disable if the Traveling Merchant can settle after being bribed with an Emerald Block").getBoolean();
+		mimicGenerates = config.get(category1, "Mimic chests generate in caves", true, "Enable/Disable if the Mimic chests should generate in caves, instead of spawn like mobs").getBoolean();
 	}
 	
 	public static String[] getTreasureSlimeLoot()
@@ -89,5 +95,15 @@ public class PrimitiveMobsConfigSpecial {
 	public static int getTameableSlimeChance()
 	{
 		return tameableSlimeChance;
+	}
+	
+	public static int getFilchLizardLootChance()
+	{
+		return filchLizardLootChance;
+	}
+	
+	public static boolean getMimicGeneratesInCaves()
+	{
+		return mimicGenerates;
 	}
 }

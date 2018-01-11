@@ -14,8 +14,10 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerSheepWool;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -44,6 +46,16 @@ public class RenderDodo<T extends EntityLiving> extends RenderLiving<EntityDodo>
         
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
 
+    }
+    
+    /**
+     * Defines what float the third param in setRotationAngles of ModelBase is
+     */
+    protected float handleRotationFloat(EntityDodo livingBase, float partialTicks)
+    {
+        float f = livingBase.oFlap + (livingBase.wingRotation - livingBase.oFlap) * partialTicks;
+        float f1 = livingBase.oFlapSpeed + (livingBase.destPos - livingBase.oFlapSpeed) * partialTicks;
+        return (MathHelper.sin(f) + 1.0F) * f1;
     }
    
 }

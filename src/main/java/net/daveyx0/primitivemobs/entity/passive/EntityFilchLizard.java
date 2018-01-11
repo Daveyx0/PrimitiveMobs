@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Sets;
 
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.entity.ai.EntityAIGrabItemFromFloor;
 import net.daveyx0.primitivemobs.entity.ai.EntityAIStealFromPlayer;
 import net.daveyx0.primitivemobs.entity.ai.EntityAITemptItemStack;
@@ -96,7 +97,9 @@ public class EntityFilchLizard extends EntityCreature implements IAnimals {
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
     {
-    	if(rand.nextInt(itemChance) == 0)
+    	int chance = PrimitiveMobsConfigSpecial.getFilchLizardLootChance();
+    	
+    	if(chance > 0 && (chance >= 100 || (rand.nextInt(100/chance) == 0)))
     	{
     		while(this.getHeldItemMainhand().isEmpty() && !getEntityWorld().isRemote)
     		{

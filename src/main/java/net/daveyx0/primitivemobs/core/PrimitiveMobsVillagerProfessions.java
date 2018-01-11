@@ -1,9 +1,13 @@
 package net.daveyx0.primitivemobs.core;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.Validate;
 
@@ -13,15 +17,19 @@ import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.item.ItemCamouflageArmor;
 import net.daveyx0.primitivemobs.item.ItemCamouflageDye;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityVillager.ITradeList;
+import net.minecraft.entity.passive.EntityVillager.PriceInfo;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionType;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
@@ -42,6 +50,7 @@ public class PrimitiveMobsVillagerProfessions {
 	 
 	 public static final ITradeList[][] primitive_trades = new ITradeList[][]{};
 	 public static VillagerProfession MINER_PROFESSION;
+	 public static VillagerProfession MERCHANT_PROFESSION;
 
 
 	 private static void initialiseVillagerProfessions() {
@@ -55,6 +64,8 @@ public class PrimitiveMobsVillagerProfessions {
 			public static void registerProfessions(final RegistryEvent.Register<VillagerProfession> event) {
 				final IForgeRegistry<VillagerProfession> registry = event.getRegistry();
 				
+		    	Random rand =  new Random();
+		    	
 				MINER_PROFESSION = new VillagerProfession("primitivemobs:miner",
 			             "primitivemobs:textures/entity/villager/lostminer.png",
 			             "primitivemobs:textures/entity/villager/zombie_miner.png");
@@ -82,8 +93,39 @@ public class PrimitiveMobsVillagerProfessions {
 							 .addTrade(3, new EntityVillager.ListItemForEmeralds(Items.DIAMOND, new EntityVillager.PriceInfo(2, 3)));
 						 }
 						 
+					MERCHANT_PROFESSION = new VillagerProfession("primitivemobs:merchant",
+						 "primitivemobs:textures/entity/villager/villager_merchant.png",
+						 "primitivemobs:textures/entity/villager/zombie_merchant.png");
+						 {
+							registry.register(MERCHANT_PROFESSION);
+						 	new VillagerCareer(MERCHANT_PROFESSION, "primitivemobs.traveling_merchant")
+						 	{
+						 		
+					        @Nullable
+					        @Override
+					        public List<ITradeList> getTrades(int level)
+					        {				        	
+					        	List<ITradeList> trades = Lists.newArrayList();
+					        	
+					        	if(level == 0)
+					        	{
+					        		trades.add(merchantTrades[level][rand.nextInt(merchantTrades[level].length)]);
+					        	}
+					        	
+					        	trades.add(getRandomMerchantTrade(rand, level, trades));
+					        	trades.add(getRandomMerchantTrade(rand, level, trades));
+
+					        	if(trades.isEmpty()){return null;}
+					            return trades;
+					        }
+							};
+						 }
+						 
+
+						 
 				final VillagerProfession[] professions = {
-						MINER_PROFESSION
+						MINER_PROFESSION,
+						MERCHANT_PROFESSION
 				};
 				
 				for (final VillagerProfession profession : professions) {
@@ -95,7 +137,35 @@ public class PrimitiveMobsVillagerProfessions {
 				initialiseVillagerProfessions();
 			}
 	    }
+
 	    
+	    public static ITradeList getRandomMerchantTrade(Random rand, int level, List<ITradeList> currentTrades)
+	    {
+	    	ITradeList[] trades = merchantTrades[level + 1];
+	    	EntityVillager.ListItemForEmeralds trade = (EntityVillager.ListItemForEmeralds)trades[rand.nextInt(trades.length)];
+	    	
+	    	int index = 0;
+	    	if(level == 0) {index = 1;}
+	    	
+	    	if(!currentTrades.isEmpty() && !(currentTrades.get(0) instanceof EntityVillager.EmeraldForItems))
+	    	{
+	    		for(int i = 0; i < 100; i++)
+	    		{
+	    			if(trade.itemToBuy.getItem().equals(((EntityVillager.ListItemForEmeralds)currentTrades.get(index)).itemToBuy.getItem()))
+	    			{
+	    				trade = (EntityVillager.ListItemForEmeralds)trades[rand.nextInt(trades.length)];
+	    			}
+	    			else
+	    			{
+	    				return trade;
+	    			}
+	    		}
+	    	}
+
+	    	return trade;
+	    }
+
+
 	    public static class ItemAndItemToEmerald implements EntityVillager.ITradeList
         {
             public ItemStack buyingItemStack;
@@ -118,5 +188,60 @@ public class PrimitiveMobsVillagerProfessions {
                 recipeList.add(new MerchantRecipe(new ItemStack(this.buyingItemStack.getItem(), i, this.buyingItemStack.getMetadata()), new ItemStack(this.buyingItemStack2.getItem(), i, this.buyingItemStack2.getMetadata()), new ItemStack(Items.EMERALD)));
             }
         }
+	    
+	    public static class CustomEmeraldForItems extends EntityVillager.EmeraldForItems
+	    {
+
+			public CustomEmeraldForItems(Item itemIn, PriceInfo priceIn) {
+				super(itemIn, priceIn);
+				
+			}	
+	    }
+	    
+	    public static ITradeList[][] merchantTrades = new EntityVillager.ITradeList[][]{
+	    		new EntityVillager.ITradeList[]{
+	    		new EntityVillager.EmeraldForItems(Items.CARROT, new EntityVillager.PriceInfo(10, 14)),
+	    		new EntityVillager.EmeraldForItems(Items.BREAD, new EntityVillager.PriceInfo(4, 6)),
+	    		new EntityVillager.EmeraldForItems(Items.APPLE, new EntityVillager.PriceInfo(4, 6)),
+	    		new EntityVillager.EmeraldForItems(Items.COOKED_BEEF, new EntityVillager.PriceInfo(4, 6)),
+	    		new EntityVillager.EmeraldForItems(Items.COOKED_CHICKEN, new EntityVillager.PriceInfo(5, 7)),
+	    		new EntityVillager.EmeraldForItems(Items.COOKED_FISH, new EntityVillager.PriceInfo(3, 5)),
+	    		new EntityVillager.EmeraldForItems(Items.COOKED_PORKCHOP, new EntityVillager.PriceInfo(4, 6)),
+	    		new EntityVillager.EmeraldForItems(Items.COOKED_RABBIT, new EntityVillager.PriceInfo(3, 5))
+	    		}, new EntityVillager.ITradeList[]{
+	    		new EntityVillager.ListItemForEmeralds(Items.PUMPKIN_SEEDS, new EntityVillager.PriceInfo(-10, -8)),
+	    		new EntityVillager.ListItemForEmeralds(Items.MELON_SEEDS, new EntityVillager.PriceInfo(-10, -8)),
+	    		new EntityVillager.ListItemForEmeralds(Items.GOLD_INGOT, new EntityVillager.PriceInfo(-10, -8)),
+	    		new EntityVillager.ListItemForEmeralds(Items.ARROW, new EntityVillager.PriceInfo(-15, -10)),
+	    		new EntityVillager.ListItemForEmeralds(Items.SLIME_BALL, new EntityVillager.PriceInfo(-7, -4)),
+	    		new EntityVillager.ListItemForEmeralds(new ItemStack(Items.DYE, 1, 3), new EntityVillager.PriceInfo(-8, -6)),
+	    		new EntityVillager.ListItemForEmeralds(Items.BEETROOT, new EntityVillager.PriceInfo(-16, -10)),
+	    		new EntityVillager.ListItemForEmeralds(Items.PAPER, new EntityVillager.PriceInfo(-38, -26)),
+	    		new EntityVillager.ListItemForEmeralds(Items.FLINT, new EntityVillager.PriceInfo(-10, -8)),
+	    		new EntityVillager.ListItemForEmeralds(Items.SNOWBALL, new EntityVillager.PriceInfo(-16, -14))
+	    		}, new EntityVillager.ITradeList[]{
+	    		new EntityVillager.ListItemForEmeralds(Items.BONE, new EntityVillager.PriceInfo(-10, -8)),
+	    		new EntityVillager.ListItemForEmeralds(Items.FIRE_CHARGE, new EntityVillager.PriceInfo(-10, -8)),
+	    		new EntityVillager.ListItemForEmeralds(Items.IRON_INGOT, new EntityVillager.PriceInfo(-10, -7)),
+	    		new EntityVillager.ListItemForEmeralds(Items.ARROW, new EntityVillager.PriceInfo(-15, -10)),
+	    		new EntityVillager.ListItemForEmeralds(Items.STRING, new EntityVillager.PriceInfo(-20, -15)),
+	    		new EntityVillager.ListItemForEmeralds(Items.CLAY_BALL, new EntityVillager.PriceInfo(-10, -6)),
+	    		new EntityVillager.ListItemForEmeralds(Items.RABBIT_FOOT, new EntityVillager.PriceInfo(-3, -2)),
+	    		new EntityVillager.ListItemForEmeralds(Items.REDSTONE, new EntityVillager.PriceInfo(-6, -3)),
+	    		new EntityVillager.ListItemForEmeralds(Items.BLAZE_POWDER, new EntityVillager.PriceInfo(-6, -4)),
+	    		new EntityVillager.ListItemForEmeralds(Items.BOOK, new EntityVillager.PriceInfo(-6, -4))
+	    		}, new EntityVillager.ITradeList[]{
+	    		new EntityVillager.ListItemForEmeralds(Items.ENDER_PEARL, new EntityVillager.PriceInfo(-1, -1)),
+	    		new EntityVillager.ListItemForEmeralds(Items.EXPERIENCE_BOTTLE, new EntityVillager.PriceInfo(1, 4)),
+	    		new EntityVillager.ListItemForEmeralds(Items.DIAMOND, new EntityVillager.PriceInfo(2, 3)),
+	    		new EntityVillager.ListItemForEmeralds(Items.GHAST_TEAR, new EntityVillager.PriceInfo(2, 4)),
+	    		new EntityVillager.ListItemForEmeralds(Items.PRISMARINE_CRYSTALS, new EntityVillager.PriceInfo(-7, -4)),
+	    		new EntityVillager.ListItemForEmeralds(Items.NAME_TAG, new EntityVillager.PriceInfo(-10, -5)),
+	    		new EntityVillager.ListItemForEmeralds(PotionUtils.addPotionToItemStack(new ItemStack(Items.TIPPED_ARROW, 1), PotionType.getPotionTypeForName("poison")), new EntityVillager.PriceInfo(-15, -10)),
+	    		new EntityVillager.ListItemForEmeralds(Items.SADDLE, new EntityVillager.PriceInfo(4, 6)),
+	    		new EntityVillager.ListItemForEmeralds(Items.CHORUS_FRUIT, new EntityVillager.PriceInfo(-3, -2)),
+	    		new EntityVillager.ListItemForEmeralds(Items.GOLDEN_APPLE, new EntityVillager.PriceInfo(1, 1))
+	    		}};
+	    
 }
 

@@ -115,7 +115,7 @@ public class EntityGroveSprite extends EntityCreature
 	
     private void determineLogAndLeaves() {
 
-    	Object[] tree = EntityUtil.searchTree(this, 6.0D);
+    	Object[] tree = EntityUtil.searchTree(this, 10.0D);
     	
     	if(tree != null && tree.length > 0)
     	{

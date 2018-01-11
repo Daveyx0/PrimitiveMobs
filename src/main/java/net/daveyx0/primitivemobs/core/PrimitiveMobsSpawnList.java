@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpawns;
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.entity.monster.EntityBlazingJuggernaut;
 import net.daveyx0.primitivemobs.entity.monster.EntityBrainSlime;
 import net.daveyx0.primitivemobs.entity.monster.EntityEnchantedBook;
 import net.daveyx0.primitivemobs.entity.monster.EntityFestiveCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntityHauntedTool;
 import net.daveyx0.primitivemobs.entity.monster.EntityLilyLurker;
+import net.daveyx0.primitivemobs.entity.monster.EntityMimic;
 import net.daveyx0.primitivemobs.entity.monster.EntityMotherSpider;
 import net.daveyx0.primitivemobs.entity.monster.EntityRocketCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntitySkeletonWarrior;
@@ -17,9 +19,11 @@ import net.daveyx0.primitivemobs.entity.monster.EntitySupportCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntityTreasureSlime;
 import net.daveyx0.primitivemobs.entity.monster.EntityTrollager;
 import net.daveyx0.primitivemobs.entity.passive.EntityChameleon;
+import net.daveyx0.primitivemobs.entity.passive.EntityDodo;
 import net.daveyx0.primitivemobs.entity.passive.EntityFilchLizard;
 import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
 import net.daveyx0.primitivemobs.entity.passive.EntityLostMiner;
+import net.daveyx0.primitivemobs.entity.passive.EntityTravelingMerchant;
 import net.daveyx0.primitivemobs.spawn.PrimitiveMobsSpawnEntry;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
@@ -36,6 +40,8 @@ public class PrimitiveMobsSpawnList {
 	public static PrimitiveMobsSpawnEntry FILCHLIZARD_SPAWNS;
 	public static PrimitiveMobsSpawnEntry GROVESPRITE_SPAWNS;
 	public static PrimitiveMobsSpawnEntry LOSTMINER_SPAWNS;
+	public static PrimitiveMobsSpawnEntry TRAVELINGMERCHANT_SPAWNS;
+	public static PrimitiveMobsSpawnEntry DODO_SPAWNS;
 
 	// Mob spawns
 	public static PrimitiveMobsSpawnEntry BRAINSLIME_SPAWNS;
@@ -49,6 +55,7 @@ public class PrimitiveMobsSpawnList {
 	public static PrimitiveMobsSpawnEntry LILYLURKER_SPAWNS;
 	public static PrimitiveMobsSpawnEntry SPIDERFAMILY_SPAWNS;
 	public static PrimitiveMobsSpawnEntry TROLL_SPAWNS;
+	public static PrimitiveMobsSpawnEntry MIMIC_SPAWNS;
 
 	// Nether spawns
 	public static PrimitiveMobsSpawnEntry BLAZINGJUGGERNAUT_SPAWNS;
@@ -122,6 +129,10 @@ public class PrimitiveMobsSpawnList {
 		SPIDERFAMILY_SPAWNS = registerSpawnNormal(new PrimitiveMobsSpawnEntry(EntityMotherSpider.class, PrimitiveMobsConfigSpawns.spiderFamilySpawnRate));
 		TROLL_SPAWNS = registerSpawnNormal(new PrimitiveMobsSpawnEntry(EntityTrollager.class, PrimitiveMobsConfigSpawns.trollSpawnRate));
 		LOSTMINER_SPAWNS = registerSpawnNormal(new PrimitiveMobsSpawnEntry(EntityLostMiner.class, PrimitiveMobsConfigSpawns.lostMinerSpawnRate));
+		
+		TRAVELINGMERCHANT_SPAWNS = registerSpawnNormal(new PrimitiveMobsSpawnEntry(EntityTravelingMerchant.class, PrimitiveMobsConfigSpawns.travelingMerchantSpawnRate));
+		DODO_SPAWNS = registerSpawnNormal(new PrimitiveMobsSpawnEntry(EntityDodo.class, PrimitiveMobsConfigSpawns.dodoSpawnRate));
+		MIMIC_SPAWNS = registerSpawnNormal(new PrimitiveMobsSpawnEntry(EntityMimic.class, PrimitiveMobsConfigSpecial.getMimicGeneratesInCaves() ? 0 : PrimitiveMobsConfigSpawns.mimicSpawnRate));
 	}
 
 	public static void postInit() {

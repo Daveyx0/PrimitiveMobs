@@ -46,19 +46,4 @@ public class PrimitiveMobsEventHandler {
 			NBTUtil.setCamouflageArmorNBT(entityLiving, EntityEquipmentSlot.LEGS);
 		}
 	}
-	
-	@SubscribeEvent
-	public void onEntityJoinWorld(EntityJoinWorldEvent event)
-	{
-		//Add target task to zombies for Primitive Mobs
-		if(event.getEntity() != null && event.getEntity() instanceof EntityZombie)
-		{
-			EntityZombie zombie = (EntityZombie)event.getEntity();
-			EntityAINearestAttackableTarget aiTarget = new EntityAINearestAttackableTarget(zombie, EntityChameleon.class, false);
-			if(!zombie.targetTasks.taskEntries.contains(aiTarget))
-			{
-				//zombie.targetTasks.addTask(4, aiTarget);
-			}
-		}
-	}
 }

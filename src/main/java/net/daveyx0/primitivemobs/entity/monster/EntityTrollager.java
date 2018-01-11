@@ -72,7 +72,7 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 
 	 private static final DataParameter<Integer> ANIMATION_STATE = EntityDataManager.<Integer>createKey(EntityTrollager.class, DataSerializers.VARINT);
 	 private static final DataParameter<BlockPos> CURRENT_THROWN_BLOCK = EntityDataManager.<BlockPos>createKey(EntityTrollager.class, DataSerializers.BLOCK_POS);
-	 private static final DataParameter<Boolean> IS_STONE = EntityDataManager.<Boolean>createKey(EntityLostMiner.class, DataSerializers.BOOLEAN);
+	 private static final DataParameter<Boolean> IS_STONE = EntityDataManager.<Boolean>createKey(EntityTrollager.class, DataSerializers.BOOLEAN);
 
 	 private int previousState = 0;
 	 private boolean resetAnimation;
@@ -460,7 +460,8 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 				flag = false;
 			}
 			this.newExplosion(this, explosionX ,this.posY + this.getEyeHeight(), explosionZ, 3F, false, flag);
-			PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(this.getEntityId(), (float)explosionX, (float)explosionY, (float)explosionZ));
+			PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(EnumParticleTypes.BLOCK_CRACK.getParticleID(), 50, (float)explosionX, (float)explosionY, (float)explosionZ, 0D,0D,0D, Block.getIdFromBlock(this.world.getBlockState(this.getThrownBlock()).getBlock())));
+			PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(EnumParticleTypes.EXPLOSION_LARGE.getParticleID(), 10, (float)explosionX, (float)explosionY, (float)explosionZ, 1D,0D,0D, 0));
 			break;
 		}
 		case 2:
