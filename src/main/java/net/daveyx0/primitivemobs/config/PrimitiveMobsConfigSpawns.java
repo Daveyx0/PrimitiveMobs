@@ -22,7 +22,7 @@ public class PrimitiveMobsConfigSpawns {
 		treasureslimeSpawnRate = config.get(category, "Treasure Slime Spawn Rate", 20, "Treasure Slimes spawn everywhere in the dark").getInt()/100f;
 		hauntedToolSpawnRate = config.get(category, "Haunted Tool Spawn Rate", 15, "Haunted Tools spawn everywhere in the dark").getInt()/100f;
 		groveSpriteSpawnRate = config.get(category, "Grove Sprite Spawn Rate", 15, "Grove Sprites spawn in Forests").getInt()/100f;
-		bewitchedTomeSpawnRate = config.get(category, "Bewitched Tome Spawn Rate", 15, "Bewitched Tomes spawn deep underground").getInt()/100f;
+		bewitchedTomeSpawnRate = config.get(category, "Bewitched Tome Spawn Rate", 10, "Bewitched Tomes spawn deep underground").getInt()/100f;
 		filchLizardSpawnRate = config.get(category, "Filch Lizard Spawn Rate", 25, "Filch Lizards spawn in Deserts").getInt()/100f;
 		brainSlimeSpawnRate = config.get(category, "Brain Slime Spawn Rate", 50, "Brain Slimes spawn on Beaches").getInt()/100f;
 		rocketCreeperSpawnRate = config.get(category, "Rocket Creeper Spawn Rate", 20, "Rocket Creepers spawn everywhere in the dark").getInt()/100f;

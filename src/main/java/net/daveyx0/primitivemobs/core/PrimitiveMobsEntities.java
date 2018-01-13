@@ -9,6 +9,7 @@ import net.daveyx0.primitivemobs.client.renderer.entity.RenderChameleon;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderDodo;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderEchantedBook;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderFilchLizard;
+import net.daveyx0.primitivemobs.client.renderer.entity.RenderFlyingItem;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderGroveSprite;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderHauntedTool;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderLilyLurker;
@@ -62,6 +63,8 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerCareer;
 import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PrimitiveMobsEntities {
 
@@ -103,6 +106,7 @@ public class PrimitiveMobsEntities {
 	    	PrimitiveMobsSpawnList.preInit();
 	    }
 	    
+	    @SideOnly(Side.CLIENT)
 	    public static void registerRenderers()
 	    {
 	    	RenderingRegistry.registerEntityRenderingHandler(EntityChameleon.class, RenderChameleon::new);
@@ -128,7 +132,7 @@ public class PrimitiveMobsEntities {
 	    	RenderingRegistry.registerEntityRenderingHandler(EntityDodo.class, RenderDodo::new);
 	    	RenderingRegistry.registerEntityRenderingHandler(EntityMimic.class, RenderMimic::new);
 	    	
-	    	RenderingRegistry.registerEntityRenderingHandler(EntityPrimitiveEgg.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), PrimitiveMobsItems.DODO_EGG, Minecraft.getMinecraft().getRenderItem()));
+	    	RenderingRegistry.registerEntityRenderingHandler(EntityPrimitiveEgg.class, RenderFlyingItem::new);
 	    	//RenderingRegistry.registerEntityRenderingHandler(EntitySquirrel.class, RenderSquirrel::new);
 	    }
 	    

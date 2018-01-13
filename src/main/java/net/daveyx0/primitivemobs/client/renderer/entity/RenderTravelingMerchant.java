@@ -26,9 +26,9 @@ public class RenderTravelingMerchant extends RenderLiving<EntityTravelingMerchan
         //this.addLayer(new LayerHeldItemCustom(this));
     }
 
-    public ModelVillager getMainModel()
+    public ModelTravelingMerchant getMainModel()
     {
-        return (ModelVillager)super.getMainModel();
+        return (ModelTravelingMerchant)super.getMainModel();
     }
 
     /**

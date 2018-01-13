@@ -137,7 +137,7 @@ public class EntityTravelingMerchant extends EntityVillager {
         return (this.getEntityWorld().getBlockState(blockpos.down()).getBlock() == Blocks.GRASS || this.getEntityWorld().getBlockState(blockpos.down()).getBlock() == Blocks.DIRT ||
         		this.getEntityWorld().getBlockState(blockpos.down()).getBlock() == Blocks.STONE || this.getEntityWorld().getBlockState(blockpos.down()).getBlock() == Blocks.SAND
         		 || this.getEntityWorld().getBlockState(blockpos.down()).getBlock() == Blocks.SNOW
-        		) && this.getEntityWorld().getLight(blockpos) > 8 && super.getCanSpawnHere();
+        		) && j > 20 && this.getEntityWorld().getLight(blockpos) > 8 && super.getCanSpawnHere();
     }
 
 

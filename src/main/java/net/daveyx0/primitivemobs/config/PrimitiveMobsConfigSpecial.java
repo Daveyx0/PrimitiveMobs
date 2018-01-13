@@ -23,6 +23,7 @@ public class PrimitiveMobsConfigSpecial {
 	public static int filchLizardLootChance;
 	public static boolean merchantCanSettle;
 	public static boolean mimicGenerates;
+	public static boolean brainSlimeHostile;
 
 	public static void load(Configuration config) {
 		String category = "Loot Settings";
@@ -45,6 +46,7 @@ public class PrimitiveMobsConfigSpecial {
 		filchLizardLootChance = config.get(category1, "Chance that a Filch Lizard spawns holding loot", 25, "Set the chance that a Filch Lizard spawns holding loot in percentage").getInt();
 		merchantCanSettle = config.get(category1, "Traveling Merchant can settle", true, "Enable/Disable if the Traveling Merchant can settle after being bribed with an Emerald Block").getBoolean();
 		mimicGenerates = config.get(category1, "Mimic chests generate in caves", true, "Enable/Disable if the Mimic chests should generate in caves, instead of spawn like mobs").getBoolean();
+		brainSlimeHostile = config.get(category1, "Brain Slimes attack animals", true, "Enable/Disable if Brain Slimes should attack other animals/creatures").getBoolean();
 	}
 	
 	public static String[] getTreasureSlimeLoot()
@@ -105,5 +107,10 @@ public class PrimitiveMobsConfigSpecial {
 	public static boolean getMimicGeneratesInCaves()
 	{
 		return mimicGenerates;
+	}
+	
+	public static boolean getBrainSlimeHostility()
+	{
+		return brainSlimeHostile;
 	}
 }

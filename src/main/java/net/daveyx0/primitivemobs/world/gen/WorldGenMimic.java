@@ -67,7 +67,7 @@ public class WorldGenMimic implements IWorldGenerator {
         BlockPos blockpos = null;
         BlockPos blockpos1;
 
-        for (int i = 0; i < 40; i++)
+        for (int i = 5; i < 40; i++)
         {
         	blockpos = new BlockPos(pos.getX(), i, pos.getZ());
             blockpos1 = blockpos.down();

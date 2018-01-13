@@ -57,6 +57,7 @@ public class EntityFilchLizard extends EntityCreature implements IAnimals {
 		super(worldIn);
 		this.inventoryHandsDropChances[0] = 0f;
 		this.inventoryHandsDropChances[1] = 0f;
+		this.setSize(0.6f, 0.5f);
 	}
 	
     protected void initEntityAI()
@@ -79,6 +80,15 @@ public class EntityFilchLizard extends EntityCreature implements IAnimals {
     public void onLivingUpdate()
     {
         super.onLivingUpdate();
+        if(!this.getHeldItemMainhand().isEmpty())
+        {
+        	this.setSize(0.6f, 0.75f);
+        }
+        else
+        {
+        	this.setSize(0.6f, 0.3f);
+        }
+        	
     }
 
     protected void applyEntityAttributes()

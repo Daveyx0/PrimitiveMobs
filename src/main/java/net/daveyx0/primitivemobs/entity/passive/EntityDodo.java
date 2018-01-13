@@ -48,6 +48,7 @@ public class EntityDodo extends EntityChicken
 		super(worldIn);
 		this.timeUntilNextShed = this.rand.nextInt(6000) + 6000;
 		this.timeUntilNextDodoEgg = this.rand.nextInt(60000) + 60000;
+		this.setSize(0.75f, 0.75f);
 	}
 	
     @Override

@@ -9,6 +9,7 @@ import com.google.common.base.Predicate;
 
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsParticles;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
@@ -66,6 +67,7 @@ public class EntityBrainSlime extends EntitySlime {
 	public float suckingh;
 	private boolean wasOnGround;
 	public int maxStack;
+	private final EntityAIFindEntityNearest hostilityAI = new EntityAIFindEntityNearest(this, EntityAnimal.class);
 	
 	private static final DataParameter<Integer> ATTACK_DELAY = EntityDataManager.<Integer>createKey(EntityBrainSlime.class, DataSerializers.VARINT);
 	
@@ -87,7 +89,6 @@ public class EntityBrainSlime extends EntitySlime {
         this.tasks.addTask(3, new EntityBrainSlime.AISlimeFaceRandom(this));
         this.tasks.addTask(4, new EntityBrainSlime.AISlimeHop(this));
         this.targetTasks.addTask(1, new EntityAIFindEntityNearestPlayer(this));
-        this.targetTasks.addTask(2, new EntityAIFindEntityNearest(this, EntityAnimal.class));
     }
 	
     protected void entityInit()
@@ -106,6 +107,14 @@ public class EntityBrainSlime extends EntitySlime {
     {
         int i = this.rand.nextInt(3);
         this.setSlimeSize(i, true);
+        if(PrimitiveMobsConfigSpecial.getBrainSlimeHostility())
+        {
+        	this.targetTasks.addTask(2, hostilityAI);
+        }
+        else if(this.targetTasks.taskEntries.contains(hostilityAI) && !PrimitiveMobsConfigSpecial.getBrainSlimeHostility())
+        {
+        	this.targetTasks.removeTask(hostilityAI);
+        }
         return livingdata;
     }
 	
