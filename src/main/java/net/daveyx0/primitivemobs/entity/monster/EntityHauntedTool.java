@@ -1,12 +1,15 @@
 package net.daveyx0.primitivemobs.entity.monster;
 
+import java.util.Collection;
+
 import javax.annotation.Nullable;
 
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
-import net.daveyx0.primitivemobs.loot.HauntedToolLoot;
-import net.daveyx0.primitivemobs.loot.TreasureSlimeLoot;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
+import net.daveyx0.primitivemobs.util.EntityUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -20,11 +23,13 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.EntityAIZombieAttack;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -83,12 +88,15 @@ public class EntityHauntedTool extends EntityMob {
     {
     	while(this.getHeldItemMainhand().isEmpty() && !getEntityWorld().isRemote)
     	{
-    		ItemStack tool = HauntedToolLoot.getRandomLootItem(this.rand);
+    		ItemStack tool = EntityUtil.getCustomLootItem(this, this.getSpawnLootTable(), new ItemStack(Items.WOODEN_SWORD));
     		this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, tool);
-    		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue((double)HauntedToolLoot.getHealthFromTool(tool));
-    		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(HauntedToolLoot.getDamageFromHeldItem(this));
-    		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(HauntedToolLoot.getSpeedFromHeldItem(this));
-    		this.setHealth((float)this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue());
+    		if(tool.isItemStackDamageable())
+    		{
+    			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue((double)getHealthFromTool(tool));
+    			this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(getDamageFromHeldItem(this));
+    			this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(getSpeedFromHeldItem(this));
+    			this.setHealth((float)this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue());
+    		}
     		
     		//PrimitiveMobs.PMlogger.info(this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() + "");
     	}
@@ -150,6 +158,13 @@ public class EntityHauntedTool extends EntityMob {
     protected ResourceLocation getLootTable()
     {
         return null;
+    }
+    
+    
+    @Nullable
+    protected ResourceLocation getSpawnLootTable()
+    {
+        return PrimitiveMobsLootTables.HAUNTEDTOOL_SPAWN;
     }
     
     /**
@@ -237,5 +252,72 @@ public class EntityHauntedTool extends EntityMob {
     {
     	return SoundEvents.ENTITY_ITEM_BREAK;
     }
+    
+    public static float getHealthFromTool(ItemStack tool)
+	{
+		if(!tool.isEmpty() && tool.getItem().isDamageable())
+		{
+			float health = tool.getItem().getMaxDamage(tool)/10f;
+			if(health > 100f)
+			{
+				health = 100f;
+			}
+			return health;
+		}
+
+		return 10f;
+	}
+	
+	public static double getDamageFromHeldItem(EntityLiving entity)
+	{
+		if(!entity.getHeldItemMainhand().isEmpty() && entity.getHeldItemMainhand().getItem().isDamageable());
+		{
+			Collection<AttributeModifier> modifiers = entity.getHeldItemMainhand().getAttributeModifiers(entity.getSlotForItemStack(entity.getHeldItemMainhand())).get(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+			if(modifiers != null && !modifiers.isEmpty())
+			{
+				Object[] mods = modifiers.toArray(new Object[modifiers.size()]);
+				AttributeModifier attribute = (AttributeModifier)mods[0];
+				double attackDamage = (attribute.getAmount() / 2D);
+				if(attackDamage <= 1.0D)
+				{
+					attackDamage = 1.0D;
+				}
+				else if(attackDamage > 8.0D)
+				{
+					attackDamage = 8.0D;
+				}
+				
+				return attackDamage;
+			}
+		}
+
+		return 1.0D;
+	}
+	
+	public static double getSpeedFromHeldItem(EntityLiving entity)
+	{
+		if(!entity.getHeldItemMainhand().isEmpty() && entity.getHeldItemMainhand().getItem().isDamageable())
+		{
+			Collection<AttributeModifier> modifiers = entity.getHeldItemMainhand().getAttributeModifiers(entity.getSlotForItemStack(entity.getHeldItemMainhand())).get(SharedMonsterAttributes.ATTACK_SPEED.getName());
+			if(modifiers != null && !modifiers.isEmpty())
+			{
+				Object[] mods = modifiers.toArray(new Object[modifiers.size()]);
+				AttributeModifier attribute = (AttributeModifier)mods[0];
+				double attackSpeed = (0.5D - (attribute.getAmount() * -1 * 0.1D));
+				
+				if(attackSpeed <= 0.1D)
+				{
+					attackSpeed = 0.1D;
+				}
+				else if(attackSpeed > 0.3D)
+				{
+					attackSpeed = 0.3D;
+				}
+				return attackSpeed;
+			}
+		}
+
+		return 0.2D;
+	}
 
 }

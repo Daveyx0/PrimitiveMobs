@@ -1,7 +1,5 @@
 package net.daveyx0.primitivemobs.config;
 
-import net.daveyx0.primitivemobs.loot.HauntedToolLoot;
-import net.daveyx0.primitivemobs.loot.TreasureSlimeLoot;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;

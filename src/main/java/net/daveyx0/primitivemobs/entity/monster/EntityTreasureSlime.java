@@ -9,9 +9,9 @@ import javax.annotation.Nullable;
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsParticles;
 import net.daveyx0.primitivemobs.entity.ai.EntityAISlimeSit;
-import net.daveyx0.primitivemobs.loot.TreasureSlimeLoot;
 import net.daveyx0.primitivemobs.util.ColorUtil;
 import net.daveyx0.primitivemobs.util.EntityUtil;
 import net.minecraft.block.Block;
@@ -114,7 +114,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
     	{
     		while(this.getHeldItemMainhand().isEmpty() && !getEntityWorld().isRemote)
     		{
-    			this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, TreasureSlimeLoot.getRandomLootItem(this.rand));
+    			this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, EntityUtil.getCustomLootItem(this, this.getSpawnLootTable(), new ItemStack(Items.SLIME_BALL)));
     		}
     	}
     		
@@ -278,6 +278,12 @@ public class EntityTreasureSlime extends EntityTameableSlime {
     protected ResourceLocation getLootTable()
     {
         return null;
+    }
+    
+    @Nullable
+    protected ResourceLocation getSpawnLootTable()
+    {
+        return PrimitiveMobsLootTables.TREASURESLIME_SPAWN;
     }
     
     /**

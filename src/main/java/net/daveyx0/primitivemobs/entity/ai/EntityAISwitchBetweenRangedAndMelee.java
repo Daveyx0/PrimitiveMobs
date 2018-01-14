@@ -172,6 +172,7 @@ public class EntityAISwitchBetweenRangedAndMelee extends EntityAIAttackMelee
 				}
 			} else
 			{
+				this.strafingTime = -1;
 				super.updateTask();
 			}
 		}

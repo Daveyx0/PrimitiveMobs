@@ -1,19 +1,25 @@
 package net.daveyx0.primitivemobs.entity.passive;
 
+import java.util.Random;
+import java.util.UUID;
+
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Sets;
 
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.daveyx0.primitivemobs.entity.ai.EntityAIGrabItemFromFloor;
 import net.daveyx0.primitivemobs.entity.ai.EntityAIStealFromPlayer;
 import net.daveyx0.primitivemobs.entity.ai.EntityAITemptItemStack;
-import net.daveyx0.primitivemobs.loot.FilchLizardLoot;
-import net.daveyx0.primitivemobs.loot.TreasureSlimeLoot;
+import net.daveyx0.primitivemobs.util.EntityUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityHanging;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -42,16 +48,25 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagFloat;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootTable;
 
 public class EntityFilchLizard extends EntityCreature implements IAnimals {
 
 	private int itemChance = 4;
 	private EntityAIAvoidEntity<EntityPlayer> avoidEntity;
+	
+    public ItemStack[] stealItems;
 	
 	public EntityFilchLizard(World worldIn) {
 		super(worldIn);
@@ -63,10 +78,12 @@ public class EntityFilchLizard extends EntityCreature implements IAnimals {
     protected void initEntityAI()
     {
     	int prio = 0;
+    	stealItems = EntityUtil.getCustomLootItems(this, this.getStealLootTable(), new ItemStack(Items.IRON_INGOT));
+    	
         this.tasks.addTask(prio++, new EntityAISwimming(this));
         this.tasks.addTask(prio++, new EntityAIPanic(this, 1.25D));
-        this.tasks.addTask(prio++, new EntityAIGrabItemFromFloor(this, 1.2D, Sets.newHashSet(FilchLizardLoot.getLootList()), true));
-        this.tasks.addTask(prio++, new EntityAIStealFromPlayer(this, 0.8D, Sets.newHashSet(FilchLizardLoot.getLootList()), true));
+        this.tasks.addTask(prio++, new EntityAIGrabItemFromFloor(this, 1.2D, Sets.newHashSet(stealItems), true));
+        this.tasks.addTask(prio++, new EntityAIStealFromPlayer(this, 0.8D, Sets.newHashSet(stealItems), true));
         this.tasks.addTask(prio++, new EntityFilchLizard.AIAvoidWhenNasty(this, EntityPlayer.class, 16.0F, 1.0D, 1.33D));
         this.tasks.addTask(prio++, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(prio++, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
@@ -90,6 +107,19 @@ public class EntityFilchLizard extends EntityCreature implements IAnimals {
         }
         	
     }
+    
+    @Nullable
+    protected ResourceLocation getSpawnLootTable()
+    {
+        return PrimitiveMobsLootTables.FILCHLIZARD_SPAWN;
+    }
+
+    @Nullable
+    protected ResourceLocation getStealLootTable()
+    {
+        return PrimitiveMobsLootTables.FILCHLIZARD_STEAL;
+    }
+
 
     protected void applyEntityAttributes()
     {
@@ -113,7 +143,7 @@ public class EntityFilchLizard extends EntityCreature implements IAnimals {
     	{
     		while(this.getHeldItemMainhand().isEmpty() && !getEntityWorld().isRemote)
     		{
-    			this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, FilchLizardLoot.getRandomLootItem(this.rand));
+    			this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, EntityUtil.getCustomLootItem(this, this.getSpawnLootTable(), new ItemStack(Items.IRON_INGOT)));
     		}
     	}
     		

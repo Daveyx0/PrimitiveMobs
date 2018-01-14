@@ -1,13 +1,17 @@
 package net.daveyx0.primitivemobs.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
 
+import it.unimi.dsi.fastutil.Arrays;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsEntities;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.entity.monster.EntityMotherSpider;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
@@ -20,12 +24,17 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntitySelectors;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootTable;
 
 public class EntityUtil {
 
@@ -59,6 +68,57 @@ public class EntityUtil {
         }
 
         return null;
+    }
+    
+    /**
+     * Get loot item for spawn usage, such as for the Filch Lizard and Treasure Slime. Make sure there is only one Pool as this only needs to result in one itemstack.
+     */
+    @Nullable
+    public static ItemStack getCustomLootItem(Entity entityIn, ResourceLocation resourceLootTable, ItemStack defaultItem)
+    {  
+        if (resourceLootTable != null)
+        {
+            LootTable loottable = entityIn.world.getLootTableManager().getLootTableFromLocation(resourceLootTable);
+            LootContext.Builder lootcontext$builder = (new LootContext.Builder((WorldServer)entityIn.world)).withLootedEntity(entityIn);
+
+            for (ItemStack itemstack : loottable.generateLootForPools(entityIn.getEntityWorld().rand, lootcontext$builder.build()))
+            {
+                return itemstack;
+            }
+        }
+        
+        return defaultItem;
+    }
+    
+    /**
+     * Get loot items from all pools for specific usage, such as for the Filch Lizard. Make sure every pool results in something.
+     */
+    @Nullable
+    public static ItemStack[] getCustomLootItems(Entity entityIn, ResourceLocation resourceLootTable, ItemStack defaultItem)
+    {  
+    	ItemStack[] arrayOfItems = null;
+    	
+        if (resourceLootTable != null)
+        {
+            LootTable loottable = entityIn.world.getLootTableManager().getLootTableFromLocation(resourceLootTable);
+            LootContext.Builder lootcontext$builder = (new LootContext.Builder((WorldServer)entityIn.world)).withLootedEntity(entityIn);
+            List<ItemStack> listOfItems = loottable.generateLootForPools(entityIn.getEntityWorld().rand, lootcontext$builder.build());
+            arrayOfItems = new ItemStack[listOfItems.size()];
+            int i = 0;
+            
+            for (ItemStack itemstack : listOfItems)
+            {	
+                arrayOfItems[i] = itemstack;
+                i += 1;
+            }
+        }
+        
+        if(arrayOfItems == null)
+        {
+        	arrayOfItems =  new ItemStack[]{defaultItem};
+        }
+
+        return arrayOfItems;
     }
     
     /**

@@ -30,6 +30,7 @@ import net.minecraft.world.LockCode;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickBlock;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
@@ -65,6 +66,38 @@ public static class EntityEventHandler {
 				{
 					villager.setProfession(0);
 				}
+		}
+	}
+	
+	@SubscribeEvent
+	public static void onBlockLeftClickEvent(LeftClickBlock event)
+	{
+		TileEntity tileEntity = event.getWorld().getTileEntity(event.getPos());
+		if(tileEntity != null && tileEntity instanceof TileEntityChest && !event.getWorld().isRemote)
+		{
+			TileEntityChest chest = (TileEntityChest)tileEntity;
+			NBTTagCompound compound = chest.getTileData();
+			
+			boolean isEmpty = true;
+			for(int i = 0; i < chest.getSizeInventory(); i ++)
+			{
+				if(!chest.getStackInSlot(i).isEmpty())
+				{
+					isEmpty = false;
+				}
+			}
+			
+			if(isEmpty && event.getEntityPlayer().getHeldItemMainhand() != null && event.getEntityPlayer().getHeldItemMainhand().getItem() == PrimitiveMobsItems.MIMIC_ORB)
+			{
+			if(chest.adjacentChestXNeg == null && chest.adjacentChestXPos == null && chest.adjacentChestZNeg == null && chest.adjacentChestZPos == null)
+			{
+				consumeItemFromStack(event.getEntityPlayer(), event.getEntityPlayer().getHeldItemMainhand());
+				compound.setInteger("Mimic", 2);
+				PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(EnumParticleTypes.SMOKE_NORMAL.getParticleID(), 10, event.getPos().getX() + 0.5f, event.getPos().getY() + 0.5F, event.getPos().getZ() + 0.5f, 0D, 0.0D,0.0D, 0));
+				//chest.setLockCode(new LockCode(event.getWorld().rand.toString()));
+				event.setCanceled(true);
+			}
+			}
 		}
 	}
 	
@@ -152,7 +185,7 @@ public static class EntityEventHandler {
 				if(chest.adjacentChestXNeg == null && chest.adjacentChestXPos == null && chest.adjacentChestZNeg == null && chest.adjacentChestZPos == null)
 				{
 					consumeItemFromStack(event.getEntityPlayer(), event.getEntityPlayer().getHeldItemMainhand());
-					compound.setInteger("Mimic", 2);
+					compound.setInteger("Mimic", 1);
 					PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(EnumParticleTypes.CLOUD.getParticleID(), 10, event.getPos().getX() + 0.5f, event.getPos().getY() + 0.5F, event.getPos().getZ() + 0.5f, 0D, 0.0D,0.0D, 0));
 					//chest.setLockCode(new LockCode(event.getWorld().rand.toString()));
 					event.setCanceled(true);

@@ -32,8 +32,6 @@ import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsSpawnList;
 import net.daveyx0.primitivemobs.event.PrimitiveMobsEventHandler;
 import net.daveyx0.primitivemobs.event.PrimitiveMobsSpawnerEventHandler;
-import net.daveyx0.primitivemobs.loot.HauntedToolLoot;
-import net.daveyx0.primitivemobs.loot.TreasureSlimeLoot;
 import net.daveyx0.primitivemobs.network.PrimitiveNetworkWrapper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;

@@ -8,6 +8,7 @@ import com.google.common.collect.Sets;
 
 import net.daveyx0.primitivemobs.core.PrimitiveMobsItems;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.daveyx0.primitivemobs.entity.ai.EntityAITemptItemStack;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockGrass;
@@ -31,6 +32,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -159,6 +161,12 @@ public class EntityDodo extends EntityChicken
         super.writeEntityToNBT(compound);
         compound.setInteger("ShedTime", this.timeUntilNextShed);
         compound.setInteger("DodoEggTime", this.timeUntilNextDodoEgg);
+    }
+    
+    @Nullable
+    protected ResourceLocation getLootTable()
+    {
+        return PrimitiveMobsLootTables.ENTITIES_DODO;
     }
     
     /**

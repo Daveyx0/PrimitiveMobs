@@ -3,7 +3,6 @@ package net.daveyx0.primitivemobs.entity.monster;
 import javax.annotation.Nullable;
 
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
-import net.daveyx0.primitivemobs.loot.HauntedToolLoot;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;

@@ -202,7 +202,9 @@ public class EntityBrainSlime extends EntitySlime {
 	
 	public boolean hasBrainToSuck(Entity entity, boolean ignoreBrainSlime)
 	{
-		if(!(entity instanceof EntityLivingBase)) {return false;};
+		if(!PrimitiveMobsConfigSpecial.getBrainSlimeHostility()){return false;}
+			
+		if(!(entity instanceof EntityLivingBase)) {return false;}
 		
 		if(entity instanceof EntityTameable)
 		{

@@ -1,8 +1,5 @@
 package net.daveyx0.primitivemobs.config;
 
-import net.daveyx0.primitivemobs.loot.FilchLizardLoot;
-import net.daveyx0.primitivemobs.loot.HauntedToolLoot;
-import net.daveyx0.primitivemobs.loot.TreasureSlimeLoot;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -26,13 +23,6 @@ public class PrimitiveMobsConfigSpecial {
 	public static boolean brainSlimeHostile;
 
 	public static void load(Configuration config) {
-		String category = "Loot Settings";
-
-		config.addCustomCategoryComment(category, "Change the special loot of mobs, like which loot the treasure slime spawns with.");
-		treasureSlimeLoot = config.get(category, "Treasure Slime Loot List", TreasureSlimeLoot.getDefaultValues(), "List of items the Treasure Slime can have inside it on spawn").getStringList();
-		hauntedToolLoot = config.get(category, "Haunted Tool Loot List", HauntedToolLoot.getDefaultValues(), "List of tools the Haunted Tool can spawn as").getStringList();
-		filchStealLoot = config.get(category, "Filch Lizard Loot List", FilchLizardLoot.getDefaultValues(), "List of items the Filch Lizard is interested in, can steal from players and can spawn with").getStringList();
-		
 		String category1 = "Mob Specific Settings";
 		
 		config.addCustomCategoryComment(category1, "Settings specific to certain mobs.");

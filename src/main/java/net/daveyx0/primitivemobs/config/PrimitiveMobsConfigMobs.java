@@ -1,8 +1,5 @@
 package net.daveyx0.primitivemobs.config;
 
-import net.daveyx0.primitivemobs.loot.FilchLizardLoot;
-import net.daveyx0.primitivemobs.loot.HauntedToolLoot;
-import net.daveyx0.primitivemobs.loot.TreasureSlimeLoot;
 import net.minecraftforge.common.config.Configuration;
 
 public class PrimitiveMobsConfigMobs {

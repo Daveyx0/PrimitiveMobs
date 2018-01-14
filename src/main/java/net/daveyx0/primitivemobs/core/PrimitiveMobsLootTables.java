@@ -25,6 +25,12 @@ public class PrimitiveMobsLootTables {
 	public static final ResourceLocation MIMIC_TREASURE= new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "chests/mimic_treasure");
 	public static final ResourceLocation MIMIC_TRAP = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "chests/mimic_trap");
 	
+	//Special entity loot
+	public static final ResourceLocation FILCHLIZARD_STEAL = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/special/filch_lizard_steal");
+	public static final ResourceLocation FILCHLIZARD_SPAWN = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/special/filch_lizard_spawn");
+	public static final ResourceLocation HAUNTEDTOOL_SPAWN = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/special/haunted_tool");
+	public static final ResourceLocation TREASURESLIME_SPAWN = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/special/treasure_slime");
+	
     public static void preInit() {
     	registerLootTables();
     }
@@ -41,6 +47,11 @@ public class PrimitiveMobsLootTables {
     	
     	LootTableList.register(MIMIC_TREASURE);
     	LootTableList.register(MIMIC_TRAP);
+    	
+    	LootTableList.register(FILCHLIZARD_STEAL);
+    	LootTableList.register(FILCHLIZARD_SPAWN);
+    	LootTableList.register(HAUNTEDTOOL_SPAWN);
+    	LootTableList.register(TREASURESLIME_SPAWN);
     }
 
 }

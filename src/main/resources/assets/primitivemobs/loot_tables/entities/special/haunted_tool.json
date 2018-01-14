@@ -1,0 +1,110 @@
+{
+    "pools": [
+        {
+            "name":  "hauntedtool_spawnitem",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "minecraft:wooden_sword",
+                    "weight": 10
+                },
+                 {
+                    "type": "item",
+                    "name": "minecraft:wooden_axe",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:wooden_pickaxe",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:wooden_hoe",
+                    "weight": 10
+                }, 
+                {
+                    "type": "item",
+                    "name": "minecraft:stone_sword",
+                    "weight": 8
+                },
+                 {
+                    "type": "item",
+                    "name": "minecraft:stone_axe",
+                    "weight": 8
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:stone_pickaxe",
+                    "weight": 8
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:stone_hoe",
+                    "weight": 8
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:iron_sword",
+                    "weight": 5
+                },
+                 {
+                    "type": "item",
+                    "name": "minecraft:iron_axe",
+                    "weight": 5
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:iron_pickaxe",
+                    "weight": 5
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:iron_hoe",
+                    "weight": 5
+                }, 
+                {
+                    "type": "item",
+                    "name": "minecraft:golden_sword",
+                    "weight": 3
+                },
+                 {
+                    "type": "item",
+                    "name": "minecraft:golden_axe",
+                    "weight": 3
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:golden_pickaxe",
+                    "weight": 3
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:golden_hoe",
+                    "weight": 3
+                }, 
+                {
+                    "type": "item",
+                    "name": "minecraft:diamond_sword",
+                    "weight": 1
+                },
+                 {
+                    "type": "item",
+                    "name": "minecraft:diamond_axe",
+                    "weight": 1
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:diamond_pickaxe",
+                    "weight": 1
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:diamond_hoe",
+                    "weight": 1
+                }
+            ]
+        }
+    ]
+}
