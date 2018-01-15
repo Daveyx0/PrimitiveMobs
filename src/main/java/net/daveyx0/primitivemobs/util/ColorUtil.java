@@ -305,5 +305,22 @@ public class ColorUtil
 		}
 		return -1;
 	}
+    
+    public static IBlockState getBlockState(Entity entity)
+	{
+		int i = MathHelper.floor(entity.posX);
+        int j = MathHelper.floor(entity.getEntityBoundingBox().minY);
+        int k = MathHelper.floor(entity.posZ);
+        
+		if(entity.getEntityWorld().getBlockState(new BlockPos(i, j, k)).getBlock() == Blocks.AIR)
+		{
+			j = MathHelper.floor(entity.getEntityBoundingBox().minY - 0.1);
+		}
+		
+		BlockPos pos = new BlockPos(i, j, k);
+		IBlockState state = entity.getEntityWorld().getBlockState(pos);
+		
+		return state;
+	}
 
 }

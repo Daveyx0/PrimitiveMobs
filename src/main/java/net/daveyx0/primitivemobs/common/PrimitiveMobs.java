@@ -3,6 +3,7 @@ package net.daveyx0.primitivemobs.common;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -32,6 +33,8 @@ import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsSpawnList;
 import net.daveyx0.primitivemobs.event.PrimitiveMobsEventHandler;
 import net.daveyx0.primitivemobs.event.PrimitiveMobsSpawnerEventHandler;
+import net.daveyx0.primitivemobs.modint.IModIntegration;
+import net.daveyx0.primitivemobs.modint.JustEnoughResourcesIntegration;
 import net.daveyx0.primitivemobs.network.PrimitiveNetworkWrapper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.ResourceLocation;
@@ -83,6 +86,11 @@ public class PrimitiveMobs {
 	{
 		proxy.init(event);
 		PrimitiveMobsMapGen.registerWorldGenerators();
+		IModIntegration modIntegration;
+		if (Loader.isModLoaded("jeresources")) {
+			modIntegration = new JustEnoughResourcesIntegration();
+			modIntegration.init();
+		}
 	}
 
 	@EventHandler

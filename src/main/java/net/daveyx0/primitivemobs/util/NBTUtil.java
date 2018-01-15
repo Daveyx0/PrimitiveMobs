@@ -27,6 +27,7 @@ public class NBTUtil {
 					if(color < -1)
 					{
 						item.setColor(stack, color);
+						item.setColorBlockState(stack, ColorUtil.getBlockState(entity));
 						PrimitiveMobs.getSimpleNetworkWrapper().sendToServer(new MessagePrimitiveColor(item.getColor(stack), slot,  entity.getUniqueID().toString()));
 					}
 				}

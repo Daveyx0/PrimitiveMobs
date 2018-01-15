@@ -11,7 +11,6 @@ import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsParticles;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
 import net.daveyx0.primitivemobs.entity.ai.EntityAITemptItemStack;
-import net.daveyx0.primitivemobs.util.BlockStateUtil;
 import net.daveyx0.primitivemobs.util.ColorUtil;
 import net.daveyx0.primitivemobs.util.EntityUtil;
 import net.daveyx0.primitivemobs.util.NBTUtil;

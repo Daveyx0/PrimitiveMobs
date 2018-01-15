@@ -42,6 +42,11 @@ entity.Villager.primitivemobs.gem_miner=Gem Miner
 entity.Villager.primitivemobs.stone_miner=Stone Miner
 entity.Villager.primitivemobs.traveling_merchant=Traveling Merchant
 
+#JER Integration
+JER.catagory.primitivemobs.mimic_treasure=Mimic Treasure Loot
+JER.catagory.primitivemobs.mimic_trap=Mimic Mob Trap Loot
+entity.Villager.primitivemobs.fake_traveling_merchant=Traveling Merchant
+
 #Old
 
 entity.primitivemobs.Sheepman.name=Sheepman

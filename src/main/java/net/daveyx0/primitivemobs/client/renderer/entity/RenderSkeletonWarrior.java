@@ -38,15 +38,6 @@ public class RenderSkeletonWarrior extends RenderBiped<EntitySkeleton> {
         this.addLayer(new LayerHeldItemCustom(this));
     }
 
-    /**
-     * Allows the render to do state modifications necessary before the model is rendered.
-     */
-    protected void preRenderCallback(EntitySkeleton skeleton, float partialTickTime)
-    {
-    	EntitySkeleton spider = new EntitySkeleton(skeleton.getEntityWorld());
-    	Minecraft.getMinecraft().getRenderManager().getEntityRenderObject(spider).doRender(spider, skeleton.posX, skeleton.posY, skeleton.posZ, skeleton.rotationYawHead, partialTickTime);   
-    }
-
     public void transformHeldFull3DItemLayer()
     {
         GlStateManager.translate(0.09375F, 0.1875F, 0.0F);

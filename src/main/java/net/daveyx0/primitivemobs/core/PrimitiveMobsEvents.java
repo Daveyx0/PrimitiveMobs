@@ -2,7 +2,6 @@ package net.daveyx0.primitivemobs.core;
 
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsVillagerProfessions.ItemAndItemToEmerald;
 import net.daveyx0.primitivemobs.entity.monster.EntityHauntedTool;
 import net.daveyx0.primitivemobs.entity.monster.EntityMimic;
 import net.daveyx0.primitivemobs.entity.monster.EntitySkeletonWarrior;
@@ -62,7 +61,8 @@ public static class EntityEventHandler {
 		{
 			EntityVillager villager = (EntityVillager)event.getEntity();
 			
-				if(villager != null && (villager.getProfession() == net.minecraftforge.fml.common.registry.VillagerRegistry.getId(PrimitiveMobsVillagerProfessions.MERCHANT_PROFESSION)))
+				if(villager != null && (villager.getProfession() == net.minecraftforge.fml.common.registry.VillagerRegistry.getId(PrimitiveMobsVillagerProfessions.MERCHANT_PROFESSION)
+						|| villager.getProfession() == net.minecraftforge.fml.common.registry.VillagerRegistry.getId(PrimitiveMobsVillagerProfessions.FAKE_MERCHANT_PROFESSION)))
 				{
 					villager.setProfession(0);
 				}

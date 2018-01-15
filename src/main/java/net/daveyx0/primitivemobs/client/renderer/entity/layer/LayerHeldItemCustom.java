@@ -24,8 +24,10 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHandSide;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -45,7 +47,7 @@ public class LayerHeldItemCustom implements LayerRenderer<EntityLivingBase>
         boolean flag = entitylivingbaseIn.getPrimaryHand() == EnumHandSide.RIGHT;
         ItemStack itemstack = entitylivingbaseIn.getHeldItemMainhand();
 
-        if (!itemstack.isEmpty() || entitylivingbaseIn instanceof EntityTrollager)
+        if (!itemstack.isEmpty() || entitylivingbaseIn instanceof EntityTrollager && ((EntityTrollager)entitylivingbaseIn).getAnimationState() == 1)
         {
             GlStateManager.pushMatrix();
 
@@ -98,7 +100,7 @@ public class LayerHeldItemCustom implements LayerRenderer<EntityLivingBase>
             {
             	EntityTrollager sprite = (EntityTrollager)entitylivingbaseIn;
             	IBlockState state = sprite.getEntityWorld().getBlockState(sprite.getThrownBlock());
-            	if(state != null && sprite.getAnimationState() == 1)
+            	if(state != null && state != sprite.getEntityWorld().getBlockState(new BlockPos(0,0,0)))
             	{	
             		itemstack = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
             		ModelTrollager spriteModel = (ModelTrollager)this.livingEntityRenderer.getMainModel();

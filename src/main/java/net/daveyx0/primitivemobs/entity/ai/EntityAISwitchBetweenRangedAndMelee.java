@@ -1,8 +1,11 @@
 package net.daveyx0.primitivemobs.entity.ai;
 
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
+import net.daveyx0.primitivemobs.entity.monster.EntitySkeletonWarrior;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.ai.EntityMoveHelper.Action;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBow;
@@ -20,7 +23,7 @@ public class EntityAISwitchBetweenRangedAndMelee extends EntityAIAttackMelee
 	private boolean strafingBackwards;
 	private int strafingTime = -1;
 
-	public EntityAISwitchBetweenRangedAndMelee(EntitySkeleton skeleton, double speedAmplifier, int delay, float maxDistance)
+	public EntityAISwitchBetweenRangedAndMelee(EntitySkeletonWarrior skeleton, double speedAmplifier, int delay, float maxDistance)
 	{
 		super(skeleton, speedAmplifier, false);
 		this.entity = skeleton;
@@ -39,7 +42,7 @@ public class EntityAISwitchBetweenRangedAndMelee extends EntityAIAttackMelee
 	 */
 	public boolean shouldExecute()
 	{
-		return this.entity.getAttackTarget() == null ? false : this.isBowInMainhand() || super.shouldExecute();
+		return this.entity.getAttackTarget() != null;
 	}
 
 	protected boolean isBowInMainhand()
@@ -170,9 +173,14 @@ public class EntityAISwitchBetweenRangedAndMelee extends EntityAIAttackMelee
 				{
 					this.entity.setActiveHand(EnumHand.MAIN_HAND);
 				}
-			} else
+			}
+			else
 			{
-				this.strafingTime = -1;
+				if(this.entity.getMoveHelper().action == Action.STRAFE)
+				{
+					this.entity.getMoveHelper().action = Action.MOVE_TO;
+					PrimitiveMobsLogger.info("switched");
+				}
 				super.updateTask();
 			}
 		}

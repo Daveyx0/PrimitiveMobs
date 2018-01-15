@@ -1,7 +1,11 @@
 package net.daveyx0.primitivemobs.core;
 
+import java.awt.Color;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import javax.annotation.Nullable;
 
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.entity.passive.EntityDodo;
@@ -13,17 +17,22 @@ import net.daveyx0.primitivemobs.item.ItemPrimitiveFood;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class PrimitiveMobsItems {
@@ -38,7 +47,16 @@ public class PrimitiveMobsItems {
 	 public static final ItemPrimitiveFood RAW_DODO = (ItemPrimitiveFood) new ItemPrimitiveFood("dodo", 4, 1.2F, true).setPotionEffect(new PotionEffect(MobEffects.HUNGER, 600, 0), 0.3F);
 	 public static final ItemPrimitiveFood COOKED_DODO = (ItemPrimitiveFood) new ItemPrimitiveFood("cooked_dodo", 8, 2.4F, true);
 	 public static final ItemPrimitiveEgg DODO_EGG = new ItemPrimitiveEgg("dodo_egg", EntityDodo.class);
-	 public static final ItemPrimitive MIMIC_ORB = new ItemPrimitive("mimic_orb");
+	 public static final ItemPrimitive MIMIC_ORB = new ItemPrimitive("mimic_orb"){
+		 
+		@SideOnly(Side.CLIENT)
+	    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+	    {
+	        tooltip.add("L-Click empty Chest = always Mimic mob");
+	        tooltip.add("R-Click empty Chest = random Mimic effect");
+	    	
+	    	super.addInformation(stack, worldIn, tooltip, flagIn);
+	    }};
 	 
 	 private static void initialiseItems() {
 	 

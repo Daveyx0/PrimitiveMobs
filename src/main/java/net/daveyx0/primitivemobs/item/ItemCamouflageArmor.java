@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.message.MessagePrimitiveColor;
 import net.daveyx0.primitivemobs.util.ColorUtil;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.IItemColor;
@@ -19,6 +20,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTUtil;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -51,6 +54,10 @@ public class ItemCamouflageArmor extends ItemArmor{
 		{
 			this.changeColor(player);
 			setColor(armor, new Color((int)getSkinRGB()[0],(int)getSkinRGB()[1],(int)getSkinRGB()[2]).hashCode());
+			if(currentState != null)
+			{
+				setColorBlockState(armor, currentState);
+			}
 			PrimitiveMobs.getSimpleNetworkWrapper().sendToServer(new MessagePrimitiveColor(getColor(armor), this.armorType,  player.getUniqueID().toString()));
 		}
 		
@@ -111,9 +118,22 @@ public class ItemCamouflageArmor extends ItemArmor{
     	}
 
     	Color color = new Color(armor.getColor(stack));
-    	tooltip.add("\u00a74Red: " + color.getRed());
-    	tooltip.add("\u00a72Green: " + color.getGreen());
-    	tooltip.add("\u00a71Blue: " + color.getBlue());
+    	//tooltip.add("\u00a74Red: " + color.getRed());
+    	//tooltip.add("\u00a72Green: " + color.getGreen());
+    	//tooltip.add("\u00a71Blue: " + color.getBlue());
+    	IBlockState state = armor.getColorBlockState(stack);
+    	if(state != null)
+    	{
+    		String name = new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName();
+    		if(name.equals(Blocks.AIR.getLocalizedName()))
+    		{
+    			tooltip.add("Block: " + state.getBlock().getLocalizedName());
+    		}
+    		else
+    		{
+        	 	tooltip.add("Block: " + new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)).getDisplayName());
+    		}
+    	}
     	}
     	
     	super.addInformation(stack, worldIn, tooltip, flagIn);
@@ -223,6 +243,34 @@ public class ItemCamouflageArmor extends ItemArmor{
                 }
             }
         
+    }
+    
+    @Nullable
+    public IBlockState getColorBlockState(ItemStack p_82814_1_)
+    {
+            NBTTagCompound nbttagcompound = p_82814_1_.getTagCompound();
+
+            if (nbttagcompound == null)
+            {
+                return Blocks.AIR.getDefaultState();
+            }
+            else
+            {
+                return NBTUtil.readBlockState(nbttagcompound);
+            }
+    }
+    
+    public void setColorBlockState(ItemStack stack, IBlockState state)
+    {
+    	 NBTTagCompound nbttagcompound = stack.getTagCompound();
+
+             if (nbttagcompound == null)
+             {
+                 nbttagcompound = new NBTTagCompound();
+                 stack.setTagCompound(nbttagcompound);
+             }
+
+             NBTUtil.writeBlockState(nbttagcompound, state);
     }
 
     /**

@@ -15,7 +15,6 @@ import net.daveyx0.primitivemobs.core.PrimitiveMobsParticles;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
 import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
 import net.daveyx0.primitivemobs.message.MessagePrimitiveColor;
-import net.daveyx0.primitivemobs.util.BlockStateUtil;
 import net.daveyx0.primitivemobs.util.EntityUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

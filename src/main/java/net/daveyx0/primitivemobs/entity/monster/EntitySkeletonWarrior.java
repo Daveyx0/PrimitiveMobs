@@ -57,7 +57,7 @@ public class EntitySkeletonWarrior extends EntitySkeleton {
         this.tasks.addTask(2, new EntityAIRestrictSun(this));
         this.tasks.addTask(3, new EntityAIFleeSun(this, 1.0D));
         this.tasks.addTask(3, new EntityAIAvoidEntity(this, EntityWolf.class, 6.0F, 1.0D, 1.2D));
-        this.tasks.addTask(4, new EntityAISwitchBetweenRangedAndMelee(this, 1.0D, 20, 15.0F));
+        //this.tasks.addTask(4, new EntityAISwitchBetweenRangedAndMelee(this, 1.2D, 20, 15.0F));
         this.tasks.addTask(5, new EntitySkeletonWarrior.EntityAISwitchWeapons(this, 5D, 6D, new ItemStack(Items.IRON_SWORD), new ItemStack(Items.BOW)));
         //this.tasks.addTask(6, new EntityAIBackOffFromEnemy(this, 5D, false));
         this.tasks.addTask(6, new EntityAIWander(this, 1.0D));

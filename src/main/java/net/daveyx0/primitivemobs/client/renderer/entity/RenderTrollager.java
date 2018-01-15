@@ -58,11 +58,5 @@ public class RenderTrollager<T extends EntityLiving> extends RenderLiving<Entity
     {
     	GlStateManager.scale(2F, 2F, 2F);
     }
-    
-    @Override
-    public void doRender(EntityTrollager entity, double x, double y, double z, float entityYaw, float partialTicks)
-    {  
-        super.doRender(entity, x, y, z, entityYaw, partialTicks);
-    }
    
 }
