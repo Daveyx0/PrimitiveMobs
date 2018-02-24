@@ -2,6 +2,7 @@ package net.daveyx0.primitivemobs.entity.passive;
 
 import javax.annotation.Nullable;
 
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.daveyx0.primitivemobs.util.ColorUtil;
 import net.minecraft.block.state.IBlockState;
@@ -190,9 +191,11 @@ public class EntityChameleon extends EntityTameable
         return stack.getItem() == Items.FERMENTED_SPIDER_EYE;
     }
 	
-	public boolean processInteract(EntityPlayer player, EnumHand hand, ItemStack stack)
-    {
-        if (this.isTamed())
+    public boolean processInteract(EntityPlayer player, EnumHand hand)
+    {   
+    	ItemStack stack = player.getHeldItemMainhand();
+        
+        if (this.isTamed() && hand == EnumHand.MAIN_HAND)
         {
             if (!stack.isEmpty())
             {
@@ -223,7 +226,7 @@ public class EntityChameleon extends EntityTameable
             	}
             }
         }
-        else if (!stack.isEmpty() && this.isTamingItem(stack))
+        else if (!stack.isEmpty() && this.isTamingItem(stack) && hand == EnumHand.MAIN_HAND)
         {
             if (!player.capabilities.isCreativeMode)
             {
@@ -239,6 +242,7 @@ public class EntityChameleon extends EntityTameable
                     this.playTameEffect(true);
                     this.getEntityWorld().setEntityState(this, (byte)7);
             }
+
 
             return true;
         }

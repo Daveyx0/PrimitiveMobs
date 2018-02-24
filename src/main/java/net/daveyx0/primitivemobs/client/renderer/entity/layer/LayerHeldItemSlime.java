@@ -40,9 +40,9 @@ public class LayerHeldItemSlime implements LayerRenderer<EntityTreasureSlime>
 
             if (item instanceof ItemBlock)// && minecraft.getBlockRendererDispatcher().isEntityBlockAnimated(Block.getBlockFromItem(item)))
             {
-                GlStateManager.translate(0.0F, 0.0F, 0.0F);
+                GlStateManager.translate(0.0F, -1.15F, 0.0F);
                 //GlStateManager.rotate(30.0F, 1.0F, 0.0F, 0.0F);
-                GlStateManager.scale(0.375F, -0.375F, 0.375F);
+                GlStateManager.scale(0.525F, -0.525F, 0.525F);
             }
             else if(item.isFull3D())
             {

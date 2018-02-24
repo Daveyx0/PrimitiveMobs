@@ -15,6 +15,7 @@ import net.daveyx0.primitivemobs.core.PrimitiveMobsParticles;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
 import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
 import net.daveyx0.primitivemobs.message.MessagePrimitiveColor;
+import net.daveyx0.primitivemobs.message.MessagePrimitiveParticle;
 import net.daveyx0.primitivemobs.util.EntityUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -66,8 +67,10 @@ public class EntityBrainSlime extends EntitySlime {
 	public float suckingh;
 	private boolean wasOnGround;
 	public int maxStack;
+	private boolean checkedAI = false;
 	private final EntityAIFindEntityNearest hostilityAI = new EntityAIFindEntityNearest(this, EntityAnimal.class);
 	
+	private static final DataParameter<Integer> SATURATION = EntityDataManager.<Integer>createKey(EntityBrainSlime.class, DataSerializers.VARINT);
 	private static final DataParameter<Integer> ATTACK_DELAY = EntityDataManager.<Integer>createKey(EntityBrainSlime.class, DataSerializers.VARINT);
 	
 	public EntityBrainSlime(World worldIn) {
@@ -94,6 +97,7 @@ public class EntityBrainSlime extends EntitySlime {
     {
         super.entityInit();
         this.getDataManager().register(ATTACK_DELAY, Integer.valueOf(0));
+        this.getDataManager().register(SATURATION, Integer.valueOf(0));
         this.dismountRidingEntity();
         if(!PrimitiveMobsConfigMobs.enableBrainSlime)
         {
@@ -106,20 +110,35 @@ public class EntityBrainSlime extends EntitySlime {
     {
         int i = this.rand.nextInt(3);
         this.setSlimeSize(i, true);
-        if(PrimitiveMobsConfigSpecial.getBrainSlimeHostility())
-        {
-        	this.targetTasks.addTask(2, hostilityAI);
-        }
-        else if(this.targetTasks.taskEntries.contains(hostilityAI) && !PrimitiveMobsConfigSpecial.getBrainSlimeHostility())
-        {
-        	this.targetTasks.removeTask(hostilityAI);
-        }
         return livingdata;
     }
 	
 	public void onUpdate()
 	{
+		if(!checkedAI)
+		{
+		if(!this.targetTasks.taskEntries.contains(hostilityAI) && PrimitiveMobsConfigSpecial.getBrainSlimeHostility() && this.getSlimeSize() < 3)
+		{
+			this.targetTasks.addTask(2, hostilityAI);
+		}
+		checkedAI = true;
+		}
 		
+		if(this.getSaturation() >= 10)
+		{
+			this.setSaturation(this.getSaturation() + 1);
+			if(this.getSaturation() >= 100)
+			{
+				this.setSlimeSize(this.getSlimeSize() + 1, true);
+				this.setSaturation(0);
+				this.setAttackDelay(50);
+				if(this.getSlimeSize() >= 3){this.targetTasks.removeTask(hostilityAI);}
+				if(!world.isRemote)
+				{
+					PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(EnumParticleTypes.SMOKE_NORMAL.getParticleID(), 10, (float)this.posX + 0.5f, (float)this.posY + 0.5F, (float)this.posZ + 0.5f, 0D, 0.0D,0.0D, 0));
+				}
+			}
+		}
 		suckinge = suckingb;
 	    suckingd = suckingc;
 	    setAttackDelay(getAttackDelay() - 1);
@@ -201,7 +220,9 @@ public class EntityBrainSlime extends EntitySlime {
 	
 	public boolean hasBrainToSuck(Entity entity, boolean ignoreBrainSlime)
 	{
+		if(this.getSaturation() >= 10){return false;}
 		if(!PrimitiveMobsConfigSpecial.getBrainSlimeHostility()){return false;}
+		if(this.getSlimeSize() >= 3){return false;}
 			
 		if(!(entity instanceof EntityLivingBase)) {return false;}
 		
@@ -288,9 +309,10 @@ public class EntityBrainSlime extends EntitySlime {
     			} else{break;}
     		}
     		
-    		if(hasBrainToSuck(entityOut, true) || entityOut instanceof EntityPlayer)
+    		if(this.getSaturation() < 10 && (hasBrainToSuck(entityOut, true) || entityOut instanceof EntityPlayer))
     		{
     			this.damageHelmetOrEntity(entityOut);
+    			this.setSaturation(this.getSaturation() + 1);
     		}
     		else
     		{
@@ -312,7 +334,7 @@ public class EntityBrainSlime extends EntitySlime {
 				base.setItemStackToSlot(EntityEquipmentSlot.HEAD, ItemStack.EMPTY);
 			}
 		}
-		else if(base.attackEntityFrom(DamageSource.causeMobDamage(this), (float)this.getAttackStrength() * 1.5F))
+		else if(base.attackEntityFrom(DamageSource.causeMobDamage(this), (float)this.getAttackStrength() * 1.25F))
 		{
 			this.playSound(SoundEvents.ENTITY_SLIME_ATTACK, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
 			this.applyEnchantments(this, base);
@@ -375,6 +397,7 @@ public class EntityBrainSlime extends EntitySlime {
          public boolean shouldExecute()
          {
              EntityLivingBase entitylivingbase = this.slime.getAttackTarget();
+             if(this.slime.getSaturation() >= 10) {return false;}
              
              if(entitylivingbase != null && slime.isRidingOrBeingRiddenBy(entitylivingbase))
              {
@@ -601,7 +624,7 @@ public class EntityBrainSlime extends EntitySlime {
                      {
                          this.jumpDelay = this.slime.getJumpDelay();
 
-                         if (this.isAggressive)
+                         if (this.isAggressive && this.slime.getSaturation() < 10)
                          {
                              if (this.slime.makesSoundOnJump())
                              {
@@ -660,6 +683,16 @@ public class EntityBrainSlime extends EntitySlime {
 	    {
 	        return ((Integer)this.getDataManager().get(ATTACK_DELAY)).intValue();
 	    }
+	    
+	    public void setSaturation(int delay)
+	    {
+	        this.getDataManager().set(SATURATION, Integer.valueOf(delay));
+	    }
+	    
+	    public int getSaturation()
+	    {
+	        return ((Integer)this.getDataManager().get(SATURATION)).intValue();
+	    }
 	 
 	 /**
 	     * (abstract) Protected helper method to write subclass entity data to NBT.
@@ -668,6 +701,7 @@ public class EntityBrainSlime extends EntitySlime {
 	    {
 	        super.writeEntityToNBT(compound);
 	        compound.setInteger("CurrentsAttackDelay", this.getAttackDelay());
+	        compound.setInteger("Saturation", this.getSaturation());
 	    }
 
 	    /**
@@ -677,6 +711,7 @@ public class EntityBrainSlime extends EntitySlime {
 	    {
 	        super.readEntityFromNBT(compound);
 	        this.setAttackDelay(compound.getInteger("CurrentAttackDelay"));
+	        this.setSaturation(compound.getInteger("Saturation"));
 	    }
 	    
 	    protected Block spawnableBlock = Blocks.SAND;

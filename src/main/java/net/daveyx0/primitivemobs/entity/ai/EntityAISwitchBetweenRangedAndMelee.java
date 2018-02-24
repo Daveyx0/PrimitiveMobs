@@ -176,11 +176,7 @@ public class EntityAISwitchBetweenRangedAndMelee extends EntityAIAttackMelee
 			}
 			else
 			{
-				if(this.entity.getMoveHelper().action == Action.STRAFE)
-				{
-					this.entity.getMoveHelper().action = Action.MOVE_TO;
-					PrimitiveMobsLogger.info("switched");
-				}
+				this.entity.setMoveStrafing(0);
 				super.updateTask();
 			}
 		}

@@ -88,7 +88,7 @@ public class EntityBabySpider extends EntityPrimitiveSpider
      */
     public boolean attackEntityFrom(DamageSource source, float amount)
     {
-        return source.getDamageType().equals("inWall") ? false : super.attackEntityFrom(source, amount);
+        return /*source.getDamageType().equals("inWall") ? false : */ super.attackEntityFrom(source, amount);
     }
     
 	public void onUpdate()

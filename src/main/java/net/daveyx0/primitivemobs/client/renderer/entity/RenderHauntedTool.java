@@ -16,6 +16,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderHauntedTool<T extends EntityLiving> extends RenderLiving 
 {
+	//Used so Journeymap can generate an icon
+	private static final ResourceLocation FAKE_TEXTURE = new ResourceLocation("primitivemobs", "textures/entity/mimic/haunted_tool.png");
+	
     public RenderHauntedTool(RenderManager renderManagerIn)
     {
         super(renderManagerIn, new ModelEmpty(), 0.2f);
@@ -37,7 +40,7 @@ public class RenderHauntedTool<T extends EntityLiving> extends RenderLiving
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return null;
+		return FAKE_TEXTURE;
 	}
 
 }

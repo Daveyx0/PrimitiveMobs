@@ -15,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob> extends EntityAIBase
 {
-    private final T entity;
+    private final EntityTrollager entity;
     private final double moveSpeedAmp;
     private final float maxAttackDistance;
     private final float meleeAttackDistance;
@@ -25,7 +25,7 @@ public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob>
     private int seeTime;
     private boolean isAttacking;
 
-    public EntityAITrollagerAttacks(T entity, double moveSpeed, float meleeAttackDistance, float maxAttackDistance)
+    public EntityAITrollagerAttacks(EntityTrollager entity, double moveSpeed, float meleeAttackDistance, float maxAttackDistance)
     {
         this.entity = entity;
         this.moveSpeedAmp = moveSpeed;
@@ -39,7 +39,7 @@ public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob>
      */
     public boolean shouldExecute()
     {
-        return this.entity.getAttackTarget() != null;
+        return this.entity.getAttackTarget() != null && !this.entity.isStone();
     }
 
     /**

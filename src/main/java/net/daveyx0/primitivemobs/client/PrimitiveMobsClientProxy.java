@@ -4,15 +4,20 @@ import javax.annotation.Nullable;
 
 import net.daveyx0.primitivemobs.client.models.ModelManagerPrimitiveMobs;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderChameleon;
+import net.daveyx0.primitivemobs.client.renderer.entity.RenderManagerPrimitiveMobs;
+import net.daveyx0.primitivemobs.client.renderer.entity.layer.LayerSpiritEntity;
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.common.PrimitiveMobsCommonProxy;
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsBlocks;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsEntities;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsItems;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsReference;
 import net.daveyx0.primitivemobs.entity.passive.EntityChameleon;
+import net.daveyx0.primitivemobs.event.PrimitiveMobsEventHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.IThreadListener;
@@ -52,6 +57,10 @@ public class PrimitiveMobsClientProxy extends PrimitiveMobsCommonProxy {
 	    @Override
 	    public void postInit(FMLPostInitializationEvent event) {
 	    	ModelManagerPrimitiveMobs.INSTANCE.registerItemColors();
+	    	if(PrimitiveMobsConfigSpecial.getSpiritOverlay())
+	    	{
+	    		RenderManagerPrimitiveMobs.addRenderLayers();
+	    	}
 	    }
 	    
 		@Nullable

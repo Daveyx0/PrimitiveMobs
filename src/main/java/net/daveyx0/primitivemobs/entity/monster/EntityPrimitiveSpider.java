@@ -229,9 +229,11 @@ public class EntityPrimitiveSpider extends EntityPrimitiveTameableMob {
 
 	    static class AISpiderAttack extends EntityAIAttackMelee
 	        {
+	    		EntityPrimitiveSpider spider;
 	            public AISpiderAttack(EntityPrimitiveSpider spider)
 	            {
 	                super(spider, 1.0D, true);
+	                this.spider = spider;
 	            }
 
 	            /**
@@ -254,6 +256,10 @@ public class EntityPrimitiveSpider extends EntityPrimitiveTameableMob {
 
 	            protected double getAttackReachSqr(EntityLivingBase attackTarget)
 	            {
+	            	if(this.spider instanceof EntityBabySpider)
+	            	{
+	            		return (double)(2.0F + attackTarget.width);
+	            	}
 	                return (double)(4.0F + attackTarget.width);
 	            }
 	        }

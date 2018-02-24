@@ -15,7 +15,10 @@ import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAICreeperSwell;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMoveIndoors;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAIOpenDoor;
+import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
@@ -56,6 +59,22 @@ public class EntitySupportCreeper extends EntityPrimitiveCreeper {
     {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
+    }
+    
+    public void onUpdate()
+    {
+    	if(this.getHealth() < this.getMaxHealth()/2)
+    	{
+			while(this.tasks.taskEntries.stream()
+			.filter(taskEntry -> taskEntry.action instanceof EntityAIAvoidEntity).findFirst().isPresent())
+			{
+				this.tasks.taskEntries.stream().filter(taskEntry -> taskEntry.action instanceof EntityAIAvoidEntity)
+				.findFirst().ifPresent(taskEntry -> this.tasks.removeTask(taskEntry.action));
+			}
+			this.tasks.addTask(2, new EntityAICreeperSwell(this));
+    		this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+    	}
+    	super.onUpdate();
     }
     
     public class EntityAIBuffMob extends EntityAIBase

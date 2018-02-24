@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import net.daveyx0.primitivemobs.client.TabPrimitiveMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfig;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsBlocks;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsCapabilities;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsEntities;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsItems;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
@@ -70,6 +71,7 @@ public class PrimitiveMobs {
 		
 		PrimitiveMobsConfig.load(event);
 		
+		PrimitiveMobsCapabilities.preInit();
 		PrimitiveMobsMessages.preInit();
 		PrimitiveMobsEntities.preInit();
 		PrimitiveMobsLootTables.preInit();

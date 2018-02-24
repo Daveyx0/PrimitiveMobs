@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Sets;
 
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsItems;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
@@ -96,7 +97,7 @@ public class EntityDodo extends EntityChicken
         
         this.timeUntilNextEgg = 100;
         
-        if (!this.world.isRemote && !this.isChild() && !this.isChickenJockey() && --this.timeUntilNextShed <= 0)
+        if (!this.world.isRemote && !this.isChild() && !this.isChickenJockey() && --this.timeUntilNextShed <= 0 && PrimitiveMobsConfigSpecial.dodoMycelium)
         {
             this.playSound(SoundEvents.BLOCK_GRASS_BREAK, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
             this.setGrassToMycelium();

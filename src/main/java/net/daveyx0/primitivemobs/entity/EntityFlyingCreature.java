@@ -10,5 +10,4 @@ public class EntityFlyingCreature extends EntityCreature {
 		super(worldIn);
 		// TODO Auto-generated constructor stub
 	}
-
 }

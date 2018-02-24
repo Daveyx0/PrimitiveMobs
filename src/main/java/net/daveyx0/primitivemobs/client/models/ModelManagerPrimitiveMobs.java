@@ -9,6 +9,7 @@ import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsBlocks;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsItems;
 import net.daveyx0.primitivemobs.util.IVariant;
+import net.daveyx0.primitivemobs.item.ItemSummonerOrb;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -64,9 +65,10 @@ public class ModelManagerPrimitiveMobs
         {
 			public int getColorFromItemstack(ItemStack stack, int tintIndex)
             {
-                return tintIndex > 0 ? -1 : ((ItemArmor)stack.getItem()).getColor(stack);
+                return tintIndex > 0 ? -1 : ItemSummonerOrb.getColor(stack);
             }
-        }, new Item[] {PrimitiveMobsItems.CAMOUFLAGE_HELMET, PrimitiveMobsItems.CAMOUFLAGE_CHEST, PrimitiveMobsItems.CAMOUFLAGE_LEGS, PrimitiveMobsItems.CAMOUFLAGE_BOOTS});
+        }, new Item[] {PrimitiveMobsItems.CAMOUFLAGE_HELMET, PrimitiveMobsItems.CAMOUFLAGE_CHEST, PrimitiveMobsItems.CAMOUFLAGE_LEGS, PrimitiveMobsItems.CAMOUFLAGE_BOOTS
+        		, PrimitiveMobsItems.SUMMONER_ORB});
 	}
 	
 	/**

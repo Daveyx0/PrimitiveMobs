@@ -127,6 +127,7 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 			
 			this.setRotation(previousYawStone, previousPitchStone);
 			this.setRotationYawHead(previousYawHeadStone);
+			
 		}
 		else
 		{
@@ -272,22 +273,6 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
    {
 		return ((Boolean)this.dataManager.get(IS_STONE)).booleanValue();
    }
-   
-
-	
-	public void playParticles(float x, float y, float z)
-	{
-		
-        for(int i = 0; i < 10; i++)
-        {
-        	this.world.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, x + (rand.nextFloat() - rand.nextFloat()), y, z + (rand.nextFloat() - rand.nextFloat()), 1.0D, 0.0D, 0.0D);
-        }
-		
-        for(int j = 0; j < 50; j++)
-        {
-            this.getEntityWorld().spawnParticle(EnumParticleTypes.BLOCK_CRACK, x + (rand.nextFloat() - rand.nextFloat()), y, z + (rand.nextFloat() - rand.nextFloat()), (rand.nextFloat() - rand.nextFloat()), 1.0D, (rand.nextFloat() - rand.nextFloat()), Block.getIdFromBlock(this.world.getBlockState(this.getThrownBlock()).getBlock()));
-        }
-	}
 	
 	public void animationHandling()
 	{
@@ -430,6 +415,7 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 	        thownBlock.motionY = (target.posY - thownBlock.posY) / 18D + 0.5D;
 	        thownBlock.motionZ = (target.posZ - this.posZ) / 18D;
 	        this.getEntityWorld().spawnEntity(thownBlock);
+	        this.playSound(PrimitiveMobsSoundEvents.ENTITY_TROLLAGER_ATTACK, this.getSoundVolume(), ((this.getRNG().nextFloat() - this.getRNG().nextFloat()) * 0.2F + 1.0F) * 0.8F);
 	        break;
 		}
 		case 1:
@@ -462,11 +448,12 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 			this.newExplosion(this, explosionX ,this.posY + this.getEyeHeight(), explosionZ, 3F, false, flag);
 			PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(EnumParticleTypes.BLOCK_CRACK.getParticleID(), 50, (float)explosionX, (float)explosionY, (float)explosionZ, 0D,0D,0D, Block.getIdFromBlock(this.world.getBlockState(this.getThrownBlock()).getBlock())));
 			PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(EnumParticleTypes.EXPLOSION_LARGE.getParticleID(), 10, (float)explosionX, (float)explosionY, (float)explosionZ, 1D,0D,0D, 0));
+			this.playSound(PrimitiveMobsSoundEvents.ENTITY_TROLLAGER_ATTACK, this.getSoundVolume(), ((this.getRNG().nextFloat() - this.getRNG().nextFloat()) * 0.2F + 1.0F) * 0.8F);
 			break;
 		}
 		case 2:
 		{
-			if(this.getAttackTarget() != null)
+			if(this.getAttackTarget() != null && !this.isStone())
 			{
 				double d0 = this.getAttackReachSqr(this.getAttackTarget());
 				double d1 = this.getDistanceSq(getAttackTarget().posX, getAttackTarget().getEntityBoundingBox().minY, getAttackTarget().posZ);
@@ -476,6 +463,7 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 	        	{
 	        		this.attackEntityAsMob(this.getAttackTarget());
 	        	}
+	        	this.playSound(PrimitiveMobsSoundEvents.ENTITY_TROLLAGER_ATTACK, this.getSoundVolume(), ((this.getRNG().nextFloat() - this.getRNG().nextFloat()) * 0.2F + 1.0F) * 0.8F);
 			}
 		}
 		default: break;
@@ -551,7 +539,7 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
     {
     	boolean flag = true;
     	
-    	if(this.posY > 40D)
+    	if(this.posY > 40D && this.world.canSeeSky(new BlockPos(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ)))
     	{
     		flag = rand.nextInt(5) == 0;
     	}

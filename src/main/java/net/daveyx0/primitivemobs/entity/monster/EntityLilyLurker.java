@@ -62,12 +62,14 @@ import net.minecraft.world.WorldServer;
 public class EntityLilyLurker extends EntitySwimmingCreature {
 
 	int aggroTimer;
+	int timeOnLand;
 	
 	public EntityLilyLurker(World worldIn) {
 		super(worldIn);
 		this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Blocks.WATERLILY));
     	this.setCamouflaged(true);
     	aggroTimer = 0;
+    	timeOnLand = 0;
 	}
 	
 	private static final DataParameter<Boolean> IS_CAMOUFLAGED = EntityDataManager.<Boolean>createKey(EntityLilyLurker.class, DataSerializers.BOOLEAN);
@@ -85,6 +87,11 @@ public class EntityLilyLurker extends EntitySwimmingCreature {
         this.targetTasks.addTask(++attackPrio, new EntityAIHurtByTarget(this, false));
         this.targetTasks.addTask(++attackPrio, new EntityAINearestAttackableTarget(this, EntityPlayer.class, false, false));
         this.targetTasks.addTask(++attackPrio, new EntityAINearestAttackableTarget(this, EntitySquid.class, false, false));
+    }
+    
+    public float getEyeHeight()
+    {
+        return this.height * 0.25F;
     }
     
     @Nullable
@@ -159,6 +166,11 @@ public class EntityLilyLurker extends EntitySwimmingCreature {
 	{	
 		if(isCamouflaged())
 		{	
+	        if(!this.isInWater())
+	        {
+	        	this.setCamouflaged(false);
+	        }
+	        
 			this.despawnEntity();
 			this.setSize(0.5F, 0.98F);
 			this.rotationYaw = 0.25F;
@@ -201,6 +213,7 @@ public class EntityLilyLurker extends EntitySwimmingCreature {
 	        	this.setCamouflaged(false);
 	        }
 	        
+	        
 	        aggroTimer = 0; 
 		}
 		else
@@ -208,10 +221,26 @@ public class EntityLilyLurker extends EntitySwimmingCreature {
 			this.setNoGravity(false);
 			this.setSize(0.5F, 0.5F);
 			
-	    	if((this.getAttackTarget() == null || !this.getAttackTarget().isEntityAlive()) && ++this.aggroTimer > 250)
+	    	if(this.isInWater() && (this.getAttackTarget() == null || !this.getAttackTarget().isEntityAlive()) && ++this.aggroTimer > 250)
 	    	{
 	    		aggroTimer = 0;
 	    		this.setCamouflaged(true);
+	    	}
+	    	
+	    	if(!this.isInWater())
+	    	{
+	    		if(++timeOnLand > 100)
+	    		{
+	    			this.attackEntityFrom(DamageSource.DROWN, 3f);
+	    			this.jump();
+	    			this.motionX = (this.getRNG().nextFloat() - this.getRNG().nextFloat())/ 2f;
+	    			this.motionZ = (this.getRNG().nextFloat() - this.getRNG().nextFloat())/ 2f;
+	    			timeOnLand = 80;
+	    		}
+	    	}
+	    	else
+	    	{
+	    		timeOnLand = 0;
 	    	}
 		}
 

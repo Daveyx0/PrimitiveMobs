@@ -29,8 +29,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityPrimitiveTameableMob extends EntityMob {
 	
-	 protected static final DataParameter<Byte> TAMED = EntityDataManager.<Byte>createKey(EntityTameable.class, DataSerializers.BYTE);
-	    protected static final DataParameter<Optional<UUID>> OWNER_UNIQUE_ID = EntityDataManager.<Optional<UUID>>createKey(EntityTameable.class, DataSerializers.OPTIONAL_UNIQUE_ID);
+	 protected static final DataParameter<Byte> TAMED = EntityDataManager.<Byte>createKey(EntityPrimitiveTameableMob.class, DataSerializers.BYTE);
+	    protected static final DataParameter<Optional<UUID>> OWNER_UNIQUE_ID = EntityDataManager.<Optional<UUID>>createKey(EntityPrimitiveTameableMob.class, DataSerializers.OPTIONAL_UNIQUE_ID);
 	    protected EntityAISit aiSit;
 
 	    public EntityPrimitiveTameableMob(World worldIn)

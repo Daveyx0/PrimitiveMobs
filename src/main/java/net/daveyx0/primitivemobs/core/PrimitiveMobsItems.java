@@ -8,12 +8,14 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.entity.passive.EntityDodo;
 import net.daveyx0.primitivemobs.item.ItemCamouflageArmor;
 import net.daveyx0.primitivemobs.item.ItemCamouflageDye;
 import net.daveyx0.primitivemobs.item.ItemPrimitive;
 import net.daveyx0.primitivemobs.item.ItemPrimitiveEgg;
 import net.daveyx0.primitivemobs.item.ItemPrimitiveFood;
+import net.daveyx0.primitivemobs.item.ItemSummonerOrb;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -57,6 +59,7 @@ public class PrimitiveMobsItems {
 	    	
 	    	super.addInformation(stack, worldIn, tooltip, flagIn);
 	    }};
+	 public static final ItemSummonerOrb SUMMONER_ORB = new  ItemSummonerOrb("summoner_orb");
 	 
 	 private static void initialiseItems() {
 	 
@@ -67,7 +70,7 @@ public class PrimitiveMobsItems {
 
 			@SubscribeEvent
 			public static void registerItems(final RegistryEvent.Register<Item> event) {
-				final Item[] items = {
+				Item[] items = {
 						CAMOUFLAGE_DYE,
 						CAMOUFLAGE_HELMET,
 						CAMOUFLAGE_CHEST,
@@ -84,6 +87,13 @@ public class PrimitiveMobsItems {
 				for (final Item item : items) {
 					registry.register(item);
 					ITEMS.add(item);
+				}
+				
+				
+				if(PrimitiveMobsConfigSpecial.getSummonEnable())
+				{
+					registry.register(SUMMONER_ORB);
+					ITEMS.add(SUMMONER_ORB);
 				}
 				
 				initialiseItems();

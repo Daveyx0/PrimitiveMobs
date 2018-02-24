@@ -34,7 +34,7 @@ public class WorldGenMimic implements IWorldGenerator {
 
 	private void generateMimicChest(Random rand, World world, BlockPos pos) {
 
-		BlockPos tempPos = new BlockPos(pos.getX() + rand.nextInt(16), 0, pos.getZ() + rand.nextInt(16));
+		BlockPos tempPos = new BlockPos(pos.getX() + rand.nextInt(16) + 8, 0, pos.getZ() + rand.nextInt(16) + 8);
 		BlockPos newPos = getAboveSolidOrLiquidBlock(world, tempPos);
 		
 		if(newPos != null)
@@ -55,7 +55,8 @@ public class WorldGenMimic implements IWorldGenerator {
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		int chance = (int)(100/(PrimitiveMobsConfigSpawns.mimicSpawnRate*100));
 		if (PrimitiveMobsConfigMobs.enableMimic && PrimitiveMobsConfigSpecial.getMimicGeneratesInCaves()
-				&& PrimitiveMobsConfigSpawns.mimicSpawnRate > 0 && world.provider.isSurfaceWorld() && random.nextInt(chance) == 0) {
+				&& PrimitiveMobsConfigSpawns.mimicSpawnRate > 0 && world.provider.getDimension() == 0 && random.nextInt(chance) == 0) {
+			
 			final BlockPos basePos = new BlockPos(chunkX * 16, 0, chunkZ * 16);
 			generateMimicChest(random, world, basePos);
 		}

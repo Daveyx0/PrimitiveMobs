@@ -25,7 +25,7 @@ public class PrimitiveMobsConfigMobs {
 		enableBrainSlime = config.get(category, "Enable Brain Slime", true, "Enable/Disable the Brain Slime").getBoolean();
 		enableRocketCreeper = config.get(category, "Enable Rocket Creeper", true, "Enable/Disable the Rocket Creeper").getBoolean();
 		enableFestiveCreeper = config.get(category, "Enable Festive Creeper", true, "Enable/Disable the Festive Creeper").getBoolean();
-		enableSupportCreeper = config.get(category, "Enable Support Creeeper", true, "Enable/Disable the Support Creeper").getBoolean();
+		enableSupportCreeper = config.get(category, "Enable Support Creeper", true, "Enable/Disable the Support Creeper").getBoolean();
 		enableSkeletonWarrior = config.get(category, "Enable Skeleton Warrior", true, "Enable/Disable the Skeleton Warrior").getBoolean();
 		enableBlazingJuggernaut = config.get(category, "Enable Blazing Juggernaut", true, "Enable/Disable the Blazing Juggernaut").getBoolean();
 		enableLilyLurker = config.get(category, "Enable Lily Lurker", true, "Enable/Disable the Lily lurker").getBoolean();

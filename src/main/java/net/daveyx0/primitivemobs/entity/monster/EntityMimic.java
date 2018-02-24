@@ -13,6 +13,7 @@ import net.daveyx0.primitivemobs.util.NBTUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -20,6 +21,7 @@ import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
@@ -68,8 +70,8 @@ public class EntityMimic extends EntityMob {
         this.tasks.addTask(++prio, new EntityAILookIdle(this));
         int attackPrio = 1;
         this.targetTasks.addTask(++attackPrio, new EntityAIHurtByTarget(this, false));
-        this.targetTasks.addTask(++attackPrio, new EntityAIFindEntityNearestPlayer(this));	
-    }
+        this.targetTasks.addTask(++attackPrio, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+    }	
 	
     protected void applyEntityAttributes()
     {

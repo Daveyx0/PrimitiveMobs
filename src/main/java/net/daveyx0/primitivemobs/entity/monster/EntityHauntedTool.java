@@ -57,7 +57,7 @@ public class EntityHauntedTool extends EntityMob {
         floatingh = 1.0F;
 		this.inventoryHandsDropChances[0] = 0f;
 		this.inventoryHandsDropChances[1] = 0f;
-	}
+	} 
 	
 	protected void initEntityAI()
     {

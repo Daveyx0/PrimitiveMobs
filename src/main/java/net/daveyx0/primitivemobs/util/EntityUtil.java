@@ -26,6 +26,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntitySelectors;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -35,6 +36,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootTable;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 public class EntityUtil {
 
@@ -89,6 +92,15 @@ public class EntityUtil {
         
         return defaultItem;
     }
+    
+    /**
+     * Get a specific capability from an entity
+     */
+	@Nullable
+	public static <T> T getCapability(@Nullable Entity entity, Capability<T> capability, @Nullable EnumFacing facing) 
+	{
+		return entity != null && entity.hasCapability(capability, facing) ? entity.getCapability(capability, facing) : null;
+	}
     
     /**
      * Get loot items from all pools for specific usage, such as for the Filch Lizard. Make sure every pool results in something.

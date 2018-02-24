@@ -14,9 +14,11 @@ import net.daveyx0.primitivemobs.entity.monster.EntityLilyLurker;
 import net.daveyx0.primitivemobs.entity.monster.EntityMotherSpider;
 import net.daveyx0.primitivemobs.entity.monster.EntityRocketCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntityTrollager;
+import net.daveyx0.primitivemobs.entity.passive.EntityDodo;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.server.management.PlayerChunkMapEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -25,6 +27,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldEntitySpawner;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeMushroomIsland;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.common.eventhandler.Event;
@@ -123,7 +126,8 @@ public class PrimitiveMobsWorldSpawner
                             Event.Result canSpawn = ForgeEventFactory.canEntitySpawn(entity, worldServerIn, x1, (float)y, z1, false);
 
 
-                            if (canSpawn == Event.Result.ALLOW || (canSpawn == Event.Result.DEFAULT && (entity.getCanSpawnHere() && entity.isNotColliding())))
+                            if (canSpawn == Event.Result.ALLOW || (canSpawn == Event.Result.DEFAULT && (entity.getCanSpawnHere() && entity.isNotColliding() && 
+                            		!(biome instanceof BiomeMushroomIsland)) || entity.getCanSpawnHere() && entity.isNotColliding() && entity instanceof EntityDodo))
                             {
                                 if (!ForgeEventFactory.doSpecialSpawn(entity, worldServerIn, x1, (float)y, z1))
                                 {

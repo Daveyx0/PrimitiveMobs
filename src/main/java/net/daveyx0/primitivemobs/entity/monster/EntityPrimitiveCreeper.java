@@ -35,6 +35,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.datafix.DataFixer;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.relauncher.Side;
@@ -56,10 +57,18 @@ public class EntityPrimitiveCreeper extends EntityCreeper
      */
     public void onUpdate()
     {
-    	//Disable normal explosion
-    	timeSinceIgnited = 0;
+    	//Disable normal explosion`
+    	if(this instanceof EntityFestiveCreeper)
+    	{
+        	timeSinceIgnited = 0;
+    	}
 
         super.onUpdate();
     }
-
+    
+    public void setIgnitedTime(int time)
+    {
+    	this.timeSinceIgnited = time;
+    }
+  
 }

@@ -10,6 +10,10 @@ import net.daveyx0.primitivemobs.core.PrimitiveMobsVillagerProfessions;
 import net.daveyx0.primitivemobs.entity.ai.EntityAITemptItemStack;
 import net.minecraft.block.Block;
 import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.ai.EntityAIMoveIndoors;
+import net.minecraft.entity.ai.EntityAIOpenDoor;
+import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -47,6 +51,18 @@ public class EntityTravelingMerchant extends EntityVillager {
     {
     	super.initEntityAI();
         this.tasks.addTask(8, new EntityAITemptItemStack(this, 1.1D, false, Sets.newHashSet(new ItemStack[] {new ItemStack(Items.EMERALD)})));
+        
+        if(!PrimitiveMobsConfigSpecial.getTravelerVisit())
+        {
+			while(this.tasks.taskEntries.stream()
+			.filter(taskEntry -> taskEntry.action instanceof EntityAIMoveIndoors || taskEntry.action instanceof EntityAIRestrictOpenDoor
+					|| taskEntry.action instanceof EntityAIOpenDoor).findFirst().isPresent())
+			{
+				this.tasks.taskEntries.stream().filter(taskEntry -> taskEntry.action instanceof EntityAIMoveIndoors || taskEntry.action instanceof EntityAIRestrictOpenDoor
+						|| taskEntry.action instanceof EntityAIOpenDoor)
+				.findFirst().ifPresent(taskEntry -> this.tasks.removeTask(taskEntry.action));
+			}
+        }
     }
     
     protected void entityInit()

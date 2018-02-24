@@ -9,9 +9,9 @@ import javax.annotation.Nullable;
 import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsParticles;
-import net.daveyx0.primitivemobs.entity.ai.EntityAISlimeSit;
 import net.daveyx0.primitivemobs.util.ColorUtil;
 import net.daveyx0.primitivemobs.util.EntityUtil;
 import net.minecraft.block.Block;
@@ -21,6 +21,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIFindEntityNearest;
+import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
 import net.minecraft.entity.ai.EntityAIFollowOwner;
 import net.minecraft.entity.ai.EntityAIFollowParent;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -95,14 +97,6 @@ public class EntityTreasureSlime extends EntityTameableSlime {
 		this.inventoryHandsDropChances[1] = 0f;
 	}
 	
-	protected void initEntityAI()
-    {
-		int prio = 0;
-		this.aiSit = new EntityAISlimeSit(this);
-		
-        super.initEntityAI();
-    }
-	
 	protected boolean spawnCustomParticles() { return true; }
 
     @Nullable
@@ -110,7 +104,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
     {
     	int chance = PrimitiveMobsConfigSpecial.getTameableSlimeChance();
     	
-    	if(chance < 100 && (rand.nextInt(100/chance) != 0 || chance <= 0))
+    	if(!this.isTamed() && chance < 100 && (chance <= 0 || rand.nextInt(100/chance) != 0))
     	{
     		while(this.getHeldItemMainhand().isEmpty() && !getEntityWorld().isRemote)
     		{
@@ -177,6 +171,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
             {
                 getEntityWorld().spawnParticle(EnumParticleTypes.HEART, posX + (rand.nextFloat() - rand.nextFloat()), posY + rand.nextFloat() + 1D, posZ + (rand.nextFloat() - rand.nextFloat()), 1, 1, 1);
             }
+            
         }
 
         if (this.onGround && !this.wasOnGround && getEntityWorld().isRemote)
@@ -209,7 +204,20 @@ public class EntityTreasureSlime extends EntityTameableSlime {
     
     protected EntityTreasureSlime createInstance()
     {
-        return new EntityTreasureSlime(this.getEntityWorld(), this.getHeldItemMainhand(), getSkinRGB());
+    	if(this.isTamed())
+    	{
+    		EntityTreasureSlime entityslime = new EntityTreasureSlime(this.getEntityWorld());
+            if(this.isTamed() && this.getOwner() != null)
+            {
+            	entityslime.setTamed(true);
+            	entityslime.setOwnerId(this.getOwnerId());
+            }
+    		return entityslime;
+    	}
+    	else
+    	{
+    		return new EntityTreasureSlime(this.getEntityWorld(), this.getHeldItemMainhand(), getSkinRGB());
+    	}
     }
     
     /**
@@ -257,10 +265,20 @@ public class EntityTreasureSlime extends EntityTameableSlime {
                 {
                     entityslime.enablePersistence();
                 }
-
                 entityslime.setSlimeSize(i / 2, true);
                 entityslime.setLocationAndAngles(this.posX + (double)f, this.posY + 0.5D, this.posZ + (double)f1, this.rand.nextFloat() * 360.0F, 0.0F);
                 this.getEntityWorld().spawnEntity(entityslime);
+            }
+            
+            if(this.isTamed())
+            {
+            	ItemStack stack = this.getHeldItemMainhand();
+
+                if (!stack.isEmpty() && !getEntityWorld().isRemote)
+                {
+                    ItemStack newStack = stack.copy();
+                    this.dropItemStack(newStack, 1);
+                }
             }
         }
 
@@ -302,19 +320,8 @@ public class EntityTreasureSlime extends EntityTameableSlime {
 
         if (!stack.isEmpty() && this.getSlimeSize() == 1 && !getEntityWorld().isRemote)
         {
-            int i = 1;
-
-            if (lootingModifier > 0)
-            {
-                i += this.rand.nextInt(lootingModifier + 1);
-            }
-
-            for (int j = 0; j < i; ++j)
-            {
-            	ItemStack newStack = new ItemStack(stack.getItem(), 1, stack.getMetadata());
-            	
-                this.dropItemStack(newStack, 1);
-            }
+            ItemStack newStack = stack.copy();
+            this.dropItemStack(newStack, 1);
         }
     }
     
@@ -332,7 +339,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
 	public boolean processInteract(EntityPlayer player, EnumHand hand)
     {
 		ItemStack stack = player.getHeldItem(hand);
-        if (this.isTamed())
+        if (this.isTamed() && hand == EnumHand.MAIN_HAND)
         {
             if (!stack.isEmpty())
             {
@@ -360,26 +367,18 @@ public class EntityTreasureSlime extends EntityTameableSlime {
                     	this.dropItemStack(this.getHeldItemMainhand(), 0.0f);
                     }
                     
-                    ItemStack newStack = new ItemStack(stack.getItem(), 1, stack.getMetadata());
+                    ItemStack newStack = stack.copy();
 
                     this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, newStack);
                 }
             }
             else if (stack.isEmpty() && this.isOwner(player))
             {
-                if(!getEntityWorld().isRemote)
-            	{
-            		this.aiSit.setSitting(!this.isSitting());
-            		this.isJumping = false;
-            		this.navigator.clearPathEntity();
-            	}
-            	else
-            	{
-            		this.playSitEffect();
-            	}
+            	this.setSitting(!this.isSitting());
+            	this.playSitEffect();
             }
         }
-        else if (!stack.isEmpty() && this.isTamingItem(stack) && this.getHeldItemMainhand().isEmpty())
+        else if (!stack.isEmpty() && this.isTamingItem(stack) &&  hand == EnumHand.MAIN_HAND && this.getHeldItemMainhand().isEmpty())
         {
             if (!player.capabilities.isCreativeMode)
             {
@@ -392,9 +391,10 @@ public class EntityTreasureSlime extends EntityTameableSlime {
                     this.navigator.clearPathEntity();
                     this.setHealth(20.0F);
                     this.setOwnerId(player.getUniqueID());
-                    this.playTameEffect(true);
                     this.getEntityWorld().setEntityState(this, (byte)7);
             }
+            
+            this.playTameEffect(true);
 
             return true;
         }
@@ -483,10 +483,9 @@ public class EntityTreasureSlime extends EntityTameableSlime {
             		
             		//PrimitiveMobs.PMlogger.info(heldItem.getDisplayName() + " " + newColor);
             		
-            		newColor = ColorUtil.setBrightness(newColor, 25f);
-            		
             		if(newColor != null)
             		{
+            			newColor = ColorUtil.setBrightness(newColor, 25f);
             			setNewSkinRGB(newColor);
             			return;
             		}

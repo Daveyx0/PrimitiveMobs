@@ -30,6 +30,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -134,6 +135,7 @@ public class EntityFestiveCreeper extends EntityPrimitiveCreeper{
 	    			tnt.motionZ = (this.target.posZ - creeper.posZ) / 18D;
 	    			this.creeper.getEntityWorld().spawnEntity(tnt);
 	    		}
+	    		this.creeper.playSound(SoundEvents.ENTITY_TNT_PRIMED, this.creeper.getSoundVolume(), this.creeper.getSoundPitch());
 	    		attackCooldown = 60;
 	    	}
 	    }

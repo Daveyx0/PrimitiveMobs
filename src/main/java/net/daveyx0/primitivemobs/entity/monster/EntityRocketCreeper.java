@@ -2,10 +2,12 @@ package net.daveyx0.primitivemobs.entity.monster;
 
 import javax.annotation.Nullable;
 
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -29,6 +31,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class EntityRocketCreeper extends EntityPrimitiveCreeper {
@@ -91,13 +94,24 @@ public class EntityRocketCreeper extends EntityPrimitiveCreeper {
         }
     }
     
+    public boolean hasEnoughSpaceToJump(Entity entityIn)
+    {
+    	boolean flag = true;
+    	for(int i = 0; i < 5; i++)
+    	{
+    		flag = this.world.rayTraceBlocks(new Vec3d(this.posX, this.posY + (double)this.getEyeHeight() + i, this.posZ), new Vec3d(entityIn.posX, entityIn.posY + (double)entityIn.getEyeHeight(), entityIn.posZ), false, true, false) == null;
+    	}
+        return flag;
+    }
+    
     public void onUpdate()
     {
-        if (this.isEntityAlive())
+        if (this.isEntityAlive() && getAttackTarget() != null && this.hasEnoughSpaceToJump(getAttackTarget()))
         {
             int var1 = this.getCreeperState();
-
-            if (var1 > 0 && onGround && getAttackTarget() != null)
+            
+            this.setIgnitedTime(0);
+            if (var1 > 0 && onGround)
             { 
             	if(getEntityWorld().isRemote)
             	{
@@ -112,6 +126,21 @@ public class EntityRocketCreeper extends EntityPrimitiveCreeper {
         }
 
         super.onUpdate();
+    }
+    
+    /**
+     * Checks if the entity's current position is a valid location to spawn this entity.
+     */
+    public boolean getCanSpawnHere()
+    {
+    	if(this.world.canSeeSky(new BlockPos(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ)))
+    	{
+    		return super.getCanSpawnHere();
+    	}
+    	else
+    	{
+    		return false;
+    	}
     }
     
     @Nullable

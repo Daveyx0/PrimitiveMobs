@@ -21,6 +21,10 @@ public class PrimitiveMobsConfigSpecial {
 	public static boolean merchantCanSettle;
 	public static boolean mimicGenerates;
 	public static boolean brainSlimeHostile;
+	public static boolean spiritOverlay;
+	public static boolean dodoMycelium;
+	public static boolean travelerVisit;
+	public static boolean spiritEnable;
 
 	public static void load(Configuration config) {
 		String category1 = "Mob Specific Settings";
@@ -37,6 +41,10 @@ public class PrimitiveMobsConfigSpecial {
 		merchantCanSettle = config.get(category1, "Traveling Merchant can settle", true, "Enable/Disable if the Traveling Merchant can settle after being bribed with an Emerald Block").getBoolean();
 		mimicGenerates = config.get(category1, "Mimic chests generate in caves", true, "Enable/Disable if the Mimic chests should generate in caves, instead of spawn like mobs").getBoolean();
 		brainSlimeHostile = config.get(category1, "Brain Slimes attack animals", true, "Enable/Disable if Brain Slimes should attack other animals/creatures").getBoolean();
+		dodoMycelium = config.get(category1, "Dodos convert Grass into Mycelium", true, "Enable/Disable if Dodos should convert Grass into Mycelium blocks overtime").getBoolean();
+		travelerVisit = config.get(category1, "Traveling Merchant enters houses", true, "Enable/Disable if the Traveling Merchant should enter houses").getBoolean();
+		spiritEnable = config.get(category1, "Enable (beta) Summons (requires reload)", false, "Enable/Disable experimental Summons feature (requires reload)").getBoolean();
+		spiritOverlay = config.get(category1, "Show the animated overlay on summons", true, "Enable/Disable if summoned entities show the purple animated overlay (client side)").getBoolean();
 	}
 	
 	public static String[] getTreasureSlimeLoot()
@@ -102,5 +110,25 @@ public class PrimitiveMobsConfigSpecial {
 	public static boolean getBrainSlimeHostility()
 	{
 		return brainSlimeHostile;
+	}
+	
+	public static boolean getSpiritOverlay()
+	{
+		return spiritOverlay;
+	}
+	
+	public static boolean getDodoMycelium()
+	{
+		return dodoMycelium;
+	}
+	
+	public static boolean getTravelerVisit()
+	{
+		return travelerVisit;
+	}
+	
+	public static boolean getSummonEnable()
+	{
+		return spiritEnable;
 	}
 }

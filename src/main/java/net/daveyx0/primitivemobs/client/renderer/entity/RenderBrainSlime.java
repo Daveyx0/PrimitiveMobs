@@ -50,6 +50,10 @@ public class RenderBrainSlime<T extends EntityLiving> extends RenderLiving<Entit
         float f = 0.999F;
         GlStateManager.scale(0.999F, 0.999F, 0.999F);
         float f1 = (float)entitylivingbaseIn.getSlimeSize();
+        if(entitylivingbaseIn.getSaturation() >= 10)
+        {
+        	f1 += (entitylivingbaseIn.getSaturation() - 10f)/ 90f;
+        }
         float f2 = (entitylivingbaseIn.prevSquishFactor + (entitylivingbaseIn.squishFactor - entitylivingbaseIn.prevSquishFactor) * partialTickTime) / (f1 * 0.5F + 1.0F);
         float f3 = 1.0F / (f2 + 1.0F);
         float f4 = entitylivingbaseIn.suckinge + (entitylivingbaseIn.suckingb - entitylivingbaseIn.suckinge) * partialTickTime;

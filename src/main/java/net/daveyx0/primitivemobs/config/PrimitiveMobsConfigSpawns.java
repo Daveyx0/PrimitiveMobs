@@ -17,7 +17,7 @@ public class PrimitiveMobsConfigSpawns {
 		config.addCustomCategoryComment(category, "Mob spawn config settings (0 spawn rate = no spawns, 25 = normal spawns, 100 = v.high spawns)");
 		config.setCategoryRequiresMcRestart(category, true);
 		chameleonSpawnRate = config.get(category, "Chameleon Spawn Rate", 20, "Chameleons spawn in Forests and Jungles").getInt()/100f;
-		treasureslimeSpawnRate = config.get(category, "Treasure Slime Spawn Rate", 20, "Treasure Slimes spawn everywhere in the dark").getInt()/100f;
+		treasureslimeSpawnRate = config.get(category, "Treasure Slime Spawn Rate", 15, "Treasure Slimes spawn everywhere in the dark").getInt()/100f;
 		hauntedToolSpawnRate = config.get(category, "Haunted Tool Spawn Rate", 15, "Haunted Tools spawn everywhere in the dark").getInt()/100f;
 		groveSpriteSpawnRate = config.get(category, "Grove Sprite Spawn Rate", 15, "Grove Sprites spawn in Forests").getInt()/100f;
 		bewitchedTomeSpawnRate = config.get(category, "Bewitched Tome Spawn Rate", 10, "Bewitched Tomes spawn deep underground").getInt()/100f;

@@ -18,8 +18,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 @Mod.EventBusSubscriber
 public class PrimitiveMobsCommonProxy
 {
-	
-private static final Map<String, NBTTagCompound> extendedEntityData = new HashMap<String, NBTTagCompound>();
 
 
 public void preInit(FMLPreInitializationEvent event) {
@@ -34,15 +32,6 @@ public void postInit(FMLPostInitializationEvent event) {
 
 }
 
-public static void storeEntityData(String name, NBTTagCompound compound)
-{
-extendedEntityData.put(name, compound);
-}
-
-public static NBTTagCompound getEntityData(String name)
-{
-return extendedEntityData.remove(name);
-}
 
 @Nullable
 public EntityPlayer getClientPlayer(){

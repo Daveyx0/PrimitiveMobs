@@ -168,17 +168,18 @@ public class EntityAIStealFromPlayer extends EntityAIBase {
 		    		{
 		    			if(itemstack != null && !itemstack.isEmpty() && itemstack.getItem() == item.getItem() && itemstack.getMetadata() == item.getMetadata())
 		    			{
-		    				if(!temptingPlayer.capabilities.isCreativeMode)
-		    				{
-		    					item.shrink(1);;
-		    				}
-							
 							World world = this.temptingPlayer.getEntityWorld();
 							
 							this.temptingPlayer.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F + 1.0F);
 		
 							ItemStack loot = item.copy();
 							this.temptedEntity.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, loot);
+							
+		    				if(!temptingPlayer.capabilities.isCreativeMode)
+		    				{
+		    					item.shrink(1);;
+		    				}
+							
 							return;	
 		    			}
 		    		}
