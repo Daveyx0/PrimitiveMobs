@@ -25,6 +25,8 @@ public class PrimitiveMobsConfigSpecial {
 	public static boolean dodoMycelium;
 	public static boolean travelerVisit;
 	public static boolean spiritEnable;
+	public static boolean rocketCreeperSpawnUnderground;
+	public static boolean rocketCreeperAlwaysJump;
 
 	public static void load(Configuration config) {
 		String category1 = "Mob Specific Settings";
@@ -45,6 +47,8 @@ public class PrimitiveMobsConfigSpecial {
 		travelerVisit = config.get(category1, "Traveling Merchant enters houses", true, "Enable/Disable if the Traveling Merchant should enter houses").getBoolean();
 		spiritEnable = config.get(category1, "Enable (beta) Summons (requires reload)", false, "Enable/Disable experimental Summons feature (requires reload)").getBoolean();
 		spiritOverlay = config.get(category1, "Show the animated overlay on summons", true, "Enable/Disable if summoned entities show the purple animated overlay (client side)").getBoolean();
+		rocketCreeperSpawnUnderground = config.get(category1, "Rocket Creepers spawn without skylight", false, "Enable/Disable if rocket creepers can spawn in places where they cannot see the sky").getBoolean();
+		rocketCreeperAlwaysJump = config.get(category1, "Rocket Creepers always jump, even without adequate room", false, "Enable/Disable if rocket creepers should always jump at the player, even if they would hit the ceiling").getBoolean();
 	}
 	
 	public static String[] getTreasureSlimeLoot()
@@ -130,5 +134,15 @@ public class PrimitiveMobsConfigSpecial {
 	public static boolean getSummonEnable()
 	{
 		return spiritEnable;
+	}
+	
+	public static boolean getRocketCreeperSpawnUnderground()
+	{
+		return rocketCreeperSpawnUnderground;
+	}
+	
+	public static boolean getRocketCreeperAlwaysJump()
+	{
+		return rocketCreeperAlwaysJump;
 	}
 }

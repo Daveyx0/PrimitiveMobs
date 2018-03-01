@@ -97,9 +97,11 @@ public class EntityRocketCreeper extends EntityPrimitiveCreeper {
     public boolean hasEnoughSpaceToJump(Entity entityIn)
     {
     	boolean flag = true;
-    	for(int i = 0; i < 5; i++)
-    	{
-    		flag = this.world.rayTraceBlocks(new Vec3d(this.posX, this.posY + (double)this.getEyeHeight() + i, this.posZ), new Vec3d(entityIn.posX, entityIn.posY + (double)entityIn.getEyeHeight(), entityIn.posZ), false, true, false) == null;
+    	if (!PrimitiveMobsConfigSpecial.getRocketCreeperAlwaysJump()) {
+	    	for(int i = 0; i < 5; i++)
+	    	{
+	    		flag = this.world.rayTraceBlocks(new Vec3d(this.posX, this.posY + (double)this.getEyeHeight() + i, this.posZ), new Vec3d(entityIn.posX, entityIn.posY + (double)entityIn.getEyeHeight(), entityIn.posZ), false, true, false) == null;
+	    	}
     	}
         return flag;
     }
@@ -133,7 +135,7 @@ public class EntityRocketCreeper extends EntityPrimitiveCreeper {
      */
     public boolean getCanSpawnHere()
     {
-    	if(this.world.canSeeSky(new BlockPos(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ)))
+    	if(PrimitiveMobsConfigSpecial.getRocketCreeperSpawnUnderground() || (this.world.canSeeSky(new BlockPos(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ))))
     	{
     		return super.getCanSpawnHere();
     	}
