@@ -4,62 +4,40 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Optional;
-
-import net.daveyx0.primitivemobs.common.PrimitiveMobs;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
+import net.daveyx0.multimob.entity.EntityMMSwimmingCreature;
+import net.daveyx0.multimob.entity.ai.EntityAISwimmingUnderwater;
+import net.daveyx0.multimob.util.EntityUtil;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
-import net.daveyx0.primitivemobs.entity.EntitySwimmingCreature;
-import net.daveyx0.primitivemobs.entity.ai.EntityAISwimmingUnderwater;
-import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
-import net.daveyx0.primitivemobs.util.EntityUtil;
-import net.daveyx0.primitivemobs.util.NBTUtil;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityGuardian;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 
-public class EntityLilyLurker extends EntitySwimmingCreature {
+public class EntityLilyLurker extends EntityMMSwimmingCreature {
 
 	int aggroTimer;
 	int timeOnLand;
@@ -77,12 +55,10 @@ public class EntityLilyLurker extends EntitySwimmingCreature {
 
     protected void initEntityAI()
     {
-        this.tasks.addTask(1, new EntityAIMoveTowardsRestriction(this, 1.0D));
-        this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.0D, false));
-        this.tasks.addTask(3, new EntityAISwimmingUnderwater(this));
-        this.tasks.addTask(4, new EntityAIWander(this, 1.0D, 80));
-        this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(6, new EntityAILookIdle(this));
+        this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, false));
+        this.tasks.addTask(2, new EntityAISwimmingUnderwater(this));
+        this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(4, new EntityAILookIdle(this));
         int attackPrio = 1;
         this.targetTasks.addTask(++attackPrio, new EntityAIHurtByTarget(this, false));
         this.targetTasks.addTask(++attackPrio, new EntityAINearestAttackableTarget(this, EntityPlayer.class, false, false));
@@ -307,6 +283,10 @@ public class EntityLilyLurker extends EntitySwimmingCreature {
     public boolean attackEntityFrom(DamageSource p_70097_1_, float p_70097_2_)
     {
        this.setCamouflaged(false);
+       if(p_70097_1_ == DamageSource.IN_WALL && this.isInWater())
+       {
+    	   return false;
+       }
        return super.attackEntityFrom(p_70097_1_, p_70097_2_);
     }
 	

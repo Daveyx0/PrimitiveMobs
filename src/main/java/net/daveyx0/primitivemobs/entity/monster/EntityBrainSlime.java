@@ -1,27 +1,20 @@
 package net.daveyx0.primitivemobs.entity.monster;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
 import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 
-import net.daveyx0.primitivemobs.common.PrimitiveMobs;
-import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
-import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsParticles;
+import net.daveyx0.multimob.client.particle.MMParticles;
+import net.daveyx0.multimob.message.MMMessageRegistry;
+import net.daveyx0.multimob.message.MessageMMParticle;
+import net.daveyx0.multimob.util.EntityUtil;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
-import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
-import net.daveyx0.primitivemobs.message.MessagePrimitiveColor;
-import net.daveyx0.primitivemobs.message.MessagePrimitiveParticle;
-import net.daveyx0.primitivemobs.util.EntityUtil;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
@@ -30,9 +23,9 @@ import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIFindEntityNearest;
 import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
 import net.minecraft.entity.ai.EntityMoveHelper;
-import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.monster.EntitySlime;
+import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -46,16 +39,13 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPacketSetPassengers;
 import net.minecraft.pathfinding.PathNavigateGround;
+import net.minecraft.server.management.PreYggdrasilConverter;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import net.minecraft.entity.monster.*;
-import net.minecraft.entity.passive.*;
 
 public class EntityBrainSlime extends EntitySlime {
 
@@ -72,6 +62,7 @@ public class EntityBrainSlime extends EntitySlime {
 	
 	private static final DataParameter<Integer> SATURATION = EntityDataManager.<Integer>createKey(EntityBrainSlime.class, DataSerializers.VARINT);
 	private static final DataParameter<Integer> ATTACK_DELAY = EntityDataManager.<Integer>createKey(EntityBrainSlime.class, DataSerializers.VARINT);
+	protected static final DataParameter<Optional<UUID>> VICTIM_UNIQUE_ID = EntityDataManager.<Optional<UUID>>createKey(EntityBrainSlime.class, DataSerializers.OPTIONAL_UNIQUE_ID);
 	
 	public EntityBrainSlime(World worldIn) {
 		super(worldIn);
@@ -82,6 +73,7 @@ public class EntityBrainSlime extends EntitySlime {
 	    suckingh = 1.0F;
 	    maxStack = 10;
 	}
+
 	
 	@Override
     protected void initEntityAI()
@@ -98,11 +90,7 @@ public class EntityBrainSlime extends EntitySlime {
         super.entityInit();
         this.getDataManager().register(ATTACK_DELAY, Integer.valueOf(0));
         this.getDataManager().register(SATURATION, Integer.valueOf(0));
-        this.dismountRidingEntity();
-        if(!PrimitiveMobsConfigMobs.enableBrainSlime)
-        {
-        	this.setDead();
-        }
+        this.getDataManager().register(VICTIM_UNIQUE_ID, Optional.absent());
     }
 	
     @Nullable
@@ -115,15 +103,7 @@ public class EntityBrainSlime extends EntitySlime {
 	
 	public void onUpdate()
 	{
-		if(!checkedAI)
-		{
-		if(!this.targetTasks.taskEntries.contains(hostilityAI) && PrimitiveMobsConfigSpecial.getBrainSlimeHostility() && this.getSlimeSize() < 3)
-		{
-			this.targetTasks.addTask(2, hostilityAI);
-		}
-		checkedAI = true;
-		}
-		
+
 		if(this.getSaturation() >= 10)
 		{
 			this.setSaturation(this.getSaturation() + 1);
@@ -132,10 +112,9 @@ public class EntityBrainSlime extends EntitySlime {
 				this.setSlimeSize(this.getSlimeSize() + 1, true);
 				this.setSaturation(0);
 				this.setAttackDelay(50);
-				if(this.getSlimeSize() >= 3){this.targetTasks.removeTask(hostilityAI);}
 				if(!world.isRemote)
 				{
-					PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(EnumParticleTypes.SMOKE_NORMAL.getParticleID(), 10, (float)this.posX + 0.5f, (float)this.posY + 0.5F, (float)this.posZ + 0.5f, 0D, 0.0D,0.0D, 0));
+					MMMessageRegistry.getNetwork().sendToAll(new MessageMMParticle(EnumParticleTypes.SMOKE_NORMAL.getParticleID(), 10, (float)this.posX + 0.5f, (float)this.posY + 0.5F, (float)this.posZ + 0.5f, 0D, 0.0D,0.0D, 0));
 				}
 			}
 		}
@@ -143,55 +122,35 @@ public class EntityBrainSlime extends EntitySlime {
 	    suckingd = suckingc;
 	    setAttackDelay(getAttackDelay() - 1);
 	    
-		if(!this.isRiding())
+	    if(this.getAttackTarget() != null)
+	    {
+	    	this.setVictimId(this.getAttackTarget().getUniqueID());
+		    this.getDataManager().setDirty(VICTIM_UNIQUE_ID);
+	    }
+
+	    
+		if(!this.isRiding() && this.getVictim() != null)
 		{
 		    suckingb = 0.0F;
 		    suckingc = 0.0F;
 		    suckingh = 1.0F;
 
 		    if(getAttackDelay() <= 0)
-		    {
-		    	EntityPlayer player = this.getEntityWorld().getNearestAttackablePlayer(this, 2D, 2D);
-		    	
-		    	if(player != null)
+		    {		    	
+		    	if(this.getDistanceSq(this.getVictim()) < 6)
 		    	{
-		    		if(!getEntityWorld().isRemote && this.startRidingTopEntity(player, false))
-		    		{
-		    	        if(player instanceof EntityPlayerMP) {
-		    	            PrimitiveMobs.network.sendPacket(player, new SPacketSetPassengers(player));
-		    	        }
-		    		}
-		    		setAttackDelay(20);
-		    	}
-		    	else
-		    	{
-		    		List<Entity> list = this.getEntityWorld().getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(1D, 0D, 1D));
-		    	
-		    		if (list != null && !list.isEmpty())
-		    		{
-		    			for (int j1 = 0; j1 < list.size(); ++j1)
-		    			{
-		    				Entity entity1 = (Entity)list.get(j1);
-                
-		    				if (entity1 != null && hasBrainToSuck(entity1, true))
-		    				{
-		    					if(this.startRidingTopEntity((EntityLivingBase) entity1, false))
-		    					{
-			    					setAttackDelay(10);
-		    						break;
-		    					}
-		    				}
-		    			}
-		    		}
+		    		this.startRidingTopEntity(this.getVictim());
+		    		setAttackDelay(5);
 		    	}
 		    }
 		}
-		else
+
+		if(this.isRiding())
 		{
 			if(getAttackDelay() <= 0)
 		    {
-				this.attackLowestVulnerableRidingEntity();
-				setAttackDelay(10);
+				this.attackRiddenEntity();
+				setAttackDelay(20);
 		    }
 			
 			suckingc = (float)((double)suckingc + 4 * 0.8D);
@@ -213,18 +172,21 @@ public class EntityBrainSlime extends EntitySlime {
 
 		    suckingh = (float)((double)suckingh * 0.9D);
 		    suckingb += suckingh * 2.0F;
+		    
+		    if(this.getVictim() == null || this.isDead)
+		    {
+		    	dismountSelf();
+		    }
 		}
 		
+		//MultiMob.LOGGER.info(this.getVictimId() + " " + this.getRidingEntity());
+ 
 		super.onUpdate();
 	}
 	
-	public boolean hasBrainToSuck(Entity entity, boolean ignoreBrainSlime)
+	public boolean hasBrainToSuck(EntityLivingBase entity)
 	{
 		if(this.getSaturation() >= 10){return false;}
-		if(!PrimitiveMobsConfigSpecial.getBrainSlimeHostility()){return false;}
-		if(this.getSlimeSize() >= 3){return false;}
-			
-		if(!(entity instanceof EntityLivingBase)) {return false;}
 		
 		if(entity instanceof EntityTameable)
 		{
@@ -240,93 +202,94 @@ public class EntityBrainSlime extends EntitySlime {
 		
 		if(entity instanceof EntitySlime)
 		{
-			if(!ignoreBrainSlime) {return entity instanceof EntityBrainSlime;};
-			return false;
-		}
-		
-		if(entity instanceof EntityPlayer || entity instanceof EntityPlayerMP)
-		{
 			return false;
 		}
 		
 		return true;
 	}
 	
-    
-    public boolean startRidingTopEntity(EntityLivingBase entity, boolean force)
-    {
-    	EntityLivingBase entityOut = entity;
-		for(int i = 0; i < maxStack; i++)
+	public void startRidingTopEntity(Entity entity)
+	{
+		Entity top = getTopPassenger(entity);
+		if(top != null && !top.isDead)
 		{
-			if(entityOut.isBeingRidden())
+			if(top instanceof EntityPlayerMP)
 			{
-				Entity entityTest = entityOut.getPassengers().get(0);
-				if(entityTest != null && hasBrainToSuck(entityTest, false) && entityTest.isRiding())
-				{
-					entityOut = (EntityLivingBase)entityTest;
-					
-					if(entityTest.isBeingRidden()) {continue;}
-					else {break;}
-				}
-				else if(entityTest != null && entityTest instanceof EntityPlayer&& entityTest.isRiding())
-				{
-					entityOut = (EntityLivingBase)entityTest;
-					
-					if(entityTest.isBeingRidden()) {continue;}
-					else {break;}
-				}else {break;}
-			}else {break;}
+    			EntityPlayerMP player = (EntityPlayerMP)top;
+    	    	this.startRiding(player, false);
+    	        MMMessageRegistry.networkWrapper.sendPacket(player, new SPacketSetPassengers(player));
+			}
+			else
+			{
+				this.startRiding(top, false);
+			}
 		}
-		
-		return this.startRiding(entityOut, force);
-    }
+	}
+	
+	public static Entity getTopPassenger(Entity entity)
+	{
+		Entity top = entity;
+		while (entity.isBeingRidden())
+		{
+			List<Entity> list = entity.getPassengers();
+			if (!list.isEmpty())
+			{
+				entity = list.get(0);
+				top = entity;
+			}
+		}
+		return top;
+	}
+	
+	public static Entity getBottomPassenger(Entity entity)
+	{
+		Entity top = entity;
+		while (entity.isRiding())
+		{
+			Entity ridingEntity = entity.getRidingEntity();
+			if (ridingEntity != null && !ridingEntity.isDead)
+			{
+				entity = ridingEntity;
+				top = entity;
+			}
+		}
+		return top;
+	}
     
-    public void attackLowestVulnerableRidingEntity()
+    public void attackRiddenEntity()
     {
-    	if(this.getRidingEntity() != null && this.getRidingEntity() instanceof EntityLivingBase)
+    	Entity entity = getBottomPassenger(this);
+    	
+    	if(entity != null &&!entity.isDead && entity instanceof EntityLivingBase)
     	{
-    		EntityLivingBase entityOut = (EntityLivingBase)this.getRidingEntity();
-    		for(int i = 0; i < maxStack; i++)
+    		EntityLivingBase entityLiving = (EntityLivingBase)entity;
+    		if(hasBrainToSuck(entityLiving))
     		{
-    			if(entityOut.isRiding())
-    			{
-    				Entity entityTest = entityOut.getRidingEntity();
-    				if(entityTest != null && hasBrainToSuck(entityTest, false) && entityTest.isBeingRidden())
-    				{
-    					entityOut = (EntityLivingBase)entityTest;
-    					if(entityTest instanceof EntityBrainSlime && entityTest.isRiding()) {
-    						continue;}
-    					else {break;}
-    				}
-    				else if(entityTest != null && entityTest instanceof EntityPlayer && entityTest.isBeingRidden())
-    				{
-    					entityOut = (EntityLivingBase)entityTest;
-    					if(entityTest instanceof EntityBrainSlime && entityTest.isRiding()) {
-    						continue;}
-    					else {break;}
-    					
-    				}else{break;}
-    			} else{break;}
-    		}
-    		
-    		if(this.getSaturation() < 10 && (hasBrainToSuck(entityOut, true) || entityOut instanceof EntityPlayer))
-    		{
-    			this.damageHelmetOrEntity(entityOut);
+    			this.damageHelmetOrEntity(entityLiving);
     			this.setSaturation(this.getSaturation() + 1);
     		}
     		else
     		{
-    			this.dismountRidingEntity();
-    			setAttackDelay(10);
+    			dismountSelf();
+    			setAttackDelay(20);
     		}
     	}
+    }
+    
+    public void dismountSelf()
+    {
+    	this.setVictimId(null);
+    	this.setAttackDelay(20);
+    	this.dismountRidingEntity();
     }
     
     
 	public void damageHelmetOrEntity(EntityLivingBase base)
 	{
 		ItemStack stack = base.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-		if(!stack.isEmpty())
+		float damage = (float)this.getAttackStrength();
+		
+		if(!stack.isEmpty() && stack.isItemStackDamageable())
 		{
 			stack.damageItem(this.getAttackStrength(), base);
 			if(stack.getItemDamage() == 0)
@@ -334,7 +297,7 @@ public class EntityBrainSlime extends EntitySlime {
 				base.setItemStackToSlot(EntityEquipmentSlot.HEAD, ItemStack.EMPTY);
 			}
 		}
-		else if(base.attackEntityFrom(DamageSource.causeMobDamage(this), (float)this.getAttackStrength() * 1.25F))
+		else if(base.attackEntityFrom(DamageSource.causeMobDamage(this), damage >= 6 ? damage : 6))
 		{
 			this.playSound(SoundEvents.ENTITY_SLIME_ATTACK, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
 			this.applyEnchantments(this, base);
@@ -354,7 +317,7 @@ public class EntityBrainSlime extends EntitySlime {
             World world = this.getEntityWorld();
             double d0 = this.posX + (double)f2;
             double d1 = this.posZ + (double)f3;
-            PrimitiveMobsParticles.spawnParticle("slime", d0, this.getEntityBoundingBox().minY, d1, 0.0D, 0.0D, 0.0D, new float[]{209,165,189});
+            MMParticles.spawnParticle("slime", this.world, d0, this.getEntityBoundingBox().minY, d1, 0.0D, 0.0D, 0.0D, new float[]{209,165,189});
         }
         }return true; }
 	
@@ -364,7 +327,7 @@ public class EntityBrainSlime extends EntitySlime {
      */
     protected int getAttackStrength()
     {
-        return this.getSlimeSize() + 1;
+        return (this.getSlimeSize() + 1) / 3;
     }
 	
     /**
@@ -374,7 +337,7 @@ public class EntityBrainSlime extends EntitySlime {
     {
     	if(this.isRiding())
     	{
-    		this.dismountRidingEntity();
+    		this.dismountSelf();
     		this.setAttackDelay(10);
     	}
     	return super.attackEntityFrom(source, amount);
@@ -404,7 +367,7 @@ public class EntityBrainSlime extends EntitySlime {
             	 return false;
              }
              
-             if(entitylivingbase != null && slime.getDistanceToEntity(entitylivingbase) > 12.0F)
+             if(entitylivingbase != null && slime.getDistance(entitylivingbase) > 12.0F)
              {
             	 return false;
              }
@@ -702,6 +665,15 @@ public class EntityBrainSlime extends EntitySlime {
 	        super.writeEntityToNBT(compound);
 	        compound.setInteger("CurrentsAttackDelay", this.getAttackDelay());
 	        compound.setInteger("Saturation", this.getSaturation());
+	        
+	        if (this.getVictimId() == null)
+	        {
+	            compound.setString("VictimUUID", "");
+	        }
+	        else
+	        {
+	            compound.setString("VictimUUID", this.getVictimId().toString());
+	        }
 	    }
 
 	    /**
@@ -712,6 +684,63 @@ public class EntityBrainSlime extends EntitySlime {
 	        super.readEntityFromNBT(compound);
 	        this.setAttackDelay(compound.getInteger("CurrentAttackDelay"));
 	        this.setSaturation(compound.getInteger("Saturation"));
+	        
+	        String s;
+
+	        if (compound.hasKey("VictimUUID", 8))
+	        {
+	            s = compound.getString("VictimUUID");
+	        }
+	        else
+	        {
+	            String s1 = compound.getString("Victim");
+	            s = PreYggdrasilConverter.convertMobOwnerIfNeeded(this.getServer(), s1);
+	        }
+
+	        if (!s.isEmpty())
+	        {
+	            try
+	            {
+	                this.setVictimId(UUID.fromString(s));
+	            }
+	            catch (Throwable var4)
+	            {
+	            }
+	        }
+
+	    }
+	    
+	    @Nullable
+	    public UUID getVictimId()
+	    {
+	        return (UUID)((Optional)this.dataManager.get(VICTIM_UNIQUE_ID)).orNull();
+	    }
+
+	    public void setVictimId(@Nullable UUID p_184754_1_)
+	    {
+	        this.dataManager.set(VICTIM_UNIQUE_ID, Optional.fromNullable(p_184754_1_));
+	    }
+	    
+	    @Nullable
+	    public EntityLivingBase getVictim()
+	    {
+	        try
+	        {
+	            UUID uuid = this.getVictimId();
+	            if(uuid != null)
+            	{
+            	EntityPlayer player = this.world.getPlayerEntityByUUID(uuid);
+            		if(player != null){return player;}else { 
+            			EntityLivingBase entity = EntityUtil.getLoadedEntityByUUID(uuid, this.world);
+            			if(entity != null) {return entity;} else {return null;}
+            		}
+            	}
+            else {return null;}
+	        }
+	        catch (IllegalArgumentException var2)
+	        {
+	            return null;
+	        }
 	    }
 	    
 	    protected Block spawnableBlock = Blocks.SAND;

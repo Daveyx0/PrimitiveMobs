@@ -1,0 +1,159 @@
+#Entities
+
+entity.primitivemobs.chameleon.name=变色龙
+entity.primitivemobs.treasure_slime.name=宝物史莱姆
+entity.primitivemobs.haunted_tool.name=活化工具
+entity.primitivemobs.grovesprite.name=树人
+entity.primitivemobs.bewitched_tome.name=蕴魔之书
+entity.primitivemobs.filch_lizard.name=盗蜥
+entity.primitivemobs.brain_slime.name=嗜脑史莱姆
+entity.primitivemobs.rocket_creeper.name=火箭爬行者
+entity.primitivemobs.festive_creeper.name=欢乐爬行者
+entity.primitivemobs.support_creeper.name=支援爬行者
+entity.primitivemobs.skeleton_warrior.name=骷髅战士
+entity.primitivemobs.blazing_juggernaut.name=泰坦烈焰人
+entity.primitivemobs.lily_lurker.name=河童子
+entity.primitivemobs.mother_spider.name=母蜘
+entity.primitivemobs.baby_spider.name=宝贝蜘
+entity.primitivemobs.trollager.name=巨魔石像
+entity.primitivemobs.lost_miner.name=矿工
+entity.primitivemobs.traveling_merchant.name=旅行商人
+entity.primitivemobs.dodo.name=渡渡鸟
+entity.primitivemobs.mimic.name=宝箱怪
+
+#Items
+
+item.primitivemobs:camouflage_dye.name=迷彩染料
+item.primitivemobs:dodo.name=生渡渡鸟肉
+item.primitivemobs:cooked_dodo.name=烤渡渡鸟肉
+item.primitivemobs:dodo_egg.name=渡渡鸟蛋
+item.primitivemobs:mimic_orb.name=宝物球
+item.primitivemobs:summoner_orb.name=召唤球
+
+#Armor
+
+item.primitivemobs:camouflage_helmet.name=迷彩头盔
+item.primitivemobs:camouflage_chestplate.name=迷彩胸甲
+item.primitivemobs:camouflage_leggings.name=迷彩护腿
+item.primitivemobs:camouflage_boots.name=迷彩靴子
+
+#Villager Professions
+entity.Villager.primitivemobs.ore_miner=矿石矿工
+entity.Villager.primitivemobs.gem_miner=宝石矿工
+entity.Villager.primitivemobs.stone_miner=采石工
+entity.Villager.primitivemobs.traveling_merchant=旅行商人
+
+#JER Integration
+JER.catagory.primitivemobs.mimic_treasure=宝箱怪宝物掉落
+JER.catagory.primitivemobs.mimic_trap=宝箱怪怪物陷阱掉落
+entity.Villager.primitivemobs.fake_traveling_merchant=旅行商人
+
+#Old
+
+entity.primitivemobs.Sheepman.name=Sheepman
+entity.primitivemobs.Summoner.name=Summoner
+entity.primitivemobs.Minion.name=Skull Minion
+entity.primitivemobs.SheepmanSmith.name=Sheepman Smith
+entity.primitivemobs.Spider+.name=Spider+
+entity.primitivemobs.OreGolem.name=Ore Golem
+entity.primitivemobs.BlazeCow.name=Blaze Cow
+entity.primitivemobs.EnderChicken.name=Ender Chicken
+entity.primitivemobs.Sheeper.name=Sheeper
+entity.primitivemobs.Goblin.name=Goblin
+entity.primitivemobs.BewitchedTomeSpecial.name=Dungeon Bewitched Tome
+entity.primitivemobs.Wizard.name=Wizard
+
+item.primitivemobs.SpiderEgg.name=Spider Egg
+item.primitivemobs.MysteryEgg.name=Mystery Egg
+item.primitivemobs.SpiderEggShell.name=Spider Egg Shell
+item.primitivemobs.SkullMinionOrb.name=Skull Minion Orb
+item.primitivemobs.PreciousPickaxe.name=Precious Pickaxe
+item.primitivemobs.PreciousAxe.name=Precious Axe
+item.primitivemobs.TarBall.name=Ball of Tar
+item.primitivemobs.PinkSlimeBall.name=Pink Slime Ball
+item.primitivemobs.WebBall.name=Web Ball
+item.primitivemobs.SmallRock.name=Small Rock
+item.primitivemobs.WizardTome.name=Wizard Tome
+
+item.primitivemobs.PetTreasureSlimeSpawner.name=Pet Treasure Slime Spawner
+item.primitivemobs.PreciousPickaxeSpawner.name=Precious Pickaxe Haunted Tool Spawner
+item.primitivemobs.RedSkullMinionSpawner.name=Red Skull Minion Spawner
+item.primitivemobs.BlueSkullMinionSpawner.name=Blue Skull MinionSpawner
+item.primitivemobs.GreenSkullMinionSpawner.name=Green Skull Minion Spawner
+item.primitivemobs.YellowSkullMinionSpawner.name=Yellow Skull Minion Spawner
+item.primitivemobs.MagentaSkullMinionSpawner.name=Magenta Skull Minion Spawner
+item.primitivemobs.WitherSkullMinionSpawner.name=Wither Skull Minion Spawner
+item.primitivemobs.SpiderCaveStructureSpawner.name=Spider Cave Spawner
+item.primitivemobs.GemCaveStructureSpawner.name=Gem Cave Spawner
+item.primitivemobs.CreeperCaveStructureSpawner.name=Creeper Cave Spawner
+item.primitivemobs.GoodWizardTowerStructureSpawner.name=Good Wizard Tower Spawner
+item.primitivemobs.NeutralWizardTowerStructureSpawner.name=Neutral Wizard Tower Spawner
+item.primitivemobs.EvilWizardTowerStructureSpawner.name=Evil Wizard Tower Spawner
+
+tile.primitivemobs.Tar.name=Tar
+tile.primitivemobs.Log.Cinder.name=Cinder Log
+tile.primitivemobs.Sapling.Cinder.name=Cinder Sapling
+tile.primitivemobs.Sapling.GroveSprite.name=Grove Sprite Sapling
+tile.primitivemobs.Leaf.Cinder.name=Cinder Leaves
+tile.primitivemobs.SpiderEgg.name=Spider Egg
+tile.primitivemobs.Decorative.WebbedStone.name=Webbed Stone
+tile.primitivemobs.Planks.Cinder.name=Cinder Planks
+tile.primitivemobs.Stairs.Cinder.name=Cinder Stairs
+tile.primitivemobs.Slab.Cinder.name=Cinder Slab
+tile.primitivemobs.Chest.Spider.name=Webbed Chest
+tile.primitivemobs.Chest.Gem.name=Gem Chest
+tile.primitivemobs.BookcaseSpawner.name=Bewitched Tome Spawner
+tile.primitivemobs.Chest.RandomMimic.name=Chest
+tile.primitivemobs.Chest.EvilMimic.name=Evil Mimic Chest
+tile.primitivemobs.Chest.SkeletonWarriorMimic.name=Skeleton Warrior Mimic Chest
+tile.primitivemobs.Chest.HauntedToolMimic.name=Haunted Tool Mimic Chest
+tile.primitivemobs.Chest.BatMimic.name=Bat Mimic Chest
+tile.primitivemobs.Chest.ZombieMimic.name=Zombie Mimic Chest
+tile.primitivemobs.Chest.ExplosionMimic.name=Explosion Mimic Chest
+tile.primitivemobs.Chest.EnderMimic.name=Ender Mimic Chest
+tile.primitivemobs.Chest.Creeper.name=Creepy Chest
+
+key.primitivemobs.category=PrimitiveMobs
+key.primitivemobs.desc=Toggle Camouflage
+
+enchantment.primitivemobs.stickyFeet=Sticky Feet
+enchantment.primitivemobs.explosiveSlash=Explosive Slash
+
+achievement.primitivemobs.lostminerhelp=Forever Alone
+achievement.primitivemobs.lostminerhelp.desc=Save a Lost Miner
+achievement.primitivemobs.camouflagedye=Essence of Colors
+achievement.primitivemobs.camouflagedye.desc=Obtain Camouflage Dye
+achievement.primitivemobs.camouflagearmor=Chameleon Cosplay
+achievement.primitivemobs.camouflagearmor.desc=Craft Camouflage armor
+achievement.primitivemobs.chameleonfriend=Colorful Friend
+achievement.primitivemobs.chameleonfriend.desc=Tame a Chameleon
+achievement.primitivemobs.specialcolor1=Color of Exploration
+achievement.primitivemobs.specialcolor1.desc=Hint: Spores
+achievement.primitivemobs.specialcolor2=Color of Discovery
+achievement.primitivemobs.specialcolor2.desc=Hint: Near the end
+achievement.primitivemobs.specialcolor3=Color of Victory
+achievement.primitivemobs.specialcolor3.desc=Hint: Inside the beam
+achievement.primitivemobs.redcreepsurvive=Uninvited Guest
+achievement.primitivemobs.redcreepsurvive.desc=Slay a Festive Creeper
+achievement.primitivemobs.spiderowner=Mommy?
+achievement.primitivemobs.spiderowner.desc=Get your own Baby Spider
+achievement.primitivemobs.spiderstealer=Child Protection
+achievement.primitivemobs.spiderstealer.desc=Capture a Baby Spider from a Mother Spider
+achievement.primitivemobs.spiderattack=Eight Legged Soldier
+achievement.primitivemobs.spiderattack.desc=Let your Baby Spider atack a mob
+achievement.primitivemobs.spidergrown=Time Flies By
+achievement.primitivemobs.spidergrown.desc=Make your Baby Spider grow to adulthood
+achievement.primitivemobs.haunteddiamond=Evil Sparkle
+achievement.primitivemobs.haunteddiamond.desc=Slay a Diamond Haunted Tool
+achievement.primitivemobs.hauntedprecious=My Precious
+achievement.primitivemobs.hauntedprecious.desc=Slay a Precious Pickaxe Haunted Tool
+achievement.primitivemobs.mimicfake=Jack in a Box
+achievement.primitivemobs.mimicfake.desc=Find a Chest Mimic that attacks you
+achievement.primitivemobs.mimicdungeon=Not So Fake Chest
+achievement.primitivemobs.mimicdungeon.desc=Find a Chest Mimic that turns into a Dungeon Chest
+achievement.primitivemobs.treasureslimefriend=Slimy Companion
+achievement.primitivemobs.treasureslimefriend.desc=Get your own pet Treasure Slime
+achievement.primitivemobs.treasureslimewhite=Colors Combined
+achievement.primitivemobs.treasureslimewhite.desc=Make your pet Treasure Slime competely white
+achievement.primitivemobs.blazingjugger=Follow Me
+achievement.primitivemobs.blazingjugger.desc=Slay a Blazing Juggernaut by leading it into water

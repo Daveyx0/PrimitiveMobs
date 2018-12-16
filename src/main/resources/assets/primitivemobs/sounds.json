@@ -101,6 +101,38 @@
             "primitivemobs:entity/trollager/idle"
         ]
     },
+			"entity.harpy.idle":
+    {
+        "category": "neutral",
+        "sounds":
+        [
+            "primitivemobs:entity/harpy/idle"
+        ]
+    },
+				"entity.harpy.hurt":
+    {
+        "category": "neutral",
+        "sounds":
+        [
+            "primitivemobs:entity/harpy/hurt"
+        ]
+    },
+	"entity.flamespewer.idle":
+    {
+        "category": "neutral",
+        "sounds":
+        [
+            "primitivemobs:entity/flamespewer/idle"
+        ]
+    },
+	"entity.voideye.idle":
+    {
+        "category": "neutral",
+        "sounds":
+        [
+            "primitivemobs:entity/voideye/idle"
+        ]
+    },
     "dig.squish":
     {
         "category": "neutral",
@@ -117,5 +149,4 @@
             "primitivemobs:block/squish"
         ]
     }
-
 }

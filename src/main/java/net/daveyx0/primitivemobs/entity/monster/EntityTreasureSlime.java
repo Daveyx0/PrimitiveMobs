@@ -1,70 +1,34 @@
 package net.daveyx0.primitivemobs.entity.monster;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Nullable;
 
-import net.daveyx0.primitivemobs.common.PrimitiveMobs;
-import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
+import net.daveyx0.multimob.client.particle.MMParticles;
+import net.daveyx0.multimob.util.ColorUtil;
+import net.daveyx0.multimob.util.EntityUtil;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsParticles;
-import net.daveyx0.primitivemobs.util.ColorUtil;
-import net.daveyx0.primitivemobs.util.EntityUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFindEntityNearest;
-import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
-import net.minecraft.entity.ai.EntityAIFollowParent;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISit;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Biomes;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.storage.loot.LootTableList;
-import scala.Tuple2;
 
 public class EntityTreasureSlime extends EntityTameableSlime {
 
@@ -123,7 +87,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
     @Override
 	public void onUpdate() 
 	{
-		if (this.isInWater() && !isCollidedHorizontally) {
+		if (this.isInWater() && !collidedHorizontally) {
 			motionY = 0.02D;
 		}
 		
@@ -172,6 +136,10 @@ public class EntityTreasureSlime extends EntityTameableSlime {
                 getEntityWorld().spawnParticle(EnumParticleTypes.HEART, posX + (rand.nextFloat() - rand.nextFloat()), posY + rand.nextFloat() + 1D, posZ + (rand.nextFloat() - rand.nextFloat()), 1, 1, 1);
             }
             
+            if(this.isSitting())
+            {
+            	this.setAttackTarget(null);
+            }
         }
 
         if (this.onGround && !this.wasOnGround && getEntityWorld().isRemote)
@@ -186,7 +154,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
                 World world = this.getEntityWorld();
                 double d0 = this.posX + (double)f2;
                 double d1 = this.posZ + (double)f3;
-                PrimitiveMobsParticles.spawnParticle("slime", d0, this.getEntityBoundingBox().minY, d1, 0.0D, 0.0D, 0.0D, this.getSkinRGB());
+                MMParticles.spawnParticle("slime", this.world, d0, this.getEntityBoundingBox().minY, d1, 0.0D, 0.0D, 0.0D, this.getSkinRGB());
             }
 
             this.playSound(this.getSquishSound(), this.getSoundVolume(), ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F) / 0.8F);
@@ -357,19 +325,23 @@ public class EntityTreasureSlime extends EntityTameableSlime {
                 
                 if(this.isOwner(player))
                 {
-                    if (!player.capabilities.isCreativeMode)
-                    {
-                    	stack.shrink(1);
-                    }
-                    
                     if(!this.getHeldItemMainhand().isEmpty() && !getEntityWorld().isRemote)
                     {
                     	this.dropItemStack(this.getHeldItemMainhand(), 0.0f);
                     }
                     
-                    ItemStack newStack = stack.copy();
+                    if(!stack.isEmpty())
+                    {
+                        ItemStack newStack = stack.copy();
+                        newStack.setCount(1);
 
-                    this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, newStack);
+                        this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, newStack);
+                        
+                        if (!player.capabilities.isCreativeMode)
+                        {
+                        	stack.shrink(1);
+                        }
+                    }
                 }
             }
             else if (stack.isEmpty() && this.isOwner(player))
@@ -388,7 +360,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
             if (!this.getEntityWorld().isRemote)
             {
                     this.setTamed(true);
-                    this.navigator.clearPathEntity();
+                    this.navigator.clearPath();
                     this.setHealth(20.0F);
                     this.setOwnerId(player.getUniqueID());
                     this.getEntityWorld().setEntityState(this, (byte)7);

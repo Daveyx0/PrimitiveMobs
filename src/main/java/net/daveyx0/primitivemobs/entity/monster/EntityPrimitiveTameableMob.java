@@ -6,13 +6,11 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Optional;
 
-import net.daveyx0.primitivemobs.util.EntityUtil;
-import net.minecraft.advancements.CriteriaTriggers;
+import net.daveyx0.multimob.util.EntityUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAISit;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;

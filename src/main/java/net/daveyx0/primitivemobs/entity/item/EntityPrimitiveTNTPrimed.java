@@ -1,11 +1,9 @@
 package net.daveyx0.primitivemobs.entity.item;
 
-import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -16,23 +14,23 @@ import net.minecraft.world.World;
 public class EntityPrimitiveTNTPrimed extends Entity
 {
     private static final DataParameter<Integer> FUSE = EntityDataManager.<Integer>createKey(EntityPrimitiveTNTPrimed.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> STRENGTH = EntityDataManager.<Integer>createKey(EntityPrimitiveTNTPrimed.class, DataSerializers.VARINT);
+    private static final DataParameter<Float> STRENGTH = EntityDataManager.<Float>createKey(EntityPrimitiveTNTPrimed.class, DataSerializers.FLOAT);
     
     private EntityLivingBase tntPlacedBy;
     /** How long the fuse is */
     private int fuse;
-    private int strength;
+    private float strength;
 
     public EntityPrimitiveTNTPrimed(World worldIn)
     {
         super(worldIn);
         this.preventEntitySpawning = true;
         this.fuse = 80;
-        this.strength = 1;
+        this.strength = 1.5f;
         this.setSize(0.98f, 0.98f);
     }
 
-    public EntityPrimitiveTNTPrimed(World worldIn, double x, double y, double z, EntityLivingBase igniter, int power, int fuse)
+    public EntityPrimitiveTNTPrimed(World worldIn, double x, double y, double z, EntityLivingBase igniter, float power, int fuse)
     {
         this(worldIn);
         this.setPosition(x, y, z);
@@ -41,7 +39,7 @@ public class EntityPrimitiveTNTPrimed extends Entity
         this.motionY = 0.20000000298023224D;
         this.motionZ = (double)(-((float)Math.cos((double)f)) * 0.02F);
         this.setFuse(fuse);
-        this.setStrenght(power);
+        this.setStrength(power);
         this.prevPosX = x;
         this.prevPosY = y;
         this.prevPosZ = z;
@@ -51,7 +49,7 @@ public class EntityPrimitiveTNTPrimed extends Entity
     protected void entityInit()
     {
         this.dataManager.register(FUSE, Integer.valueOf(80));
-        this.dataManager.register(STRENGTH, Integer.valueOf(1));
+        this.dataManager.register(STRENGTH, 1.5F);
     }
 
     /**
@@ -137,7 +135,7 @@ public class EntityPrimitiveTNTPrimed extends Entity
     protected void writeEntityToNBT(NBTTagCompound compound)
     {
         compound.setShort("Fuse", (short)this.getFuse());
-        compound.setShort("Strength", (short)this.getStrength());
+        compound.setFloat("Strength", (short)this.getStrength());
     }
 
     /**
@@ -146,7 +144,7 @@ public class EntityPrimitiveTNTPrimed extends Entity
     protected void readEntityFromNBT(NBTTagCompound compound)
     {
         this.setFuse(compound.getShort("Fuse"));
-        this.setStrenght(compound.getShort("Strength"));
+        this.setStrength(compound.getFloat("Strength"));
     }
 
     /**
@@ -168,9 +166,9 @@ public class EntityPrimitiveTNTPrimed extends Entity
         this.fuse = fuseIn;
     }
     
-    public void setStrenght(int strengthIn)
+    public void setStrength(float strengthIn)
     {
-        this.dataManager.set(STRENGTH, Integer.valueOf(strengthIn));
+        this.dataManager.set(STRENGTH, Float.valueOf(strengthIn));
         this.strength = strengthIn;
     }
 
@@ -197,9 +195,9 @@ public class EntityPrimitiveTNTPrimed extends Entity
     /**
      * Gets the fuse from the data manager
      */
-    public int getStrengthDataManager()
+    public float getStrengthDataManager()
     {
-        return ((Integer)this.dataManager.get(STRENGTH)).intValue();
+        return ((Float)this.dataManager.get(STRENGTH)).floatValue();
     }
 
     public int getFuse()
@@ -207,7 +205,7 @@ public class EntityPrimitiveTNTPrimed extends Entity
         return this.fuse;
     }
     
-    public int getStrength()
+    public float getStrength()
     {
         return this.strength;
     }

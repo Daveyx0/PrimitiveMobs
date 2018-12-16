@@ -1,0 +1,19 @@
+{
+  "type": "primitivemobs:wondersap_convert",
+  "ingredients": [
+    {
+      "item": "primitivemobs:wonder_sap",
+      "count": 1,
+      "data": 32767
+    },
+    {
+      "item": "minecraft:log",
+      "count": 1,
+      "data": 32767
+    }
+  ],
+  "result": {
+    "item": "minecraft:log",
+    "data": 0
+  }
+}

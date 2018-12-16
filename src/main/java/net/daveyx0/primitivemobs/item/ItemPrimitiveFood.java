@@ -1,6 +1,6 @@
 package net.daveyx0.primitivemobs.item;
 
-import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+import net.daveyx0.primitivemobs.core.PrimitiveMobs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 

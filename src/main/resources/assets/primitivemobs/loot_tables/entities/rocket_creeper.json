@@ -58,6 +58,31 @@
                     "condition": "killed_by_player"
                 }
             ]
+        },
+                {
+            "name":  "creeper_egg_drops",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "primitivemobs:mysteryegg3",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": -49,
+                                "max": 1
+                            }
+                        }
+                    ]
+                }
+            ],
+            "conditions": [
+                {
+                    "condition": "killed_by_player"
+                }
+            ]
         }
     ]
 }

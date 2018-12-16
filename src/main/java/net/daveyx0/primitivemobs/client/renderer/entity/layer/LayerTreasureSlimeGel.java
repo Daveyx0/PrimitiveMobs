@@ -2,20 +2,14 @@ package net.daveyx0.primitivemobs.client.renderer.entity.layer;
 
 import net.daveyx0.primitivemobs.client.models.ModelTreasureSlime;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderTreasureSlime;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsItems;
 import net.daveyx0.primitivemobs.entity.monster.EntityTreasureSlime;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelSlime;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.entity.RenderSlime;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -37,7 +31,23 @@ public class LayerTreasureSlimeGel implements LayerRenderer<EntityTreasureSlime>
     {
         float[] RGB = entitylivingbaseIn.getSkinRGB();
         GlStateManager.pushMatrix();  
-        GlStateManager.color(RGB[0]/255.0F, RGB[1]/255.0F, RGB[2]/255.0F, 1.0F);
+        if (entitylivingbaseIn.getHeldItemMainhand() != null && entitylivingbaseIn.getHeldItemMainhand().getItem() == PrimitiveMobsItems.CAMOUFLAGE_DYE)
+        {
+            int i1 = 25;
+            int i = entitylivingbaseIn.ticksExisted / 25 + entitylivingbaseIn.getEntityId();
+            int j = EnumDyeColor.values().length;
+            int k = i % j;
+            int l = (i + 1) % j;
+            float f = ((float)(entitylivingbaseIn.ticksExisted % 25) + partialTicks) / 25.0F;
+            float[] afloat1 = EntitySheep.getDyeRgb(EnumDyeColor.byMetadata(k));
+            float[] afloat2 = EntitySheep.getDyeRgb(EnumDyeColor.byMetadata(l));
+            GlStateManager.color(afloat1[0] * (1.0F - f) + afloat2[0] * f, afloat1[1] * (1.0F - f) + afloat2[1] * f, afloat1[2] * (1.0F - f) + afloat2[2] * f);
+        }
+        else
+        {
+            GlStateManager.color(RGB[0]/255.0F, RGB[1]/255.0F, RGB[2]/255.0F, 1.0F);
+        }
+
         GlStateManager.popMatrix();
         
         if (!entitylivingbaseIn.isInvisible())

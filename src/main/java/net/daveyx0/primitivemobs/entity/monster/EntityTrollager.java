@@ -1,35 +1,22 @@
 package net.daveyx0.primitivemobs.entity.monster;
 
-import java.util.List;
-
 import javax.annotation.Nullable;
 
-import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+import net.daveyx0.multimob.entity.ai.EntityAISenseEntityNearestPlayer;
+import net.daveyx0.multimob.message.MMMessageRegistry;
+import net.daveyx0.multimob.message.MessageMMParticle;
+import net.daveyx0.multimob.util.NBTUtil;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
-import net.daveyx0.primitivemobs.entity.IAttackAnimationMob;
-import net.daveyx0.primitivemobs.entity.ai.EntityAISenseEntityNearestPlayer;
+import net.daveyx0.primitivemobs.entity.IAnimatedMob;
 import net.daveyx0.primitivemobs.entity.ai.EntityAITrollagerAttacks;
 import net.daveyx0.primitivemobs.entity.item.EntityThrownBlock;
-import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
-import net.daveyx0.primitivemobs.entity.passive.EntityLostMiner;
-import net.daveyx0.primitivemobs.message.MessagePrimitiveColor;
-import net.daveyx0.primitivemobs.message.MessagePrimitiveParticle;
-import net.daveyx0.primitivemobs.util.EntityUtil;
-import net.daveyx0.primitivemobs.util.NBTUtil;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IRangedAttackMob;
-import net.minecraft.entity.MoverType;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIAttackRangedBow;
-import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
@@ -37,13 +24,9 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -55,36 +38,43 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
+public class EntityTrollager extends EntityMob implements IAnimatedMob {
 
 	 private static final DataParameter<Integer> ANIMATION_STATE = EntityDataManager.<Integer>createKey(EntityTrollager.class, DataSerializers.VARINT);
 	 private static final DataParameter<BlockPos> CURRENT_THROWN_BLOCK = EntityDataManager.<BlockPos>createKey(EntityTrollager.class, DataSerializers.BLOCK_POS);
 	 private static final DataParameter<Boolean> IS_STONE = EntityDataManager.<Boolean>createKey(EntityTrollager.class, DataSerializers.BOOLEAN);
 
 	 private int previousState = 0;
-	 private boolean resetAnimation;
 	 private float animVar = 0;
 	 private float previousYawStone = -2;
 	 private float previousPitchStone = -2;
 	 private float previousYawHeadStone = -2;
+	 public boolean isBeingSupported;
 	    
 	public EntityTrollager(World worldIn) {
 		super(worldIn);
 		this.setSize(2.25f, 3f);
+		isBeingSupported = false;
 	}
+	
+
+    protected void applyEntityAttributes()
+    {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0D);
+    }
 	
 	protected void initEntityAI()
     {
@@ -97,13 +87,66 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
         this.tasks.addTask(++prio, new EntityAILookIdle(this));
         int attackPrio = 1;
         this.targetTasks.addTask(++attackPrio, new EntityAIHurtByTarget(this, false));
-        this.targetTasks.addTask(++attackPrio, new EntityAISenseEntityNearestPlayer(this));
+        this.targetTasks.addTask(++attackPrio, new EntityAISenseEntityNearestPlayer(this, 40));
     }
+	
+	/**
+     * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
+     * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
+     */
+    @Nullable
+    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
+    {
+        livingdata = super.onInitialSpawn(difficulty, livingdata);
+
+        if (this.world.rand.nextInt(20) == 0)
+        {
+        	EntityGoblin goblin = new EntityGoblin(this.world);
+        	goblin.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+        	goblin.onInitialSpawn(difficulty, (IEntityLivingData)null);
+            this.world.spawnEntity(goblin);
+            goblin.startRiding(this);
+        }
+
+        return livingdata;
+    }
+    
+
+    /**
+     * Returns the Y offset from the entity's position for any entity riding this one.
+     */
+    public double getMountedYOffset()
+    {
+        return (double)this.height * 0.9D;
+    }
+
 	
 
 	public void onUpdate()
 	{
 		super.onUpdate();
+		
+		if(this.isBeingRidden() && !world.isRemote)
+		{
+			if(this.getPassengers().get(0) != null && getPassengers().get(0) instanceof EntityLivingBase)
+			{
+				EntityLiving ridingEntity = (EntityLiving)getPassengers().get(0);
+				if(ridingEntity.getAttackTarget() != null)
+				{
+					this.setAttackTarget(ridingEntity.getAttackTarget());
+				}
+			}
+			
+			if(this.collidedHorizontally)
+			{
+				jump();
+			}
+		}
+		
+		if(this.getAttackTarget() != null && this.getAttackTarget().isDead)
+		{
+			this.setAttackTarget(null);
+		}
 	
 		animationHandling();
 
@@ -111,6 +154,8 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 		{
 			setThrowingBlockFromFloor();
 		}
+		
+		if(isBeingSupported) {this.setStone(false);}
 		
 		if(isStone())
 		{	
@@ -127,6 +172,13 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 			
 			this.setRotation(previousYawStone, previousPitchStone);
 			this.setRotationYawHead(previousYawHeadStone);
+			if(this.isBeingRidden())
+			{
+				if(this.getPassengers().get(0) != null)
+				{
+					this.getPassengers().get(0).dismountRidingEntity();
+				}
+			}
 			
 		}
 		else
@@ -136,6 +188,7 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 			this.previousYawStone = -2;
 			this.setNoAI(false);
 		}
+		
 	}
 	
     /**
@@ -278,9 +331,9 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 	{
 		if(!isStone())
 		{
-			if(this.getPreviousState() != this.getAnimationState())
+			if(this.getPreviousAnimationState() != this.getAnimationState())
 			{
-				this.setPreviousState(this.getAnimationState());
+				this.setPreviousAnimationState(this.getAnimationState());
 				animVar = 0;
 			}
 		
@@ -307,7 +360,7 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 				}
 				IBlockState state = this.getEntityWorld().getBlockState(blockPos);
 				
-				if(state != null && !state.getBlock().equals(Blocks.AIR) && state.getBlock().isFullBlock(state))
+				if(state != null && state.getBlock().isFullBlock(state))
 				{
 					this.setThrownBlock(blockPos);
 					break;
@@ -320,13 +373,7 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 		}
 	}
 	
-    protected void applyEntityAttributes()
-    {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000000417232513D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
-    }
+
     
     protected void entityInit()
     {
@@ -403,7 +450,7 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
      * Attack the specified entity using a ranged attack.
      */
 	@Override
-    public void performAttack(EntityLivingBase target, int id)
+    public void performAction(EntityLivingBase target, int id)
     {
 		switch (id)
 		{
@@ -446,8 +493,9 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
 				flag = false;
 			}
 			this.newExplosion(this, explosionX ,this.posY + this.getEyeHeight(), explosionZ, 3F, false, flag);
-			PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(EnumParticleTypes.BLOCK_CRACK.getParticleID(), 50, (float)explosionX, (float)explosionY, (float)explosionZ, 0D,0D,0D, Block.getIdFromBlock(this.world.getBlockState(this.getThrownBlock()).getBlock())));
-			PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(EnumParticleTypes.EXPLOSION_LARGE.getParticleID(), 10, (float)explosionX, (float)explosionY, (float)explosionZ, 1D,0D,0D, 0));
+			
+			//MMMessageRegistry.getNetwork().sendToAll(new MessageMMParticle(EnumParticleTypes.BLOCK_CRACK.getParticleID(), 50, (float)explosionX, (float)explosionY, (float)explosionZ, 0D,0D,0D, blockId));
+			MMMessageRegistry.getNetwork().sendToAll(new MessageMMParticle(EnumParticleTypes.EXPLOSION_LARGE.getParticleID(), 10, (float)explosionX, (float)explosionY, (float)explosionZ, 1D,0D,0D, 0));
 			this.playSound(PrimitiveMobsSoundEvents.ENTITY_TROLLAGER_ATTACK, this.getSoundVolume(), ((this.getRNG().nextFloat() - this.getRNG().nextFloat()) * 0.2F + 1.0F) * 0.8F);
 			break;
 		}
@@ -517,12 +565,12 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
         this.setStone(compound.getBoolean("Stone"));
     }
     
-	public int getPreviousState()
+	public int getPreviousAnimationState()
 	{
 		return this.previousState;
 	}
 	
-	public void setPreviousState(int state)
+	public void setPreviousAnimationState(int state)
 	{
 		this.previousState = state;
 	}
@@ -542,11 +590,6 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
     	if(this.posY > 40D && this.world.canSeeSky(new BlockPos(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ)))
     	{
     		flag = rand.nextInt(5) == 0;
-    	}
-    	
-    	if(PrimitiveMobsConfigSpecial.getTrollUnderground())
-    	{
-            flag = this.posY < 40D;
     	}
     	
         return flag && super.getCanSpawnHere();
@@ -592,5 +635,11 @@ public class EntityTrollager extends EntityMob implements IAttackAnimationMob {
     {
         return !this.world.containsAnyLiquid(this.getEntityBoundingBox()) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox().expand(1.5D, 1.5D, 1.5D)).isEmpty() && this.world.checkNoEntityCollision(this.getEntityBoundingBox(), this);
     }
+
+	@Override
+	public void setAnimVar(float var) {
+		
+		animVar = var;
+	}
     
 }

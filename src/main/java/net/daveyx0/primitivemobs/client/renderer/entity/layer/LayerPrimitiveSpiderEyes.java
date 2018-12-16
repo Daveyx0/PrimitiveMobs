@@ -1,14 +1,11 @@
 package net.daveyx0.primitivemobs.client.renderer.entity.layer;
 
-import net.daveyx0.primitivemobs.client.renderer.entity.RenderBabySpider;
 import net.daveyx0.primitivemobs.entity.monster.EntityPrimitiveSpider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderSpider;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

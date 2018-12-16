@@ -1,5 +1,6 @@
 {
 	"recipes": {
-		"camouflage_toggle": "net.daveyx0.primitivemobs.crafting.CamouflageToggleRecipe$Factory"
+		"camouflage_toggle": "net.daveyx0.primitivemobs.crafting.CamouflageToggleRecipe$Factory",
+		"wondersap_convert": "net.daveyx0.primitivemobs.crafting.WonderSapRecipe$Factory"
 	}
 }

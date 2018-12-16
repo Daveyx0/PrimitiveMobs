@@ -1,6 +1,8 @@
 package net.daveyx0.primitivemobs.client.renderer.entity;
 
-import net.daveyx0.primitivemobs.core.PrimitiveMobsItems;
+import net.daveyx0.multimob.core.MultiMob;
+import net.daveyx0.primitivemobs.entity.item.EntityFlameSpit;
+import net.daveyx0.primitivemobs.entity.item.EntityPrimitiveThrowable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
@@ -9,7 +11,7 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -18,13 +20,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderFlyingItem<T extends Entity> extends Render<T>
 {
-    protected final Item item;
     private final RenderItem itemRenderer;
 
     public RenderFlyingItem(RenderManager renderManagerIn)
     {
         super(renderManagerIn);
-        this.item = PrimitiveMobsItems.DODO_EGG;
         this.itemRenderer = Minecraft.getMinecraft().getRenderItem();
     }
 
@@ -33,6 +33,7 @@ public class RenderFlyingItem<T extends Entity> extends Render<T>
      */
     public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
+    	if(entity instanceof EntityFlameSpit) {return;}
         GlStateManager.pushMatrix();
         GlStateManager.translate((float)x, (float)y, (float)z);
         GlStateManager.enableRescaleNormal();
@@ -62,7 +63,13 @@ public class RenderFlyingItem<T extends Entity> extends Render<T>
 
     public ItemStack getStackToRender(T entityIn)
     {
-        return new ItemStack(this.item);
+    	if(entityIn instanceof EntityPrimitiveThrowable)
+    	{
+    		EntityPrimitiveThrowable egg = (EntityPrimitiveThrowable)entityIn;
+    		return egg.getItemFromEntity();
+    	}
+    	
+        return new ItemStack(Items.EGG);
     }
 
     /**

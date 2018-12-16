@@ -1,31 +1,14 @@
 package net.daveyx0.primitivemobs.client.renderer.entity;
 
+import net.daveyx0.primitivemobs.client.models.ModelMimic;
+import net.daveyx0.primitivemobs.client.renderer.entity.layer.LayerMimicMouth;
+import net.daveyx0.primitivemobs.entity.monster.EntityMimic;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.daveyx0.primitivemobs.client.models.ModelMimic;
-import net.daveyx0.primitivemobs.client.renderer.entity.layer.LayerGroveSpriteStump;
-import net.daveyx0.primitivemobs.client.renderer.entity.layer.LayerMimicMouth;
-import net.daveyx0.primitivemobs.common.PrimitiveMobs;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
-import net.daveyx0.primitivemobs.entity.monster.EntityMimic;
-import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
-import net.daveyx0.primitivemobs.util.ColorUtil;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.ResourceLocation;
 
 public class RenderMimic<T extends EntityLiving> extends RenderLiving<EntityMimic>
 {

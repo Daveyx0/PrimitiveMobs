@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
@@ -119,6 +118,8 @@ public class ModelGroveSprite extends ModelBase
     {
       super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);  
       
+      EntityGroveSprite sprite = (EntityGroveSprite)entity;
+      
       bipedHead.rotateAngleY = f3 / 57.29578F;
       bipedHead.rotateAngleX = f4 / 57.29578F;
       
@@ -131,6 +132,11 @@ public class ModelGroveSprite extends ModelBase
       bipedRightArm.rotateAngleX = -MathHelper.cos(f * 0.6662F * 2.0F + (float)Math.PI) * 0.8F * f1;
       bipedRightLeg.rotateAngleX = MathHelper.cos(f * 0.6662F * 2.0F + (float)Math.PI) * 0.8F * f1;
       bipedLeftLeg.rotateAngleX = -MathHelper.cos(f * 0.6662F * 2.0F + (float)Math.PI) * 0.8F * f1;
+    }
+    
+    if(bipedRightArm != null && sprite != null && sprite.isBegging())
+    {
+    	this.bipedRightArm.rotateAngleX = -1.3F;
     }
 
     

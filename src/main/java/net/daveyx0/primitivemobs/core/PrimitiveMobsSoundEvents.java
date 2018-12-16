@@ -1,50 +1,43 @@
 package net.daveyx0.primitivemobs.core;
 
-import net.minecraft.init.Bootstrap;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
-@ObjectHolder(PrimitiveMobsReference.MODID)
 public class PrimitiveMobsSoundEvents 
 {
 	
-	@ObjectHolder("entity.brainslime.slimecharge")
 	public static final SoundEvent ENTITY_BRAINSLIME_CHARGE = createSoundEvent("entity.brainslime.slimecharge");
 	
-	@ObjectHolder("entity.motherspider.spiderscreech")
 	public static final SoundEvent ENTITY_MOTHERSPIDER_SCREECH = createSoundEvent("entity.motherspider.spiderscreech");
 	
-	@ObjectHolder("entity.grovesprite.angry")
 	public static final SoundEvent ENTITY_GROVESPRITE_ANGRY = createSoundEvent("entity.grovesprite.angry");
-	
-	@ObjectHolder("entity.grovesprite.death")
+
 	public static final SoundEvent ENTITY_GROVESPRITE_DEATH = createSoundEvent("entity.grovesprite.death");
 	
-	@ObjectHolder("entity.grovesprite.hurt")
 	public static final SoundEvent ENTITY_GROVESPRITE_HURT = createSoundEvent("entity.grovesprite.hurt");
 	
-	@ObjectHolder("entity.grovesprite.idle")
 	public static final SoundEvent ENTITY_GROVESPRITE_IDLE = createSoundEvent("entity.grovesprite.idle");
 	
-	@ObjectHolder("entity.grovesprite.thanks")
 	public static final SoundEvent ENTITY_GROVESPRITE_THANKS = createSoundEvent("entity.grovesprite.thanks");
 	
-	@ObjectHolder("entity.trollager.idle")
 	public static final SoundEvent ENTITY_TROLLAGER_IDLE = createSoundEvent("entity.trollager.idle");
 	
-	@ObjectHolder("entity.trollager.hit")
 	public static final SoundEvent ENTITY_TROLLAGER_HIT = createSoundEvent("entity.trollager.hit");
-	
-	@ObjectHolder("entity.trollager.death")
+
 	public static final SoundEvent ENTITY_TROLLAGER_DEATH = createSoundEvent("entity.trollager.death");
-	
-	@ObjectHolder("entity.trollager.attack")
+
 	public static final SoundEvent ENTITY_TROLLAGER_ATTACK = createSoundEvent("entity.trollager.attack");
+	
+	public static final SoundEvent ENTITY_HARPY_IDLE = createSoundEvent("entity.harpy.idle");
+	
+	public static final SoundEvent ENTITY_HARPY_HURT = createSoundEvent("entity.harpy.hurt");
+	
+	public static final SoundEvent ENTITY_FLAMESPEWER_IDLE = createSoundEvent("entity.flamespewer.idle");
+	
+	public static final SoundEvent ENTITY_VOIDEYE_IDLE = createSoundEvent("entity.voideye.idle");
 
 	
 	private static SoundEvent createSoundEvent(final String soundName) {
@@ -67,7 +60,11 @@ public class PrimitiveMobsSoundEvents
 					ENTITY_TROLLAGER_IDLE,
 					ENTITY_TROLLAGER_HIT,
 					ENTITY_TROLLAGER_DEATH,
-					ENTITY_TROLLAGER_ATTACK
+					ENTITY_TROLLAGER_ATTACK,
+					ENTITY_HARPY_IDLE,
+					ENTITY_HARPY_HURT,
+					ENTITY_FLAMESPEWER_IDLE,
+					ENTITY_VOIDEYE_IDLE
 			);
 		}
 	}

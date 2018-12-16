@@ -1,17 +1,14 @@
 package net.daveyx0.primitivemobs.client.renderer.entity;
 
+import net.daveyx0.primitivemobs.client.models.ModelPrimitiveCreeper;
 import net.daveyx0.primitivemobs.client.renderer.entity.layer.LayerPrimitiveCreeperCharge;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsReference;
 import net.daveyx0.primitivemobs.entity.monster.EntityFestiveCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntityPrimitiveCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntityRocketCreeper;
-import net.minecraft.client.model.ModelCreeper;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.layers.LayerCreeperCharge;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -26,7 +23,7 @@ public class RenderPrimitiveCreeper extends RenderLiving<EntityPrimitiveCreeper>
 
     public RenderPrimitiveCreeper(RenderManager renderManagerIn)
     {
-        super(renderManagerIn, new ModelCreeper(), 0.5F);
+        super(renderManagerIn, new ModelPrimitiveCreeper(), 0.5F);
         this.addLayer(new LayerPrimitiveCreeperCharge(this));
     }
 

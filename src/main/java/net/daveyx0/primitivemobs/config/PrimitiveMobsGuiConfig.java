@@ -3,11 +3,8 @@ package net.daveyx0.primitivemobs.config;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.typesafe.config.Config;
-
 import net.daveyx0.primitivemobs.core.PrimitiveMobsReference;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.resources.I18n;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.IConfigElement;

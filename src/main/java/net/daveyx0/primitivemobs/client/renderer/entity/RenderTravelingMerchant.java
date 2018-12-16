@@ -1,15 +1,10 @@
 package net.daveyx0.primitivemobs.client.renderer.entity;
 
-import net.daveyx0.primitivemobs.client.models.ModelLostMiner;
 import net.daveyx0.primitivemobs.client.models.ModelTravelingMerchant;
-import net.daveyx0.primitivemobs.client.renderer.entity.layer.LayerHeldItemCustom;
 import net.daveyx0.primitivemobs.entity.passive.EntityTravelingMerchant;
-import net.minecraft.client.model.ModelVillager;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

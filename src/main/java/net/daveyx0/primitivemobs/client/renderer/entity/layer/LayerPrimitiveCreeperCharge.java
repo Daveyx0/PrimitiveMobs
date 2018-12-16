@@ -1,12 +1,10 @@
 package net.daveyx0.primitivemobs.client.renderer.entity.layer;
 
+import net.daveyx0.primitivemobs.client.models.ModelPrimitiveCreeper;
 import net.daveyx0.primitivemobs.client.renderer.entity.RenderPrimitiveCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntityPrimitiveCreeper;
-import net.minecraft.client.model.ModelCreeper;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderCreeper;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -16,7 +14,7 @@ public class LayerPrimitiveCreeperCharge implements LayerRenderer<EntityPrimitiv
 {
     private static final ResourceLocation LIGHTNING_TEXTURE = new ResourceLocation("textures/entity/creeper/creeper_armor.png");
     private final RenderPrimitiveCreeper creeperRenderer;
-    private final ModelCreeper creeperModel = new ModelCreeper(2.0F);
+    private final ModelPrimitiveCreeper creeperModel = new ModelPrimitiveCreeper(2.0F);
 
     public LayerPrimitiveCreeperCharge(RenderPrimitiveCreeper creeperRendererIn)
     {

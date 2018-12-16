@@ -1,19 +1,13 @@
 package net.daveyx0.primitivemobs.entity.ai;
 
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
-import net.daveyx0.primitivemobs.entity.IAttackAnimationMob;
+import net.daveyx0.primitivemobs.entity.IAnimatedMob;
 import net.daveyx0.primitivemobs.entity.monster.EntityTrollager;
-import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemBow;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
 
-public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob> extends EntityAIBase
+public class EntityAITrollagerAttacks<T extends EntityMob & IAnimatedMob> extends EntityAIBase
 {
     private final EntityTrollager entity;
     private final double moveSpeedAmp;
@@ -69,7 +63,7 @@ public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob>
     public void resetTask()
     {
         super.resetTask();
-        ((IAttackAnimationMob)this.entity).setAnimationState(0);
+        ((IAnimatedMob)this.entity).setAnimationState(0);
         this.seeTime = 0;
         this.attackTime = -1;
         this.animTime = -1;
@@ -114,27 +108,27 @@ public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob>
             boolean canThrowBlock = checkCanThrow();  
 
             boolean canPerformMeleeAttack = isWithinMeleeRange && canSeeEnemy;
-            boolean canPerformSmashAttack = PrimitiveMobsConfigSpecial.getTrollDestruction() && ((isWithinAttackRange && (!canSeeEnemy || !canThrowBlock)) || this.entity.world.rand.nextInt(4) == 0);
-            boolean canPerformThrowAttack = canSeeEnemy && canThrowBlock;
+            boolean canPerformSmashAttack = PrimitiveMobsConfigSpecial.getTrollDestruction() && ((isWithinAttackRange && (!canSeeEnemy || !canThrowBlock)) || this.entity.world.rand.nextInt(4) == 0) && !entity.isBeingRidden();
+            boolean canPerformThrowAttack = canSeeEnemy && canThrowBlock && !entity.isBeingRidden();
             
             if (--this.attackTime <= 0 && this.isAttacking)
             {
-            	if(((IAttackAnimationMob)this.entity).getAnimationState() == 3)
+            	if(((IAnimatedMob)this.entity).getAnimationState() == 3)
             	{
-                    ((IAttackAnimationMob)this.entity).performAttack(entitylivingbase, 1);
-                    ((IAttackAnimationMob)this.entity).setAnimationState(4);
+                    ((IAnimatedMob)this.entity).performAction(entitylivingbase, 1);
+                    ((IAnimatedMob)this.entity).setAnimationState(4);
                     this.animTime = 20;
             	}
-            	else if(((IAttackAnimationMob)this.entity).getAnimationState() == 0)
+            	else if(((IAnimatedMob)this.entity).getAnimationState() == 0)
             	{
-                    ((IAttackAnimationMob)this.entity).performAttack(entitylivingbase, 2);
-                    ((IAttackAnimationMob)this.entity).setAnimationState(6);
+                    ((IAnimatedMob)this.entity).performAction(entitylivingbase, 2);
+                    ((IAnimatedMob)this.entity).setAnimationState(6);
                     this.animTime = 7;
             	}
             	else
             	{
-                   ((IAttackAnimationMob)this.entity).performAttack(entitylivingbase, 0);
-                   ((IAttackAnimationMob)this.entity).setAnimationState(2);
+                   ((IAnimatedMob)this.entity).performAction(entitylivingbase, 0);
+                   ((IAnimatedMob)this.entity).setAnimationState(2);
                    this.animTime = 20;
             	}
                this.attackTime = Integer.MAX_VALUE;
@@ -142,14 +136,14 @@ public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob>
             
             if(animTime >= 0 && --this.animTime == 0)
             {
-            	if(((IAttackAnimationMob)this.entity).getAnimationState() == 4)
+            	if(((IAnimatedMob)this.entity).getAnimationState() == 4)
             	{
-            		((IAttackAnimationMob)this.entity).setAnimationState(5);
+            		((IAnimatedMob)this.entity).setAnimationState(5);
             		this.animTime = 10;
             	}
-            	else if(((IAttackAnimationMob)this.entity).getAnimationState() == 6)
+            	else if(((IAnimatedMob)this.entity).getAnimationState() == 6)
             	{
-            		((IAttackAnimationMob)this.entity).setAnimationState(7);
+            		((IAnimatedMob)this.entity).setAnimationState(7);
             		this.animTime = 7;
             	}
             	else
@@ -163,25 +157,25 @@ public class EntityAITrollagerAttacks<T extends EntityMob & IAttackAnimationMob>
             {
             	if(canPerformMeleeAttack)
         		{
-            		((IAttackAnimationMob)this.entity).setAnimationState(0);
+            		((IAnimatedMob)this.entity).setAnimationState(0);
             		this.attackTime = 10;
             		this.isAttacking = true;
         		}
         		else if(canPerformSmashAttack)
         		{
-        			((IAttackAnimationMob)this.entity).setAnimationState(3);
+        			((IAnimatedMob)this.entity).setAnimationState(3);
             		this.attackTime = 40;
             		this.isAttacking = true;
         		}
         		else if(canPerformThrowAttack)
         		{
-            		((IAttackAnimationMob)this.entity).setAnimationState(1);
+            		((IAnimatedMob)this.entity).setAnimationState(1);
             		this.attackTime = 30;
             		this.isAttacking = true;
         		}
         		else
         		{
-        			((IAttackAnimationMob)this.entity).setAnimationState(0);
+        			((IAnimatedMob)this.entity).setAnimationState(0);
         			this.attackTime = Integer.MAX_VALUE;
         		}
             }

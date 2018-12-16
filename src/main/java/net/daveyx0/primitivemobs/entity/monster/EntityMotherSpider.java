@@ -1,16 +1,13 @@
 package net.daveyx0.primitivemobs.entity.monster;
 
-import java.util.List;
-
 import javax.annotation.Nullable;
 
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
+import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
 import net.daveyx0.primitivemobs.entity.ai.EntityAIFollowerHurtByTarget;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -22,15 +19,16 @@ import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntitySpider;
-import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntitySelectors;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
@@ -43,10 +41,19 @@ public class EntityMotherSpider extends EntityPrimitiveSpider {
 	private final int maxFollowers = PrimitiveMobsConfigSpecial.getMaxSpiderFamilySize();
 	private EntityLivingBase[] followers = new EntityLivingBase[maxFollowers];
 	
+	private static final DataParameter<Boolean> IS_ANGRY = EntityDataManager.<Boolean>createKey(EntityMotherSpider.class, DataSerializers.BOOLEAN);
+	
 	public EntityMotherSpider(World worldIn) {
 		super(worldIn);
 		
 	}
+	
+    protected void applyEntityAttributes()
+    {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
+    }
 	
     protected void entityInit()
     {
@@ -55,6 +62,7 @@ public class EntityMotherSpider extends EntityPrimitiveSpider {
         {
         	this.setDead();
         }
+        this.getDataManager().register(IS_ANGRY, Boolean.valueOf(false));
     }
 	
     protected void initEntityAI()
@@ -92,7 +100,13 @@ public class EntityMotherSpider extends EntityPrimitiveSpider {
 		{
 	        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
 		}
-
+		
+		if(this.isAngry())
+		{
+            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
+            world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX + (rand.nextFloat() - rand.nextFloat()), posY + rand.nextFloat(), posZ + (rand.nextFloat() - rand.nextFloat()), 0.0D, 0.0D, 0.0D);
+		}
+		
 	}
 	
 	@Override
@@ -100,13 +114,7 @@ public class EntityMotherSpider extends EntityPrimitiveSpider {
     {
         return !this.world.containsAnyLiquid(this.getEntityBoundingBox()) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty();
     }
-	
-    protected void applyEntityAttributes()
-    {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(24.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
-    }
+
     
     protected SoundEvent getHurtSound(DamageSource p_184601_1_)
     {
@@ -196,6 +204,35 @@ public class EntityMotherSpider extends EntityPrimitiveSpider {
         return livingdata;
     }
     
+    public void setIsAngry(boolean begging)
+    {
+        this.getDataManager().set(IS_ANGRY, Boolean.valueOf(begging));
+    }
+    
+    public boolean isAngry()
+    {
+        return ((Boolean)this.getDataManager().get(IS_ANGRY)).booleanValue();
+    }
+    
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
+    public void writeEntityToNBT(NBTTagCompound compound)
+    {
+        super.writeEntityToNBT(compound);
+        
+        compound.setBoolean("Angry", this.isAngry());
+    }
+
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
+    public void readEntityFromNBT(NBTTagCompound compound)
+    {
+        super.readEntityFromNBT(compound);
+        this.setIsAngry(compound.getBoolean("Angry"));
+    }
+    
     public void updatePassenger(Entity passenger)
     {
         super.updatePassenger(passenger);
@@ -217,4 +254,11 @@ public class EntityMotherSpider extends EntityPrimitiveSpider {
         
 
     }
+    
+    @Nullable
+    protected ResourceLocation getLootTable()
+    {
+        return PrimitiveMobsLootTables.ENTITIES_MOTHERSPIDER;
+    }
+    
 }

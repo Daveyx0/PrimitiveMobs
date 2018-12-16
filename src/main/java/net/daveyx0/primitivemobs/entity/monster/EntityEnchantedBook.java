@@ -2,7 +2,6 @@ package net.daveyx0.primitivemobs.entity.monster;
 
 import javax.annotation.Nullable;
 
-import net.daveyx0.primitivemobs.common.PrimitiveMobs;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
@@ -10,22 +9,17 @@ import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIFindEntityNearest;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
@@ -143,6 +137,10 @@ public class EntityEnchantedBook extends EntityMob {
     {
         if (!getEntityWorld().isRemote)
         {
+        	int chance = rand.nextInt(2);
+        	
+        	if(chance == 0)
+        	{
     		Enchantment enchantment = Enchantment.REGISTRY.getRandomObject(getEntityWorld().rand);
     		int maxPower = enchantment.getMaxLevel();
     		int randomPower = 1 + rand.nextInt(maxPower);
@@ -155,13 +153,18 @@ public class EntityEnchantedBook extends EntityMob {
         		book.addEnchantment(stack, new EnchantmentData(enchantment, randomPower));
         		stack = new ItemStack(book, 1);
         	}
+        	}
+        	else
+        	{
+        		entityDropItem(new ItemStack(Items.BOOK), 1);
+        	}
         }
     }
     
 
     public boolean isOnLadder()
     {
-        return isCollidedHorizontally;
+        return collidedHorizontally;
     }
     
     public void jump()

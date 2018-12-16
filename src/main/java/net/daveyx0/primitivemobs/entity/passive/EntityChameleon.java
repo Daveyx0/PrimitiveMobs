@@ -2,39 +2,31 @@ package net.daveyx0.primitivemobs.entity.passive;
 
 import javax.annotation.Nullable;
 
-import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
+import net.daveyx0.multimob.util.ColorUtil;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
-import net.daveyx0.primitivemobs.util.ColorUtil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
 import net.minecraft.entity.ai.EntityAIFollowParent;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISit;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.passive.EntityTameable;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-
-public class EntityChameleon extends EntityTameable
+public class EntityChameleon extends EntityAnimal
 {
 
 	private float R;
@@ -54,20 +46,15 @@ public class EntityChameleon extends EntityTameable
 		this.setSize(0.7f, 0.5f);
 		this.setSkinRGB(new int[]{0,125,25});
 		this.stepHeight = 1.0f;
-		this.setTamed(false);
 	}
 	
 	protected void initEntityAI()
     {
 		int prio = 0;
-		this.aiSit = new EntityAISit(this);
         this.tasks.addTask(++prio, new EntityAISwimming(this));
-        this.tasks.addTask(++prio, this.aiSit);
         this.tasks.addTask(++prio, new EntityAIPanic(this, 1.25D));
         this.tasks.addTask(++prio, new EntityAIFollowParent(this, 1.1D));
         this.tasks.addTask(++prio, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(++prio, new EntityAITempt(this, 1.1D, Items.FERMENTED_SPIDER_EYE, false));
-        this.tasks.addTask(++prio, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
         this.tasks.addTask(++prio, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(++prio, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(++prio, new EntityAILookIdle(this));
@@ -77,27 +64,10 @@ public class EntityChameleon extends EntityTameable
     {
         super.applyEntityAttributes();
         
-        if (this.isTamed())
-        {
-            this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
-        }
-        else
-        {
-            this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
-        }
-        
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20000000298023224D);
     }
-    
-    protected void entityInit()
-    {
-        super.entityInit();
-    }
-    
-    public boolean canDespawn()
-    {
-    	return !isTamed();
-    } 
+   
     
     /**
      * Returns the volume for the sounds this mob makes.
@@ -123,7 +93,7 @@ public class EntityChameleon extends EntityTameable
 	public void onUpdate() 
 	{
 		
-		if (this.isInWater() && !isCollidedHorizontally) {
+		if (this.isInWater() && !collidedHorizontally) {
 			motionY = 0.02D;
 		}
 		
@@ -164,174 +134,14 @@ public class EntityChameleon extends EntityTameable
 				}
 			}
 		}
-		
-        if (isTamed())
-        {
-            if (rand.nextInt(200) == 0)
-            {
-            	getEntityWorld().spawnParticle(EnumParticleTypes.HEART, posX + (rand.nextFloat() - rand.nextFloat()), posY + rand.nextFloat() + 1D, posZ + (rand.nextFloat() - rand.nextFloat()), 1, 1, 1);
-            }
-        }
         
 		super.onUpdate();
 	}
-	
-    public boolean isHealingItem(ItemStack stack)
-    {
-        return stack.getItem() == Items.SPIDER_EYE;
-    }
-    
-    public boolean isTamingItem(ItemStack stack)
-    {
-        return stack.getItem() == Items.MELON;
-    }
     
     public boolean isBreedingItem(ItemStack stack)
     {
         return stack.getItem() == Items.FERMENTED_SPIDER_EYE;
     }
-	
-    public boolean processInteract(EntityPlayer player, EnumHand hand)
-    {   
-    	ItemStack stack = player.getHeldItemMainhand();
-        
-        if (this.isTamed() && hand == EnumHand.MAIN_HAND)
-        {
-            if (!stack.isEmpty())
-            {
-                if (this.isHealingItem(stack))
-                {
-                     if (!player.capabilities.isCreativeMode)
-                     {
-                    	 stack.shrink(1);
-                     }
-                     
-                     this.playHealEffect();
-                     this.heal(20f);
-                     return true;
-                }
-            }
-
-            if (this.isOwner(player) && !this.isBreedingItem(stack))
-            {
-            	if(!this.getEntityWorld().isRemote)
-            	{
-            		this.aiSit.setSitting(!this.isSitting());
-            		this.isJumping = false;
-            		this.navigator.clearPathEntity();
-            	}
-            	else
-            	{
-            		this.playSitEffect();
-            	}
-            }
-        }
-        else if (!stack.isEmpty() && this.isTamingItem(stack) && hand == EnumHand.MAIN_HAND)
-        {
-            if (!player.capabilities.isCreativeMode)
-            {
-            	stack.shrink(1);
-            }
-
-            if (!this.getEntityWorld().isRemote)
-            {
-                    this.setTamed(true);
-                    this.navigator.clearPathEntity();
-                    this.setHealth(20.0F);
-                    this.setOwnerId(player.getUniqueID());
-                    this.playTameEffect(true);
-                    this.getEntityWorld().setEntityState(this, (byte)7);
-            }
-
-
-            return true;
-        }
-        
-        /*
-        if(worldObj.isRemote)
-        {
-        	int[] newColor = new int[3];
-        	
-        	if(!stack.isEmpty())
-        	{
-        			newColor = ColorUtil.getItemStackColor(stack, worldObj);
-            		
-            		if(newColor != null)
-            		{
-            			setNewSkinRGB(newColor);
-            		}
-        	
-        	}
-        }*/
-        
-        return super.processInteract(player, hand);
-    }
-	
-    /**
-     * Play the taming effect, will either be hearts or smoke depending on status
-     */
-    protected void playHealEffect()
-    {
-        EnumParticleTypes enumparticletypes = EnumParticleTypes.HEART;
-
-        for (int i = 0; i < 7; ++i)
-        {
-            double d0 = this.rand.nextGaussian() * 0.02D;
-            double d1 = this.rand.nextGaussian() * 0.02D;
-            double d2 = this.rand.nextGaussian() * 0.02D;
-            this.getEntityWorld().spawnParticle(enumparticletypes, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2, new int[0]);
-        }
-    }
-    
-    /**
-     * Play the taming effect, will either be hearts or smoke depending on status
-     */
-    protected void playSitEffect()
-    {
-        EnumParticleTypes enumparticletypes = EnumParticleTypes.NOTE;
-
-        for (int i = 0; i < 7; ++i)
-        {
-            double d0 = this.rand.nextGaussian() * 0.02D;
-            double d1 = this.rand.nextGaussian() * 0.02D;
-            double d2 = this.rand.nextGaussian() * 0.02D;
-            this.getEntityWorld().spawnParticle(enumparticletypes, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2, new int[0]);
-        }
-    }
-	
-    public void setTamed(boolean tamed)
-    {
-        super.setTamed(tamed);
-
-        if (tamed)
-        {
-            this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
-        }
-        else
-        {
-            this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
-        }
-    }
-    
-    public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
-	{
-	    if (par1DamageSource.damageType == "inWall" && isTamed())
-	    {
-	        return false;
-	    }
-	    
-	    else if (par1DamageSource.damageType == "fall" && isTamed())
-	    {
-	        return false;
-	    }
-	    
-	    else if (par1DamageSource.damageType == "drown" && isTamed())
-	    {
-	        return false;
-	    }
-
-	    return super.attackEntityFrom(par1DamageSource, par2);
-	}
 	
     public float[] getSkinRGB()
 	{
@@ -386,13 +196,5 @@ public class EntityChameleon extends EntityTameable
 			}
 		}
 	}
-	
-    /**
-     * Checks if the entity's current position is a valid location to spawn this entity.
-     */
-    public boolean getCanSpawnHere()
-    {
-        return super.getCanSpawnHere();
-    }
 
 }

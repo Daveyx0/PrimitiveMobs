@@ -1,7 +1,5 @@
 package net.daveyx0.primitivemobs.client.models;
 
-import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
-import net.daveyx0.primitivemobs.entity.IAttackAnimationMob;
 import net.daveyx0.primitivemobs.entity.monster.EntityTrollager;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;

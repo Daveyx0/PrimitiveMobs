@@ -1,13 +1,7 @@
 package net.daveyx0.primitivemobs.core;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTableList;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class PrimitiveMobsLootTables {
 
@@ -20,6 +14,11 @@ public class PrimitiveMobsLootTables {
 	public static final ResourceLocation ENTITIES_LILYLURKER = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/lily_lurker");
 	public static final ResourceLocation ENTITIES_DODO = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/dodo");
 	public static final ResourceLocation ENTITIES_MIMIC = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/mimic");
+	public static final ResourceLocation ENTITIES_FLAMESPEWER = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/flame_spewer");
+	public static final ResourceLocation ENTITIES_VOIDEYE = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/void_eye");
+	public static final ResourceLocation ENTITIES_HARPY = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/harpy");
+	public static final ResourceLocation ENTITIES_GOBLIN = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/goblin");
+	public static final ResourceLocation ENTITIES_MOTHERSPIDER = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/mother_spider");
 	
 	//Mimic chest loot
 	public static final ResourceLocation MIMIC_TREASURE= new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "chests/mimic_treasure");
@@ -30,10 +29,6 @@ public class PrimitiveMobsLootTables {
 	public static final ResourceLocation FILCHLIZARD_SPAWN = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/special/filch_lizard_spawn");
 	public static final ResourceLocation HAUNTEDTOOL_SPAWN = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/special/haunted_tool");
 	public static final ResourceLocation TREASURESLIME_SPAWN = new ResourceLocation(PrimitiveMobsReference.MODID + ":" + "entities/special/treasure_slime");
-	
-    public static void preInit() {
-    	registerLootTables();
-    }
 
     public static void registerLootTables() {
     	LootTableList.register(ENTITIES_CHAMELEON);
@@ -44,6 +39,11 @@ public class PrimitiveMobsLootTables {
     	LootTableList.register(ENTITIES_LILYLURKER);
     	LootTableList.register(ENTITIES_DODO);
     	LootTableList.register(ENTITIES_MIMIC);
+    	LootTableList.register(ENTITIES_GOBLIN);
+    	LootTableList.register(ENTITIES_HARPY);
+    	LootTableList.register(ENTITIES_VOIDEYE);
+    	LootTableList.register(ENTITIES_FLAMESPEWER);
+    	LootTableList.register(ENTITIES_MOTHERSPIDER);
     	
     	LootTableList.register(MIMIC_TREASURE);
     	LootTableList.register(MIMIC_TRAP);

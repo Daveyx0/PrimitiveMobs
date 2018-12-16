@@ -1,6 +1,7 @@
 package net.daveyx0.primitivemobs.config;
 
-import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+import java.io.File;
+
 import net.daveyx0.primitivemobs.core.PrimitiveMobsReference;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -11,19 +12,23 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class PrimitiveMobsConfig {
 
 	static Configuration config;
-
 	public static void load(FMLPreInitializationEvent event) {
-		config = new Configuration(event.getSuggestedConfigurationFile());
+		File dir = getPrimitiveMobsConfigurationLocation(event);
 		
-		reloadConfig();
+		if(!dir.exists())
+		{
+			dir.mkdirs();
+		}
 
+		config = new Configuration(new File(dir, "primitivemobs.cfg"));
+		reloadConfig();
+		
 		MinecraftForge.EVENT_BUS.register(new PrimitiveMobsConfig());
 	}
 
 	private static void reloadConfig() {
 		
 		PrimitiveMobsConfigMobs.load(config);
-		PrimitiveMobsConfigSpawns.load(config);
 		PrimitiveMobsConfigSpecial.load(config);
 
 		if (config.hasChanged()) {
@@ -36,5 +41,10 @@ public class PrimitiveMobsConfig {
 		if (event.getModID().equals(PrimitiveMobsReference.MODID)) {
 			reloadConfig();
 		}
+	}
+	
+	public static File getPrimitiveMobsConfigurationLocation(FMLPreInitializationEvent event)
+	{
+		return new File(event.getModConfigurationDirectory(), "primitivemobs");
 	}
 }

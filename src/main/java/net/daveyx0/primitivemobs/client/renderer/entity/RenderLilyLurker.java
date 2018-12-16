@@ -1,15 +1,12 @@
 package net.daveyx0.primitivemobs.client.renderer.entity;
 
-import net.daveyx0.primitivemobs.client.models.ModelChameleon;
 import net.daveyx0.primitivemobs.client.models.ModelLilyLurker;
 import net.daveyx0.primitivemobs.client.renderer.entity.layer.LayerHeldItemCustom;
 import net.daveyx0.primitivemobs.entity.monster.EntityLilyLurker;
-import net.daveyx0.primitivemobs.entity.passive.EntityChameleon;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

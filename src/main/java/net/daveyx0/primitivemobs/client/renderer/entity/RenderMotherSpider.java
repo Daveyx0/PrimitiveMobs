@@ -1,21 +1,11 @@
 package net.daveyx0.primitivemobs.client.renderer.entity;
 
 import net.daveyx0.primitivemobs.client.renderer.entity.layer.LayerPrimitiveSpiderEyes;
-import net.daveyx0.primitivemobs.entity.monster.EntityBabySpider;
-import net.daveyx0.primitivemobs.entity.monster.EntityBrainSlime;
 import net.daveyx0.primitivemobs.entity.monster.EntityMotherSpider;
-import net.daveyx0.primitivemobs.entity.monster.EntityPrimitiveSpider;
-import net.daveyx0.primitivemobs.entity.passive.EntityChameleon;
 import net.minecraft.client.model.ModelSpider;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderSpider;
-import net.minecraft.client.renderer.entity.layers.LayerSpiderEyes;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 

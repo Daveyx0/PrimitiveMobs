@@ -8,14 +8,14 @@ public class PrimitiveMobsConfigMobs {
 		enableGroveSprite, enableEnchantedBook, enableFilchLizard, enableBrainSlime,
 		enableRocketCreeper, enableFestiveCreeper, enableSupportCreeper, enableSkeletonWarrior,
 		enableBlazingJuggernaut, enableLilyLurker, enableSpiderFamily, enableTrollager,
-		enableLostMiner, enableSquirrel, enableMerchant, enableDodo, enableMimic;
+		enableLostMiner, enableSquirrel, enableMerchant, enableDodo, enableMimic,
+		enableSheepman, enableGoblin, enableHarpy, enableFlameSpewer, enableVoidWatcher;
 	
 	public static void load(Configuration config) {
 		String category = "Mob Activation Settings";
 		
 		config.addCustomCategoryComment(category, "Enable/Disable mobs");
 		config.setCategoryRequiresMcRestart(category, true);
-
 		enableChameleon = config.get(category, "Enable Chameleon", true, "Enable/Disable the Chameleon").getBoolean();
 		enableTreasureSlime = config.get(category, "Enable Treasure Slime", true, "Enable/Disable the Treasure Slime").getBoolean();
 		enableHauntedTool = config.get(category, "Enable Haunted Tool", true, "Enable/Disable the Haunted Tool").getBoolean();
@@ -36,6 +36,11 @@ public class PrimitiveMobsConfigMobs {
 		enableMerchant = config.get(category, "Enable Traveling Merchant", true, "Enable/Disable the Traveling Merchant").getBoolean();
 		enableDodo = config.get(category, "Enable Dodo", true, "Enable/Disable the Dodo").getBoolean();
 		enableMimic= config.get(category, "Enable Mimic", true, "Enable/Disable the Mimic").getBoolean();
+		enableSheepman = config.get(category, "Enable Sheepman", true, "Enable/Disable the Sheepman").getBoolean();
+		enableGoblin = config.get(category, "Enable Goblin", true, "Enable/Disable the Goblin").getBoolean();
+		enableHarpy = config.get(category, "Enable Harpy", true, "Enable/Disable the Harpy").getBoolean();
+		enableFlameSpewer = config.get(category, "Enable Flame Spewer", true, "Enable/Disable the Flame Spewer").getBoolean();
+		enableVoidWatcher = config.get(category, "Enable Void Watcher", true, "Enable/Disable the Void Watcher").getBoolean();
 	}
 
 }

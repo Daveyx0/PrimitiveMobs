@@ -4,13 +4,10 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Sets;
 
+import net.daveyx0.multimob.entity.ai.EntityAITemptItemStack;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsVillagerProfessions;
-import net.daveyx0.primitivemobs.entity.ai.EntityAITemptItemStack;
-import net.minecraft.block.Block;
 import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
@@ -18,26 +15,18 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.stats.StatList;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.village.Village;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerCareer;
-import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
 
 public class EntityTravelingMerchant extends EntityVillager {
 
@@ -83,8 +72,8 @@ public class EntityTravelingMerchant extends EntityVillager {
 	    {
 	        ItemStack itemstack = player.getHeldItem(hand);
 	        boolean flag = itemstack.getItem() == Item.getItemFromBlock(Blocks.EMERALD_BLOCK);
-
-	        if (flag)
+	        
+	        if (flag && ((Boolean)this.dataManager.get(CAN_DESPAWN)).booleanValue())
 	        {
 	        	this.consumeItemFromStack(player, itemstack);
 	        	this.setCanDespawn(false);
@@ -131,6 +120,7 @@ public class EntityTravelingMerchant extends EntityVillager {
     public void writeEntityToNBT(NBTTagCompound compound)
     {
         super.writeEntityToNBT(compound);
+        compound.setBoolean("canDespawn", ((Boolean)this.dataManager.get(CAN_DESPAWN)).booleanValue());
     }
 
     /**
@@ -139,6 +129,7 @@ public class EntityTravelingMerchant extends EntityVillager {
     public void readEntityFromNBT(NBTTagCompound compound)
     {
         super.readEntityFromNBT(compound);
+        this.setCanDespawn(compound.getBoolean("canDespawn"));
     }
 
     /**

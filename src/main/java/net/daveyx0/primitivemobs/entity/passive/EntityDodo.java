@@ -1,16 +1,11 @@
 package net.daveyx0.primitivemobs.entity.passive;
 
-import java.util.Set;
-
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Sets;
-
+import net.daveyx0.multimob.entity.ai.EntityAITemptItemStack;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsItems;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
-import net.daveyx0.primitivemobs.entity.ai.EntityAITemptItemStack;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockGrass;
 import net.minecraft.block.state.IBlockState;
@@ -20,10 +15,8 @@ import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -50,7 +43,7 @@ public class EntityDodo extends EntityChicken
 	public EntityDodo(World worldIn) {
 		super(worldIn);
 		this.timeUntilNextShed = this.rand.nextInt(6000) + 6000;
-		this.timeUntilNextDodoEgg = this.rand.nextInt(60000) + 60000;
+		this.timeUntilNextDodoEgg = this.rand.nextInt(10000) + 10000;
 		this.setSize(0.75f, 0.75f);
 	}
 	
@@ -108,7 +101,7 @@ public class EntityDodo extends EntityChicken
         {
             this.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
             this.dropItem(PrimitiveMobsItems.DODO_EGG, 1);
-            this.timeUntilNextDodoEgg = this.rand.nextInt(60000) + 60000;
+            this.timeUntilNextDodoEgg = this.rand.nextInt(10000) + 10000;
         }
     }
     

@@ -1,10 +1,6 @@
 package net.daveyx0.primitivemobs.entity.ai;
 
-import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.entity.monster.EntityMotherSpider;
-import net.daveyx0.primitivemobs.entity.monster.EntityPrimitiveTameableMob;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAITarget;
 

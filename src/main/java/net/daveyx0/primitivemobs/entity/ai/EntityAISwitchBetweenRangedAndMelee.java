@@ -1,13 +1,9 @@
 package net.daveyx0.primitivemobs.entity.ai;
 
-import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.daveyx0.primitivemobs.entity.monster.EntitySkeletonWarrior;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityMoveHelper.Action;
 import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemBow;
 import net.minecraft.util.EnumHand;
 
@@ -108,7 +104,7 @@ public class EntityAISwitchBetweenRangedAndMelee extends EntityAIAttackMelee
 
 				if (d0 <= (double)this.maxAttackDistance && this.seeTime >= 20)
 				{
-					this.entity.getNavigator().clearPathEntity();
+					this.entity.getNavigator().clearPath();
 					++this.strafingTime;
 				}
 				else

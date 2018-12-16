@@ -1,23 +1,20 @@
 package net.daveyx0.primitivemobs.client.renderer.entity;
 
-import net.daveyx0.primitivemobs.client.models.ModelChameleon;
 import net.daveyx0.primitivemobs.client.models.ModelGroveSprite;
 import net.daveyx0.primitivemobs.client.renderer.entity.layer.LayerGroveSpriteLeaves;
 import net.daveyx0.primitivemobs.client.renderer.entity.layer.LayerGroveSpriteStump;
 import net.daveyx0.primitivemobs.client.renderer.entity.layer.LayerHeldItemCustom;
-import net.daveyx0.primitivemobs.entity.monster.EntityTreasureSlime;
-import net.daveyx0.primitivemobs.entity.passive.EntityChameleon;
 import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderGroveSprite<T extends EntityLiving> extends RenderLiving<EntityGroveSprite> {
 
     private static final ResourceLocation GROVEBASE_TEXTURES = new ResourceLocation("primitivemobs", "textures/entity/grovesprite/grovebase.png");
+    private static final ResourceLocation GROVEBASE_CINDER_TEXTURES = new ResourceLocation("primitivemobs", "textures/entity/grovesprite/grovecinder.png");
 
     public RenderGroveSprite(RenderManager renderManagerIn)
     {
@@ -31,7 +28,14 @@ public class RenderGroveSprite<T extends EntityLiving> extends RenderLiving<Enti
      */
     protected ResourceLocation getEntityTexture(EntityGroveSprite entity)
     {
-        return GROVEBASE_TEXTURES;
+        if(entity.isCinderSprite())
+        {
+            return GROVEBASE_CINDER_TEXTURES;
+        }
+        else
+        {
+        	return GROVEBASE_TEXTURES;
+        }
     }
     
     @Override

@@ -3,31 +3,16 @@ package net.daveyx0.primitivemobs.world.gen;
 import java.util.Random;
 
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
-import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpawns;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
-import net.daveyx0.primitivemobs.core.PrimitiveMobsLogger;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.BannerPattern;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityBanner;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraft.world.storage.loot.LootTableList;
-import net.minecraftforge.fml.common.IWorldGenerator;
-
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 public class WorldGenMimic implements IWorldGenerator {
@@ -53,9 +38,9 @@ public class WorldGenMimic implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		int chance = (int)(100/(PrimitiveMobsConfigSpawns.mimicSpawnRate*100));
+		int chance = PrimitiveMobsConfigSpecial.getMimicRarity();
 		if (PrimitiveMobsConfigMobs.enableMimic && PrimitiveMobsConfigSpecial.getMimicGeneratesInCaves()
-				&& PrimitiveMobsConfigSpawns.mimicSpawnRate > 0 && world.provider.getDimension() == 0 && random.nextInt(chance) == 0) {
+				&& PrimitiveMobsConfigSpecial.getMimicRarity() > 0 && world.provider.getDimension() == 0 && random.nextInt(chance) == 0) {
 			
 			final BlockPos basePos = new BlockPos(chunkX * 16, 0, chunkZ * 16);
 			generateMimicChest(random, world, basePos);

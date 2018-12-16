@@ -1,17 +1,12 @@
 package net.daveyx0.primitivemobs.entity.monster;
 
-import java.util.Calendar;
-
 import javax.annotation.Nullable;
 
-import net.daveyx0.primitivemobs.entity.ai.EntityAIBackOffFromEnemy;
 import net.daveyx0.primitivemobs.entity.ai.EntityAISwitchBetweenRangedAndMelee;
-import net.daveyx0.primitivemobs.entity.item.EntityPrimitiveTNTPrimed;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIAttackRangedBow;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIFleeSun;
@@ -24,26 +19,19 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntitySpectralArrow;
+import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldProviderHell;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeSnow;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntitySkeletonWarrior extends EntitySkeleton {
     
@@ -66,6 +54,12 @@ public class EntitySkeletonWarrior extends EntitySkeleton {
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
         this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityIronGolem.class, true));
+    }
+    
+    protected void applyEntityAttributes()
+    {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25.0D);
     }
     
     @Nullable
@@ -109,6 +103,18 @@ public class EntitySkeletonWarrior extends EntitySkeleton {
     	}
     }
     
+    protected EntityArrow getArrow(float p_190726_1_)
+    {
+        EntityArrow entityarrow = super.getArrow(p_190726_1_);
+
+        if (entityarrow instanceof EntityTippedArrow)
+        {
+            ((EntityTippedArrow)entityarrow).addEffect(new PotionEffect(MobEffects.WEAKNESS, 600));
+        }
+
+        return entityarrow;
+    }
+    
     public class EntityAISwitchWeapons extends EntityAIBase
     {
     	EntitySkeleton mob;
@@ -143,8 +149,8 @@ public class EntitySkeletonWarrior extends EntitySkeleton {
 	        }
 	        else
 	        {
-	        	if(((this.mob.getDistanceToEntity(this.target) < minDistance && this.mob.getHeldItemMainhand() != weaponOne) || 
-	        			(this.mob.getDistanceToEntity(this.target) > maxDistance && this.mob.getHeldItemMainhand() != weaponTwo)) && this.mob.canEntityBeSeen(this.target))
+	        	if(((this.mob.getDistance(this.target) < minDistance && this.mob.getHeldItemMainhand() != weaponOne) || 
+	        			(this.mob.getDistance(this.target) > maxDistance && this.mob.getHeldItemMainhand() != weaponTwo)) && this.mob.canEntityBeSeen(this.target))
 	        	{
 	        		return true;
 	        	}
@@ -174,11 +180,11 @@ public class EntitySkeletonWarrior extends EntitySkeleton {
 	     */
 	    public void updateTask()
 	    {
-	    	if(this.mob.getDistanceToEntity(this.target) < minDistance)
+	    	if(this.mob.getDistance(this.target) < minDistance)
 	    	{
 	    		this.mob.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, weaponOne);
 	    	}
-	    	else if(this.mob.getDistanceToEntity(this.target) > maxDistance)
+	    	else if(this.mob.getDistance(this.target) > maxDistance)
 	    	{
 	    		this.mob.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, weaponTwo);
 	    	}

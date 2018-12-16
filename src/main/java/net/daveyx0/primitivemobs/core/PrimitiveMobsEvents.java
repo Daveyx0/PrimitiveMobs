@@ -1,42 +1,55 @@
 package net.daveyx0.primitivemobs.core;
 
-import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+import java.util.ArrayList;
+import java.util.Collections;
+
+import javax.annotation.Nullable;
+
+import net.daveyx0.multimob.message.MMMessageRegistry;
+import net.daveyx0.multimob.message.MessageMMParticle;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
+import net.daveyx0.primitivemobs.entity.monster.EntityHarpy;
 import net.daveyx0.primitivemobs.entity.monster.EntityHauntedTool;
 import net.daveyx0.primitivemobs.entity.monster.EntityMimic;
+import net.daveyx0.primitivemobs.entity.monster.EntityRocketCreeper;
 import net.daveyx0.primitivemobs.entity.monster.EntitySkeletonWarrior;
 import net.daveyx0.primitivemobs.entity.passive.EntityLostMiner;
+import net.daveyx0.primitivemobs.entity.passive.EntitySheepman;
 import net.daveyx0.primitivemobs.entity.passive.EntityTravelingMerchant;
-import net.daveyx0.primitivemobs.message.MessagePrimitiveParticle;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
+import net.daveyx0.primitivemobs.item.ItemCamouflageArmor;
+import net.daveyx0.primitivemobs.item.ItemGoblinMace;
+import net.daveyx0.primitivemobs.message.MessagePrimitiveJumping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.play.server.SPacketSetPassengers;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.LockCode;
-import net.minecraft.world.storage.loot.LootTableList;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityMountEvent;
+import net.minecraftforge.event.entity.PlaySoundAtEntityEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickBlock;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerCareer;
-import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PrimitiveMobsEvents {
 
@@ -67,6 +80,31 @@ public static class EntityEventHandler {
 					villager.setProfession(0);
 				}
 		}
+		
+		if(event.getEntity() instanceof EntityVillager && !(event.getEntity() instanceof EntitySheepman))
+		{
+			EntityVillager villager = (EntityVillager)event.getEntity();
+			
+				if(villager != null && (villager.getProfession() == net.minecraftforge.fml.common.registry.VillagerRegistry.getId(PrimitiveMobsVillagerProfessions.SHEEPMAN_PROFESSION_ALCHEMIST)
+						|| villager.getProfession() == net.minecraftforge.fml.common.registry.VillagerRegistry.getId(PrimitiveMobsVillagerProfessions.SHEEPMAN_PROFESSION_SCAVENGER)
+						|| villager.getProfession() == net.minecraftforge.fml.common.registry.VillagerRegistry.getId(PrimitiveMobsVillagerProfessions.SHEEPMAN_PROFESSION_THIEF)))
+				{
+					villager.setProfession(0);
+				}
+		}
+	}
+	
+	@SubscribeEvent
+	public static void onPlayerLogOutEvent(PlayerLoggedOutEvent event)
+	{
+		if(event.player.isBeingRidden())
+		{
+			event.player.removePassengers();
+
+	        if(event.player instanceof EntityPlayerMP) {
+	        	MMMessageRegistry.networkWrapper.sendPacket(event.player, new SPacketSetPassengers(event.player));
+	        }
+		}
 	}
 	
 	@SubscribeEvent
@@ -87,13 +125,13 @@ public static class EntityEventHandler {
 				}
 			}
 			
-			if(isEmpty && event.getEntityPlayer().getHeldItemMainhand() != null && event.getEntityPlayer().getHeldItemMainhand().getItem() == PrimitiveMobsItems.MIMIC_ORB)
+			if(event.getEntityPlayer().isCreative() && isEmpty && event.getEntityPlayer().getHeldItemMainhand() != null && event.getEntityPlayer().getHeldItemMainhand().getItem() == PrimitiveMobsItems.MIMIC_ORB)
 			{
 			if(chest.adjacentChestXNeg == null && chest.adjacentChestXPos == null && chest.adjacentChestZNeg == null && chest.adjacentChestZPos == null)
 			{
 				consumeItemFromStack(event.getEntityPlayer(), event.getEntityPlayer().getHeldItemMainhand());
-				compound.setInteger("Mimic", 2);
-				PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(EnumParticleTypes.SMOKE_NORMAL.getParticleID(), 10, event.getPos().getX() + 0.5f, event.getPos().getY() + 0.5F, event.getPos().getZ() + 0.5f, 0D, 0.0D,0.0D, 0));
+				compound.setInteger("Mimic", 1);
+				MMMessageRegistry.getNetwork().sendToAll(new MessageMMParticle(EnumParticleTypes.SMOKE_NORMAL.getParticleID(), 10, event.getPos().getX() + 0.05f, event.getPos().getY() + 0.05F, event.getPos().getZ() + 0.05f, 0D, 0.01D,0.0D, 0));
 				//chest.setLockCode(new LockCode(event.getWorld().rand.toString()));
 				event.setCanceled(true);
 			}
@@ -127,7 +165,7 @@ public static class EntityEventHandler {
 					event.getWorld().setBlockToAir(event.getPos());
 					event.setCanceled(true);
 
-			        PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(EnumParticleTypes.CLOUD.getParticleID(), 10, event.getPos().getX() + 0.5f, event.getPos().getY() + 0.5F, event.getPos().getZ() + 0.5f, 0D, 0.0D,0.0D, 0));
+					MMMessageRegistry.getNetwork().sendToAll(new MessageMMParticle(EnumParticleTypes.CLOUD.getParticleID(), 10, event.getPos().getX() + 0.05f, event.getPos().getY() + 0.05F, event.getPos().getZ() + 0.05f, 0D, 0.01D,0.0D, 0));
 				}
 				else if(flag1 && chest.adjacentChestXNeg == null && chest.adjacentChestXPos == null && chest.adjacentChestZNeg == null && chest.adjacentChestZPos == null)
 				{
@@ -157,10 +195,10 @@ public static class EntityEventHandler {
 					}
 					
 					chest.setLootTable(PrimitiveMobsLootTables.MIMIC_TRAP, event.getWorld().rand.nextLong());
-					compound.setInteger("Mimic", 0);
+					compound.setInteger("Mimic", 2);
 					event.setCanceled(true);
 					
-					PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(EnumParticleTypes.CLOUD.getParticleID(), 10, event.getPos().getX() + 0.5f, event.getPos().getY() + 0.5F, event.getPos().getZ() + 0.5f, 0D, 0.0D,0.0D, 0));
+					MMMessageRegistry.getNetwork().sendToAll(new MessageMMParticle(EnumParticleTypes.CLOUD.getParticleID(), 10, event.getPos().getX() + 0.5f, event.getPos().getY() + 0.5F, event.getPos().getZ() + 0.5f, 0D, 0.0D,0.0D, 0));
 				}
 				else if(chest.adjacentChestXNeg == null && chest.adjacentChestXPos == null && chest.adjacentChestZNeg == null && chest.adjacentChestZPos == null)
 				{
@@ -185,12 +223,42 @@ public static class EntityEventHandler {
 				if(chest.adjacentChestXNeg == null && chest.adjacentChestXPos == null && chest.adjacentChestZNeg == null && chest.adjacentChestZPos == null)
 				{
 					consumeItemFromStack(event.getEntityPlayer(), event.getEntityPlayer().getHeldItemMainhand());
-					compound.setInteger("Mimic", 1);
-					PrimitiveMobs.getSimpleNetworkWrapper().sendToAll(new MessagePrimitiveParticle(EnumParticleTypes.CLOUD.getParticleID(), 10, event.getPos().getX() + 0.5f, event.getPos().getY() + 0.5F, event.getPos().getZ() + 0.5f, 0D, 0.0D,0.0D, 0));
+					compound.setInteger("Mimic", 2);
+					MMMessageRegistry.getNetwork().sendToAll(new MessageMMParticle(EnumParticleTypes.CLOUD.getParticleID(), 10, event.getPos().getX() + 0.5f, event.getPos().getY() + 0.5F, event.getPos().getZ() + 0.5f, 0D, 0.0D,0.0D, 0));
 					//chest.setLockCode(new LockCode(event.getWorld().rand.toString()));
 					event.setCanceled(true);
 				}
 				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onLivingUpdate(LivingUpdateEvent event)
+	{
+		// Sync armor when on a different entity then a player
+		EntityLivingBase entityLiving = event.getEntityLiving();
+		if(entityLiving != null && entityLiving.ticksExisted % 5 == 0)
+		{
+			ItemCamouflageArmor.setCamouflageArmorNBT(entityLiving, EntityEquipmentSlot.CHEST);
+			ItemCamouflageArmor.setCamouflageArmorNBT(entityLiving, EntityEquipmentSlot.FEET);
+			ItemCamouflageArmor.setCamouflageArmorNBT(entityLiving, EntityEquipmentSlot.HEAD);
+			ItemCamouflageArmor.setCamouflageArmorNBT(entityLiving, EntityEquipmentSlot.LEGS);
+		}
+		
+
+	}
+	
+	@SubscribeEvent
+	public void onSetAttackTarget(LivingSetAttackTargetEvent event)
+	{
+		EntityLivingBase entityLiving = event.getEntityLiving();
+		if(entityLiving != null && entityLiving instanceof EntityZombie)
+		{
+			EntityZombie zombie = (EntityZombie)entityLiving;
+			if(event.getTarget() instanceof EntitySheepman)
+			{
+				zombie.setAttackTarget(null);
 			}
 		}
 	}
@@ -202,5 +270,128 @@ public static class EntityEventHandler {
             stack.shrink(1);
         }
     }
+    
+    @SubscribeEvent
+    public void onLivingFall(LivingFallEvent event)
+    {
+    	if(event.getEntityLiving() != null && event.getEntityLiving() instanceof EntityRocketCreeper)
+    	{
+    		event.setCanceled(true);
+    	}
+    }
+    
+    @SubscribeEvent
+    public void onEntityAttacked(LivingAttackEvent event)
+    {
+    	if(event.getSource().getTrueSource() != null && event.getSource().getTrueSource() instanceof EntityLivingBase)
+    	{
+    		EntityLivingBase sourceEntity = (EntityLivingBase)event.getSource().getTrueSource();
+    		
+    		if(sourceEntity.getHeldItemMainhand().getItem() == PrimitiveMobsItems.GOBLIN_MACE)
+    		{
+    		ArrayList<ItemStack> damageableArmorPieces = new ArrayList<ItemStack>();
+    	    Iterable<ItemStack> armorPieces = event.getEntityLiving().getArmorInventoryList();
+    	    
+    	    if(armorPieces!= null && !armorPieces.equals(Collections.<ItemStack>emptyList()))
+    	    {
+    	    	for (ItemStack piece : event.getEntityLiving().getArmorInventoryList())
+    	    	{
+    	    		if(!piece.isEmpty() && piece.isItemStackDamageable())
+    	    		{
+    	    			damageableArmorPieces.add(piece);
+    	    		}
+    	    	}
+    	    	
+    	    	if(!damageableArmorPieces.isEmpty())
+    	    	{
+    	    		ItemStack targetPiece = damageableArmorPieces.get(event.getEntityLiving().getRNG().nextInt(damageableArmorPieces.size()));
+    	    		targetPiece.damageItem((int)(targetPiece.getMaxDamage() * ItemGoblinMace.damagePercentage), event.getEntityLiving());
+    	    		//EntityEquipmentSlot slot = getSlotFromItemStack(event.getEntityLiving(), targetPiece);
+    				//MultiMob.LOGGER.info(targetPiece.getDisplayName() + " " + targetPiece.getItemDamage() + " " + slot.name());
+    	    		//if(slot != null)
+    	    		//{
+
+    	    			//event.getEntityLiving().setItemStackToSlot(slot, targetPiece.copy());
+    	    		//}
+
+    	    	}
+    	    }
+    		}
+    	}
+    }
+    
+    @Nullable
+    public EntityEquipmentSlot getSlotFromItemStack(EntityLivingBase entityIn, ItemStack stack)
+    {
+    	if(entityIn != null && !stack.isEmpty())
+    	{
+    		if(stack.getItem() == entityIn.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem())
+    		{
+    			return EntityEquipmentSlot.HEAD;
+    		}
+    		else if(stack.getItem() == entityIn.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem())
+    		{
+    			return EntityEquipmentSlot.CHEST;
+    		}
+    		else if(stack.getItem() == entityIn.getItemStackFromSlot(EntityEquipmentSlot.LEGS).getItem())
+    		{
+    			return EntityEquipmentSlot.LEGS;
+    		}
+    		else if(stack.getItem() == entityIn.getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem())
+    		{
+    			return EntityEquipmentSlot.FEET;
+    		}
+    	}
+
+		return null;
+    }
+    
+	@SubscribeEvent
+	public static void DismountPlayerEvent(EntityMountEvent event)
+	{
+		if(event.isDismounting() && event.getEntityBeingMounted() != null && event.getEntityBeingMounted() instanceof EntityHarpy)
+		{
+			if(event.getEntityMounting() != null && event.getEntityMounting().isSneaking() && event.getEntityMounting() instanceof EntityPlayer)
+			{
+				event.setCanceled(true);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public static void PlayEntitySound (PlaySoundAtEntityEvent event)
+	{
+		//Cheating the system cause the getEntity() will always result in null
+		if(event.getVolume() == 1.11F)
+		{
+			EntitySheepman sheepman = (EntitySheepman)event.getEntity();
+
+			if(event.getSound() == SoundEvents.ENTITY_VILLAGER_YES)
+			{
+				event.setSound(SoundEvents.ENTITY_SHEEP_AMBIENT);
+			}
+			else if(event.getSound() == SoundEvents.ENTITY_VILLAGER_NO)
+			{
+				event.setSound(SoundEvents.ENTITY_SHEEP_HURT);
+			}
+
+		}
+	}
+	
+	/**
+	* KeyInputEvent is in the FML package, so we must register to the FML event bus
+	*/
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void onKeyInput(KeyInputEvent event) 
+	{
+		if(Minecraft.getMinecraft().gameSettings.keyBindJump.isKeyDown())
+		{
+			String UUID = Minecraft.getMinecraft().player.getUniqueID().toString();
+			MMMessageRegistry.getNetwork().sendToServer(new MessagePrimitiveJumping(UUID));
+		}
+
+	}
+    
 }
 }

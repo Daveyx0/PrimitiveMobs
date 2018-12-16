@@ -1,22 +1,18 @@
 package net.daveyx0.primitivemobs.entity.monster;
 
-import com.google.common.base.Optional;
 import java.util.UUID;
+
 import javax.annotation.Nullable;
+
+import com.google.common.base.Optional;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityOwnable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAIFindEntityNearest;
 import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
-import net.minecraft.entity.ai.EntityAIMoveIndoors;
-import net.minecraft.entity.ai.EntityAIOpenDoor;
-import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
-import net.minecraft.entity.ai.EntityAISit;
 import net.minecraft.entity.ai.EntityMoveHelper;
-import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -33,8 +29,6 @@ import net.minecraft.server.management.PreYggdrasilConverter;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class EntityTameableSlime extends EntitySlime implements IEntityOwnable
 {
@@ -339,7 +333,7 @@ public abstract class EntityTameableSlime extends EntitySlime implements IEntity
             {
                 return false;
             }
-            else if(slime.isTamed() && slime.isOwner(entitylivingbase) && slime.getDistanceToEntity(slime.getOwner()) > 2F)
+            else if(slime.isTamed() && slime.isOwner(entitylivingbase) && slime.getDistance(slime.getOwner()) > 2F)
             {
             	return true;
             }
@@ -376,7 +370,7 @@ public abstract class EntityTameableSlime extends EntitySlime implements IEntity
             {
                 return false;
             }
-            else if(slime.isTamed() && slime.isOwner(entitylivingbase) && slime.getDistanceToEntity(slime.getOwner()) > 2F)
+            else if(slime.isTamed() && slime.isOwner(entitylivingbase) && slime.getDistance(slime.getOwner()) > 2F)
             {
             	return true;
             }

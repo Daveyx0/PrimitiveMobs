@@ -5,15 +5,15 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.daveyx0.primitivemobs.common.PrimitiveMobs;
+import net.daveyx0.multimob.message.MMMessageRegistry;
+import net.daveyx0.multimob.util.ColorUtil;
+import net.daveyx0.primitivemobs.core.PrimitiveMobs;
 import net.daveyx0.primitivemobs.message.MessagePrimitiveColor;
-import net.daveyx0.primitivemobs.util.ColorUtil;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -21,7 +21,6 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -58,7 +57,7 @@ public class ItemCamouflageArmor extends ItemArmor{
 			{
 				setColorBlockState(armor, currentState);
 			}
-			PrimitiveMobs.getSimpleNetworkWrapper().sendToServer(new MessagePrimitiveColor(getColor(armor), this.armorType,  player.getUniqueID().toString()));
+			MMMessageRegistry.getNetwork().sendToServer(new MessagePrimitiveColor(getColor(armor), this.armorType,  player.getUniqueID().toString()));
 		}
 		
 		//PrimitiveMobs.PMlogger.info("" + getColor(armor));
@@ -323,4 +322,25 @@ public class ItemCamouflageArmor extends ItemArmor{
 
              nbttagcompound.setBoolean("change", set);
     }
+    
+	//Sets color nbt value of the camouflage armor and sends it over to the server so other player can see it, used for entities that wear the armor
+	 public static void setCamouflageArmorNBT(EntityLivingBase entity, EntityEquipmentSlot slot)
+	    {
+	    	ItemStack stack = entity.getItemStackFromSlot(slot);
+	    	if(stack.getItem() instanceof ItemCamouflageArmor)
+			{
+				ItemCamouflageArmor item = (ItemCamouflageArmor)stack.getItem();
+				
+				if(!item.getCannotChange(stack) && entity.getEntityWorld().isRemote)
+				{
+					int color = ColorUtil.getBlockColor(entity);
+					if(color < -1)
+					{
+						item.setColor(stack, color);
+						item.setColorBlockState(stack, ColorUtil.getBlockState(entity));
+						MMMessageRegistry.getNetwork().sendToServer(new MessagePrimitiveColor(item.getColor(stack), slot,  entity.getUniqueID().toString()));
+					}
+				}
+			}
+	    }
 }
