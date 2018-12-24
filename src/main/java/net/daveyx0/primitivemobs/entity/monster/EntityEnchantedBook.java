@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -56,6 +57,12 @@ public class EntityEnchantedBook extends EntityMob {
         this.tasks.addTask(++prio, new EntityAILookIdle(this));
         int attackPrio = 1;
         this.targetTasks.addTask(++attackPrio, new EntityAIHurtByTarget(this, true));
+    }
+	
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
 	
     protected void applyEntityAttributes()

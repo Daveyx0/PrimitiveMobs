@@ -11,6 +11,7 @@ import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -66,6 +67,12 @@ public class EntityHauntedTool extends EntityMob {
         this.tasks.addTask(++prio, new EntityAILookIdle(this));
         int attackPrio = 1;
         this.targetTasks.addTask(++attackPrio, new EntityAIHurtByTarget(this, false));
+    }
+	
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
 	
     protected void applyEntityAttributes()

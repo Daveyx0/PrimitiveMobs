@@ -10,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockGrass;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.ai.EntityAIFollowParent;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
@@ -176,6 +177,12 @@ public class EntityDodo extends EntityChicken
         IBlockState iblockstate = this.world.getBlockState((new BlockPos(this)).down());
         boolean flag = iblockstate.canEntitySpawn(this);
         return this.world.getBlockState(blockpos.down()).getBlock() == Blocks.MYCELIUM && this.world.getLight(blockpos) > 8 && this.getBlockPathWeight(new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ)) >= 0.0F && flag;
+    }
+    
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
 
 

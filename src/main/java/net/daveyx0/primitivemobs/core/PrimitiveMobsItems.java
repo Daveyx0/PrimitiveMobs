@@ -20,6 +20,7 @@ import net.daveyx0.primitivemobs.item.ItemPrimitiveEgg;
 import net.daveyx0.primitivemobs.item.ItemPrimitiveFood;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -104,9 +105,20 @@ public class PrimitiveMobsItems extends MMItemRegistry{
 		        	EntityBabySpider spider = (EntityBabySpider)target;
 		        	
 		        	if(spider.isEntityAlive() && spider.getGrowthLevel() == 0)
-		        	{
+		        	{       	
+			        	if(!playerIn.world.isRemote)
+			        	{
+			        		EntityItem entityitem = new EntityItem(spider.world, spider.posX, spider.posY + 0.5D, spider.posZ, new ItemStack(PrimitiveMobsItems.SPIDER_EGG));
+			                entityitem.setDefaultPickupDelay();
+			                spider.world.spawnEntity(entityitem);
+			        	}
+			        	
+			        	if(!playerIn.capabilities.isCreativeMode)
+			        	{
+				        	stack.shrink(1);
+			        	}
+			        	
 			        	target.setDead();
-			        	playerIn.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(PrimitiveMobsItems.SPIDER_EGG));
 		        	}
 
 		            return true;

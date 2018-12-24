@@ -1,5 +1,7 @@
 package net.daveyx0.primitivemobs.client.renderer.entity;
 
+import java.util.Calendar;
+
 import net.daveyx0.primitivemobs.client.models.ModelMimic;
 import net.daveyx0.primitivemobs.client.renderer.entity.layer.LayerMimicMouth;
 import net.daveyx0.primitivemobs.entity.monster.EntityMimic;
@@ -13,11 +15,20 @@ import net.minecraft.util.math.MathHelper;
 public class RenderMimic<T extends EntityLiving> extends RenderLiving<EntityMimic>
 {
     private static final ResourceLocation CHEST_TEXTURES = new ResourceLocation("minecraft", "textures/entity/chest/normal.png");
+    private static final ResourceLocation CHEST_CHRISTMAS_TEXTURES = new ResourceLocation("minecraft", "textures/entity/chest/christmas.png");
+    private boolean isChristmas;
     
     public RenderMimic(RenderManager renderManagerIn)
     {
         super(renderManagerIn, new ModelMimic(), 0.45f);
         this.addLayer(new LayerMimicMouth(this));
+        
+        Calendar calendar = Calendar.getInstance();
+
+        if (calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26)
+        {
+            this.isChristmas = true;
+        }
     }
     
     protected void isInAir(EntityMimic entitymimic)
@@ -54,6 +65,14 @@ public class RenderMimic<T extends EntityLiving> extends RenderLiving<EntityMimi
      */
     protected ResourceLocation getEntityTexture(EntityMimic mimic)
     {
-    	return CHEST_TEXTURES;
+    	if(this.isChristmas)
+    	{
+    		return CHEST_CHRISTMAS_TEXTURES;
+    	}
+    	else
+    	{
+        	return CHEST_TEXTURES;
+    	}
+
     }
 }

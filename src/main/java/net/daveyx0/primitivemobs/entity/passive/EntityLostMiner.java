@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsVillagerProfessions;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,14 +28,13 @@ import net.minecraft.world.World;
 public class EntityLostMiner extends EntityVillager {
 
 	private static final DataParameter<Boolean> IS_SAVED = EntityDataManager.<Boolean>createKey(EntityLostMiner.class, DataSerializers.BOOLEAN);
-	private static final DataParameter<Boolean> DOOR_NEARBY = EntityDataManager.<Boolean>createKey(EntityLostMiner.class, DataSerializers.BOOLEAN);
+	//private static final DataParameter<Boolean> DOOR_NEARBY = EntityDataManager.<Boolean>createKey(EntityLostMiner.class, DataSerializers.BOOLEAN);
 	
 	EntityPlayer currentPlayer;
 	
 	public EntityLostMiner(World worldIn) {
 		super(worldIn);
 		currentPlayer = null;
-		this.setDoorNearby(false);
 	}
 	
 	public void onUpdate()
@@ -65,23 +65,6 @@ public class EntityLostMiner extends EntityVillager {
 	        double d1 = posY + rand.nextDouble() / 3D;
 	        double d2 = posZ + Math.cos(rotationYaw * f) / 3D;
 	        world.spawnParticle(particle, d, d1 + 1.8D, d2, 0.0D, 0.0D, 0.0D);
-			
-			if(!world.isRemote)
-			{
-				BlockPos blockpos = new BlockPos(this);
-				Village village = this.world.getVillageCollection().getNearestVillage(blockpos, 14);
-				if(village != null)
-				{
-					if(village.getDoorInfo(blockpos)!= null)
-					{
-						this.setDoorNearby(true);
-					}
-					else
-					{
-						this.setDoorNearby(false);
-					}
-				}
-			}
 		}
 		
 		if(!isSaved() && currentPlayer != null)
@@ -134,7 +117,7 @@ public class EntityLostMiner extends EntityVillager {
     
     public boolean isNotScared()
     {
-    	return this.world.canSeeSky(new BlockPos(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ)) && posY > 50D || isDoorNearby();
+    	return this.world.canSeeSky(new BlockPos(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ)) && posY > 50D;
     }
     
     public int[] getEmeralds()
@@ -183,8 +166,7 @@ public class EntityLostMiner extends EntityVillager {
     protected void entityInit()
     {
         super.entityInit();
-        this.dataManager.register(IS_SAVED, false); 
-        this.dataManager.register(DOOR_NEARBY, false); 
+        this.dataManager.register(IS_SAVED, false);  
     }
 
 	public void setSaved(boolean b) {
@@ -196,17 +178,6 @@ public class EntityLostMiner extends EntityVillager {
     {
 		return ((Boolean)this.dataManager.get(IS_SAVED)).booleanValue();
     }
-    
-	public void setDoorNearby(boolean b) {
-
-		 this.dataManager.set(DOOR_NEARBY, b);
-	}
-	
-   public boolean isDoorNearby()
-   {
-		return ((Boolean)this.dataManager.get(DOOR_NEARBY)).booleanValue();
-   }
-    
     
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
@@ -234,6 +205,12 @@ public class EntityLostMiner extends EntityVillager {
     public boolean getCanSpawnHere()
     {
         return super.getCanSpawnHere() && this.posY < 50D && this.posY > 20D;
+    }
+    
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
 
 }

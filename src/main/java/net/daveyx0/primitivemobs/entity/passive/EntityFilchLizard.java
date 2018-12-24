@@ -11,6 +11,7 @@ import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -173,5 +174,11 @@ public class EntityFilchLizard extends EntityCreature implements IAnimals {
         int k = MathHelper.floor(this.posZ);
         BlockPos blockpos = new BlockPos(i, j, k);
         return this.getEntityWorld().getBlockState(blockpos.down()).getBlock() == this.spawnableBlock && this.getEntityWorld().getLight(blockpos) > 8 && super.getCanSpawnHere();
+    }
+    
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
 }

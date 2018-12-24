@@ -5,6 +5,7 @@ import net.daveyx0.primitivemobs.entity.item.EntityPrimitiveThrowable;
 import net.daveyx0.primitivemobs.entity.item.EntitySpiderEgg;
 import net.daveyx0.primitivemobs.entity.monster.EntityBabySpider;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -36,14 +37,7 @@ public class ItemPrimitiveEgg extends ItemPrimitive
 
 	        if (!playerIn.capabilities.isCreativeMode)
 	        {
-	            if(!itemstack.isEmpty() && itemstack.getItem() == PrimitiveMobsItems.SPIDER_EGG)
-	            {
-	            	playerIn.setHeldItem(handIn, new ItemStack(PrimitiveMobsItems.SPIDER_EGGSHELL));
-	            }
-	            else
-	            {
-		            itemstack.shrink(1);
-	            }
+		        itemstack.shrink(1);
 	        }
 
 	        worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));

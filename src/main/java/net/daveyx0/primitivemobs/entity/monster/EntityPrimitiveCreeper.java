@@ -3,6 +3,7 @@ package net.daveyx0.primitivemobs.entity.monster;
 import net.daveyx0.multimob.common.capabilities.CapabilityTameableEntity;
 import net.daveyx0.multimob.common.capabilities.ITameableEntity;
 import net.daveyx0.multimob.util.EntityUtil;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -52,6 +53,12 @@ public class EntityPrimitiveCreeper extends EntityCreeper
         }
     	
         super.onUpdate();
+    }
+    
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
     
     /**

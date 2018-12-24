@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -81,6 +82,12 @@ public class EntityPrimitiveSpider extends EntityPrimitiveTameableMob {
 	        {
 	            this.setBesideClimbableBlock(this.collidedHorizontally);
 	        }
+	    }
+	    
+	    @Override
+	    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+	    {
+	        return false;
 	    }
 
 	    protected void applyEntityAttributes()

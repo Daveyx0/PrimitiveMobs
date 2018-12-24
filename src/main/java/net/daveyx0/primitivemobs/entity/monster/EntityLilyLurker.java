@@ -11,6 +11,7 @@ import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -74,6 +75,12 @@ public class EntityLilyLurker extends EntityMMSwimmingCreature {
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
     {
         return super.onInitialSpawn(difficulty, livingdata);
+    }
+    
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
     
     protected void applyEntityAttributes()

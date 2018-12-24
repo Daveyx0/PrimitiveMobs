@@ -17,6 +17,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -91,6 +92,12 @@ public class EntityBrainSlime extends EntitySlime {
         this.getDataManager().register(ATTACK_DELAY, Integer.valueOf(0));
         this.getDataManager().register(SATURATION, Integer.valueOf(0));
         this.getDataManager().register(VICTIM_UNIQUE_ID, Optional.absent());
+    }
+    
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
 	
     @Nullable
@@ -289,7 +296,7 @@ public class EntityBrainSlime extends EntitySlime {
 		ItemStack stack = base.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 		float damage = (float)this.getAttackStrength();
 		
-		if(!stack.isEmpty() && stack.isItemStackDamageable())
+		if(!stack.isEmpty() && stack.getItem().isDamageable())
 		{
 			stack.damageItem(this.getAttackStrength(), base);
 			if(stack.getItemDamage() == 0)

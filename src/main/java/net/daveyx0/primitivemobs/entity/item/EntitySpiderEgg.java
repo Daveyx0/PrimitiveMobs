@@ -9,6 +9,7 @@ import net.daveyx0.primitivemobs.entity.monster.EntityBabySpider;
 import net.daveyx0.primitivemobs.entity.monster.EntityPrimitiveCreeper;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,6 +37,24 @@ public class EntitySpiderEgg extends EntityPrimitiveThrowable{
 
 		super(worldIn, playerIn, entry, spawnChance);
 	}
+	
+	/**
+     * Called when this EntityThrowable hits a block or entity.
+     */
+	@Override
+    protected void onImpact(RayTraceResult result)
+    {
+
+    	if(!this.world.isRemote)
+    	{
+    		EntityItem entityitem = new EntityItem(this.world, this.posX, this.posY + 0.5D, this.posZ, new ItemStack(PrimitiveMobsItems.SPIDER_EGGSHELL));
+            entityitem.setDefaultPickupDelay();
+            this.world.spawnEntity(entityitem);
+    	}
+    	
+		super.onImpact(result);
+		
+    }
 	
 
 	public ItemStack getItemFromEntity() {

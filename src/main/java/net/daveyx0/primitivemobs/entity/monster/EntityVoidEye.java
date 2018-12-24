@@ -2,6 +2,7 @@ package net.daveyx0.primitivemobs.entity.monster;
 
 import javax.annotation.Nullable;
 
+import net.daveyx0.multimob.core.MultiMob;
 import net.daveyx0.multimob.entity.EntityMMFlyingCreature;
 import net.daveyx0.multimob.entity.ai.EntityAIFlyingAround;
 import net.daveyx0.multimob.entity.ai.EntityAISenseEntityNearestPlayer;
@@ -11,6 +12,7 @@ import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
 import net.daveyx0.primitivemobs.message.MessageTeleportEye;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -27,8 +29,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import net.minecraft.entity.boss.EntityDragon;
 
 public class EntityVoidEye extends EntityMMFlyingCreature {
 
@@ -70,6 +74,12 @@ public class EntityVoidEye extends EntityMMFlyingCreature {
         this.dataManager.register(TARGET_ENTITY, Integer.valueOf(0));
         this.dataManager.register(CAN_SEE_TARGET, Boolean.valueOf(false));
         this.dataManager.register(DOES_TELEPORT, Boolean.valueOf(false));
+    }
+    
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
     
 	public void setCanSeeTarget(boolean sees)
@@ -334,7 +344,6 @@ public class EntityVoidEye extends EntityMMFlyingCreature {
         else 
         {
             boolean flag = super.attackEntityFrom(source, amount);
-
             if (source.isUnblockable() && this.rand.nextInt(5) != 0)
             {
             	setTeleports(true);
@@ -372,11 +381,12 @@ public class EntityVoidEye extends EntityMMFlyingCreature {
             this.world.playSound((EntityPlayer)null, this.prevPosX, this.prevPosY, this.prevPosZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, this.getSoundCategory(), 1.0F, 1.0F);
             this.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0F, 1.0F);
             this.setTeleports(false);
-            MMMessageRegistry.getNetwork().sendToServer(new MessageTeleportEye(false, this.getUniqueID().toString()));
+           // MMMessageRegistry.getNetwork().sendToServer(new MessageTeleportEye(false, this.getUniqueID().toString()));
         }
         
         return flag;
     }
+
     
     @Nullable
     public SoundEvent getAmbientSound()
@@ -392,6 +402,24 @@ public class EntityVoidEye extends EntityMMFlyingCreature {
     protected SoundEvent getDeathSound()
     {
         return SoundEvents.ENTITY_ENDEREYE_DEATH;
+    }
+    
+    /**
+     * Checks if the entity's current position is a valid location to spawn this entity.
+     */
+    public boolean getCanSpawnHere()
+    {
+    	if(this.world.provider.getDimension() == 1)
+    	{
+    		for(Entity entity : this.world.loadedEntityList)
+    		{
+    			if(entity instanceof EntityDragon)
+    			{
+    				return false;
+    			}
+    		}
+    	}
+        return super.getCanSpawnHere();
     }
 
 }

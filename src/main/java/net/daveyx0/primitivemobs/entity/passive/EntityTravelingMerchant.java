@@ -7,6 +7,7 @@ import com.google.common.collect.Sets;
 import net.daveyx0.multimob.entity.ai.EntityAITemptItemStack;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsVillagerProfessions;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
@@ -108,6 +109,7 @@ public class EntityTravelingMerchant extends EntityVillager {
     /**
      * Determines if an entity can be despawned, used on idle far away entities
      */
+	@Override
     protected boolean canDespawn()
     {
     	return ((Boolean)this.dataManager.get(CAN_DESPAWN)).booleanValue();
@@ -145,6 +147,12 @@ public class EntityTravelingMerchant extends EntityVillager {
         		this.getEntityWorld().getBlockState(blockpos.down()).getBlock() == Blocks.STONE || this.getEntityWorld().getBlockState(blockpos.down()).getBlock() == Blocks.SAND
         		 || this.getEntityWorld().getBlockState(blockpos.down()).getBlock() == Blocks.SNOW
         		) && j > 20 && this.getEntityWorld().getLight(blockpos) > 8 && super.getCanSpawnHere();
+    }
+    
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
 
 

@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 
+import net.daveyx0.multimob.core.MultiMob;
 import net.daveyx0.multimob.entity.ai.EntityAITemptItemStack;
 import net.daveyx0.multimob.message.MMMessageRegistry;
 import net.daveyx0.multimob.message.MessageMMParticle;
@@ -16,11 +17,13 @@ import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
 import net.daveyx0.primitivemobs.entity.ai.EntityAIGroveSpriteTempt;
 import net.daveyx0.primitivemobs.item.ItemGroveSpriteSap;
 import net.minecraft.block.Block;
+import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -38,6 +41,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
@@ -55,6 +59,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityGroveSprite extends EntityCreature 
 {
@@ -93,7 +99,7 @@ public class EntityGroveSprite extends EntityCreature
         this.tasks.addTask(++prio, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(++prio, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(++prio, new EntityAIMoveTowardsRestriction(this, 1.0D));
-        this.tasks.addTask(++prio, new AIManageSaplings(this));
+        this.tasks.addTask(++prio, new EntityAIManageSaplings(this));
         this.tasks.addTask(++prio, new EntityAIGroveSpriteTempt(this, 1.1D, false, Sets.newHashSet(new ItemStack[] {this.getHeldItemMainhand(), new ItemStack(Items.DYE, 1, 15)})));
         this.tasks.addTask(++prio, new EntityAILookIdle(this));
         int attackPrio = 1;
@@ -271,6 +277,7 @@ public class EntityGroveSprite extends EntityCreature
         return flag;
     }
     
+    @SideOnly(Side.CLIENT)
     public static int[] getColor(World worldIn, IBlockState state, @Nullable BlockPos pos, @Nullable EnumFacing face)
 	{	
 		if(state.getBlock() != Blocks.AIR)
@@ -582,7 +589,7 @@ public class EntityGroveSprite extends EntityCreature
         return this.getEntityWorld().getBlockState(blockpos.down()).getBlock() == this.spawnableBlock && this.getEntityWorld().getLight(blockpos) > 8 && super.getCanSpawnHere();
     }
     
-    static class AIManageSaplings extends EntityAIMoveToBlock
+    static class EntityAIManageSaplings extends EntityAIMoveToBlock
     {
         private final EntityGroveSprite sprite;
         private int manageDelay = 0;
@@ -592,7 +599,7 @@ public class EntityGroveSprite extends EntityCreature
         boolean placeSapling = true;
         boolean hasChosen = false;
 
-        public AIManageSaplings(EntityGroveSprite sprite)
+        public EntityAIManageSaplings(EntityGroveSprite sprite)
         {
             super(sprite, 0.699999988079071D, 16);
             this.sprite = sprite;
@@ -715,12 +722,13 @@ public class EntityGroveSprite extends EntityCreature
             	if(state != null)
             	{
                     Block block = worldIn.getBlockState(pos).getBlock();
-                    IBlockState droppedState = block.getStateFromMeta(block.damageDropped(state));
-                	IBlockState handState = item.getBlock().getStateFromMeta(this.sprite.getHeldItemMainhand().getMetadata());
+                    ItemStack droppedItem = new ItemStack(block.getItemDropped(state, sprite.rand, 100), 1, block.damageDropped(state));
                 	
-                	//MultiMob.LOGGER.info(block + " " + droppedState);
-                	if((droppedState != null && handState != null && handState == droppedState))
+
+                	if((droppedItem != null && this.sprite.getHeldItemMainhand() != null && this.sprite.getHeldItemMainhand().getItem() == droppedItem.getItem() && 
+                			this.sprite.getHeldItemMainhand().getMetadata() == droppedItem.getMetadata()))
                 	{
+                    		//MultiMob.LOGGER.info(droppedItem.getMetadata());
                             pos = pos.up();
                             if(worldIn.isAirBlock(pos))
                             {
@@ -752,5 +760,11 @@ public class EntityGroveSprite extends EntityCreature
             return false;
         }
 
+    }
+    
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
 }

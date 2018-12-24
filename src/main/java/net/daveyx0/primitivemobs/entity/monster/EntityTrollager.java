@@ -2,6 +2,7 @@ package net.daveyx0.primitivemobs.entity.monster;
 
 import javax.annotation.Nullable;
 
+import net.daveyx0.multimob.core.MultiMob;
 import net.daveyx0.multimob.entity.ai.EntityAISenseEntityNearestPlayer;
 import net.daveyx0.multimob.message.MMMessageRegistry;
 import net.daveyx0.multimob.message.MessageMMParticle;
@@ -15,16 +16,19 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -88,6 +92,13 @@ public class EntityTrollager extends EntityMob implements IAnimatedMob {
         int attackPrio = 1;
         this.targetTasks.addTask(++attackPrio, new EntityAIHurtByTarget(this, false));
         this.targetTasks.addTask(++attackPrio, new EntityAISenseEntityNearestPlayer(this, 40));
+        this.targetTasks.addTask(++attackPrio, new EntityAINearestAttackableTarget(this, EntityIronGolem.class, true));
+    }
+	
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
 	
 	/**
@@ -142,7 +153,6 @@ public class EntityTrollager extends EntityMob implements IAnimatedMob {
 				jump();
 			}
 		}
-		
 		if(this.getAttackTarget() != null && this.getAttackTarget().isDead)
 		{
 			this.setAttackTarget(null);

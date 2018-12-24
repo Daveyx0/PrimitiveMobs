@@ -11,7 +11,9 @@ import net.daveyx0.multimob.entity.ai.EntityAICustomOwnerHurtByTarget;
 import net.daveyx0.multimob.entity.ai.EntityAICustomOwnerHurtTarget;
 import net.daveyx0.multimob.util.EntityUtil;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
@@ -69,6 +71,12 @@ public class EntityBabySpider extends EntityPrimitiveSpider
     public float getEyeHeight()
     {
         return this.height/2;
+    }
+    
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
     
     /**

@@ -8,6 +8,7 @@ import net.daveyx0.multimob.entity.ai.EntityAITemptItemStack;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsVillagerProfessions;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
@@ -146,7 +147,7 @@ public class EntitySheepman extends EntityVillager implements net.minecraftforge
     @Override
     protected float getSoundVolume()
     {
-        return 1.11F;
+        return 1.1111F;
     }
 
 
@@ -414,6 +415,12 @@ public void onStruckByLightning(EntityLightningBolt lightningBolt)
         this.world.spawnEntity(sheep);
         this.setDead();
     }
+}
+
+@Override
+public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+{
+    return false;
 }
 
 

@@ -9,6 +9,7 @@ import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
 import net.daveyx0.primitivemobs.entity.ai.EntityAIFollowerHurtByTarget;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -77,6 +78,12 @@ public class EntityMotherSpider extends EntityPrimitiveSpider {
         this.targetTasks.addTask(2, new EntityAIFollowerHurtByTarget(this));
         this.targetTasks.addTask(3, new EntityPrimitiveSpider.AISpiderTarget(this, EntityPlayer.class));
         this.targetTasks.addTask(4, new EntityPrimitiveSpider.AISpiderTarget(this, EntityIronGolem.class));
+    }
+    
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
 	
 	public void onUpdate()

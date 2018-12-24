@@ -11,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityItem;
@@ -497,6 +498,12 @@ public class EntityTreasureSlime extends EntityTameableSlime {
     public boolean getCanSpawnHere()
     {
         return this.getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL && EntityUtil.isValidMobLightLevel(this);
+    }
+    
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
         
 }

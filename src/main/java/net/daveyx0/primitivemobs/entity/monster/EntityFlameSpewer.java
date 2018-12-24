@@ -7,6 +7,7 @@ import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
 import net.daveyx0.primitivemobs.entity.item.EntityFlameSpit;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -63,6 +64,12 @@ public class EntityFlameSpewer extends EntityMob implements IRangedAttackMob {
         this.tasks.addTask(6, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+    }
+	
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
 	
     protected void applyEntityAttributes()

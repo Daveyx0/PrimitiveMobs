@@ -45,8 +45,8 @@ public class PrimitiveMobsConfigSpecial {
 		rocketCreeperAlwaysJump = config.get(category1, "Rocket Creepers always jump, even without adequate room", false, "Enable/Disable if rocket creepers should always jump at the player, even if they would hit the ceiling").getBoolean();
 		lostMinerLootRange = config.get(category1, "Lost Miner emerald loot range", new int[]{2,2}, "Change the amount of emeralds you receive when saving a Lost Miner. First number = minimum. Second number = variable addition").getIntList();
 		hauntedToolFullDurability= config.get(category1, "Haunted Tool drop full durability", false, "Enable/Disable if Haunted Tools should drop full durability items.").getBoolean();
-		addAdditionalVanillaSpawns= config.get(category1, "More vanilla mob spawns", true, "Enable/Disable if more vanilla mobs should spawn; can be used if amount of vanilla mobs seems low.").getBoolean();
-		mimicSpawnRate = config.get(category1, "Spawn Rate of Mimics", 30, "How often a Mimic chest generates. Higher number = rarer. 0 = no mimics chests.").getInt();
+		addAdditionalVanillaSpawns= config.get(category1, "More vanilla mob spawns", false, "Enable/Disable if more vanilla mobs should spawn; can be used if amount of vanilla mobs seems low.").getBoolean();
+		mimicSpawnRate = config.get(category1, "Spawn Rate of Mimics", 25, "How often a Mimic chest generates. Higher number = rarer. 0 = no mimics chests.").getInt();
 	}
 	
 	public static String[] getTreasureSlimeLoot()

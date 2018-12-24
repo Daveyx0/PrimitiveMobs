@@ -10,6 +10,7 @@ import net.daveyx0.multimob.util.EntityUtil;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -46,6 +47,12 @@ public class EntitySupportCreeper extends EntityPrimitiveCreeper {
         this.tasks.addTask(5, new EntityAIWander(this, 0.8D));
         this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(6, new EntityAILookIdle(this));
+    }
+    
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
     
     protected void applyEntityAttributes()

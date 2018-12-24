@@ -8,6 +8,7 @@ import com.google.common.base.Optional;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityOwnable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -48,6 +49,12 @@ public abstract class EntityTameableSlime extends EntitySlime implements IEntity
         this.tasks.addTask(3, new EntityTameableSlime.AITameableSlimeFaceRandom(this));
         this.tasks.addTask(5, new EntityTameableSlime.AITameableSlimeHop(this));
         this.targetTasks.addTask(1, new EntityAIFindEntityNearestPlayer(this));
+    }
+	
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
 
     protected void entityInit()

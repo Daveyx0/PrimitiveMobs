@@ -110,7 +110,7 @@ public class ModelSheepman extends ModelBase
         float var8 = 1.5F;
         GL11.glPushMatrix();
         GL11.glScalef(1.0F / var8, 1.0F / var8, 1.0F / var8);
-        GL11.glTranslatef(0.0F, 28.0F * f5, 0.0F);
+        GL11.glTranslatef(0.0F, 28.0F * f5 - 1, 0.0F);
         if(scale == 0)
         {
             Head.render(f5);

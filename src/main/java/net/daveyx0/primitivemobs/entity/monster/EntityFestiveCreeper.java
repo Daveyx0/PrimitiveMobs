@@ -7,6 +7,7 @@ import net.daveyx0.multimob.entity.ai.EntityAIBackOffFromEntity;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.daveyx0.primitivemobs.entity.item.EntityPrimitiveTNTPrimed;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -48,6 +49,12 @@ public class EntityFestiveCreeper extends EntityPrimitiveCreeper{
     {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.35D);
+    }
+    
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+        return false;
     }
     
     public class EntityAIThrowTNT extends EntityAIBase
