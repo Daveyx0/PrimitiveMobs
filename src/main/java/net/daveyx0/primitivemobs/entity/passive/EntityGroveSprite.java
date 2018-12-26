@@ -278,7 +278,7 @@ public class EntityGroveSprite extends EntityCreature
     }
     
     @SideOnly(Side.CLIENT)
-    public static int[] getColor(World worldIn, IBlockState state, @Nullable BlockPos pos, @Nullable EnumFacing face)
+    public int[] getColor(World worldIn, IBlockState state, @Nullable BlockPos pos, @Nullable EnumFacing face)
 	{	
 		if(state.getBlock() != Blocks.AIR)
 		{
@@ -286,20 +286,35 @@ public class EntityGroveSprite extends EntityCreature
 			
 			if(face != null)
 			{
-				newColor =	ColorUtil.getBlockStateColor(state, pos, worldIn, face);
+				newColor =	ColorUtil.getBlockStateColor(state, pos, worldIn, face, true);
 			}
 			else
 			{
-				newColor =	ColorUtil.getBlockStateColor(state, pos, worldIn);
+				newColor =	ColorUtil.getBlockStateColor(state, pos, worldIn, true);
 			}
 			
 			if(newColor != null)
 			{
+				if(ColorUtil.isColorInvalid(newColor))
+				{
+					if(state.getBlock() == this.getLeaves().getBlock())
+					{
+						newColor = new int[]{79,146,38,255};
+					}
+					else if(state.getBlock() == this.getLog().getBlock() && face == EnumFacing.WEST)
+					{
+						newColor = new int[]{70,59,46,255};
+					}
+					else if(state.getBlock() == this.getLeaves().getBlock() )
+					{
+						newColor = new int[]{152,126,98,255};
+					}
+				}
 				return newColor;
 			}
 		}
 		
-		return new int[]{255,255,255};
+		return new int[]{255,255,255,255};
 	}
     
     public EntityItem dropItemStack(ItemStack itemIn, float offsetY)
@@ -719,7 +734,7 @@ public class EntityGroveSprite extends EntityCreature
                 IBlockState state = worldIn.getBlockState(pos);
                 ItemBlock item = (ItemBlock)heldItem.getItem();
                 
-            	if(state != null)
+            	if(state != null && state.getBlock() != sprite.getLeaves().getBlock())
             	{
                     Block block = worldIn.getBlockState(pos).getBlock();
                     ItemStack droppedItem = new ItemStack(block.getItemDropped(state, sprite.rand, 100), 1, block.damageDropped(state));
@@ -728,7 +743,7 @@ public class EntityGroveSprite extends EntityCreature
                 	if((droppedItem != null && this.sprite.getHeldItemMainhand() != null && this.sprite.getHeldItemMainhand().getItem() == droppedItem.getItem() && 
                 			this.sprite.getHeldItemMainhand().getMetadata() == droppedItem.getMetadata()))
                 	{
-                    		//MultiMob.LOGGER.info(droppedItem.getMetadata());
+                    		MultiMob.LOGGER.info(state + " "+ droppedItem);
                             pos = pos.up();
                             if(worldIn.isAirBlock(pos))
                             {

@@ -52,7 +52,7 @@ public class ItemGroveSpriteSap extends ItemPrimitive {
     		{
     			NBTUtil.setBlockStateToNBT(sprite.getLog(), "LogState", itemtagcompound);
     			
-    			int[] logTop = EntityGroveSprite.getColor(worldIn, sprite.getLog(), null, null);
+    			int[] logTop = sprite.getColor(worldIn, sprite.getLog(), null, null);
     			Color logTopColor = new Color(logTop[0], logTop[1], logTop[2]);
     			
             	NBTTagCompound nbttagcompound1 = itemtagcompound.getCompoundTag("display");

@@ -513,7 +513,7 @@ public class EntityTrollager extends EntityMob implements IAnimatedMob {
 		{
 			if(this.getAttackTarget() != null && !this.isStone())
 			{
-				double d0 = this.getAttackReachSqr(this.getAttackTarget());
+				double d0 = this.getAttackReachSqr(this.getAttackTarget()) + 4;
 				double d1 = this.getDistanceSq(getAttackTarget().posX, getAttackTarget().getEntityBoundingBox().minY, getAttackTarget().posZ);
 				boolean flag = this.getEntitySenses().canSee(this.getAttackTarget());
 				

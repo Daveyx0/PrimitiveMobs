@@ -188,9 +188,13 @@ public class ItemCamouflageArmor extends ItemArmor{
 			currentState = state;
 			currentMultiplier = colorMultiplier;
 			
-			int[] newColor = ColorUtil.getBlockStateColor(state, pos, entity.getEntityWorld());
+			int[] newColor = ColorUtil.getBlockStateColor(state, pos, entity.getEntityWorld(), true);
 			if(newColor != null)
 			{
+				if(ColorUtil.isColorInvalid(newColor))
+				{
+					newColor = new int[]{255,255,255,255};
+				}
 				setNewSkinRGB(newColor);
 			}
 		}

@@ -95,9 +95,10 @@ public class PrimitiveMobsVillagerProfessions {
 					        	
 					        	List<ITradeList> trades = Lists.newArrayList();
 					        	
+					        	
 					        	if(level == 0)
 					        	{
-					        		trades.add(merchantTrades.get(level).get(merchantTrades.get(level).size() - 1));
+					        		trades.add(merchantTrades.get(level).get(rand.nextInt(merchantTrades.get(level).size())));
 					        	}
 					        	
 					        	trades.add(getRandomMerchantTrade(rand, level, trades, merchantTrades.get(level + 1)));

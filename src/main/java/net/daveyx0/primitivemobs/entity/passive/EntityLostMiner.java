@@ -86,7 +86,7 @@ public class EntityLostMiner extends EntityVillager {
 	
     public boolean processInteract(EntityPlayer player, EnumHand hand)
     {
-    	if(!isSaved())
+    	if(!isSaved() && hand == EnumHand.MAIN_HAND && player.getHeldItemMainhand().isEmpty())
     	{
     		BlockPos blockpos = new BlockPos(this);
     		

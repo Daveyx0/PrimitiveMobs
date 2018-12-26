@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import net.daveyx0.multimob.message.MMMessageRegistry;
 import net.daveyx0.multimob.message.MessageMMParticle;
+import net.daveyx0.multimob.util.EntityUtil;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.entity.monster.EntityGoblin;
 import net.daveyx0.primitivemobs.entity.monster.EntityHarpy;
@@ -29,6 +30,7 @@ import net.minecraft.entity.monster.AbstractIllager;
 import net.minecraft.entity.monster.EntityEvoker;
 import net.minecraft.entity.monster.EntityIllusionIllager;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntityVex;
 import net.minecraft.entity.monster.EntityVindicator;
 import net.minecraft.entity.monster.EntityZombie;
@@ -73,6 +75,8 @@ public static class EntityEventHandler {
 	@SubscribeEvent
 	public static void spawnEvent(EntityJoinWorldEvent event)
 	{
+		EntityUtil.removeWhenDisabled(event.getEntity());
+		
 		if(!PrimitiveMobsConfigSpecial.getMinerInVillage() && event.getEntity() instanceof EntityVillager && !(event.getEntity() instanceof EntityLostMiner))
 		{
 			EntityVillager villager = (EntityVillager)event.getEntity();
@@ -118,12 +122,12 @@ public static class EntityEventHandler {
 							.findFirst().ifPresent(taskEntry -> villager.tasks.removeTask(taskEntry.action));
 						}
 				
-				villager.tasks.addTask(1, new EntityAIAvoidEntity(villager, EntityEvoker.class, 12.0F, 0.8D, 0.8D));
-				villager.tasks.addTask(1, new EntityAIAvoidEntity(villager, EntityVindicator.class, 8.0F, 0.8D, 0.8D));
-				villager.tasks.addTask(1, new EntityAIAvoidEntity(villager, EntityVex.class, 8.0F, 0.6D, 0.6D));
+				villager.tasks.addTask(1, new EntityAIAvoidEntity(villager, EntityPigZombie.class, 12.0F, 0.8D, 0.8D));
 			}
-			
-			villager.tasks.addTask(1, new EntityAIAvoidEntity(villager, EntityGoblin.class, 8.0F, 0.6D, 0.6D));
+			else
+			{
+				villager.tasks.addTask(1, new EntityAIAvoidEntity(villager, EntityGoblin.class, 8.0F, 0.6D, 0.6D));
+			}
 		}
 
 	}

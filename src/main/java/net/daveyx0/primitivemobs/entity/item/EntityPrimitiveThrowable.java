@@ -84,6 +84,8 @@ public class EntityPrimitiveThrowable extends EntityThrowable{
                 for (int j = 0; j < i; ++j)
                 {
                 	EntityLiving entity = (EntityLiving)EntityRegistry.getEntry(spawnEntityClass).newInstance(world);
+                	if(entity!= null)
+                	{
                 	if(entity instanceof EntityAnimal)
                 	{
                 		EntityAnimal animal = (EntityAnimal)entity;
@@ -112,6 +114,7 @@ public class EntityPrimitiveThrowable extends EntityThrowable{
         					CapabilityTameableEntity.EventHandler.setUpTameable(tameable, entity, thrower);
         				}
                         this.world.spawnEntity(entity);
+                	}
                 	}
                 }
             }

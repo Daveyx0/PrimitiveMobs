@@ -470,7 +470,7 @@ public class EntityTreasureSlime extends EntityTameableSlime {
         			BlockStateContainer container = block.getBlockState();
         			IBlockState blockstate = container.getValidStates().get(heldItem.getMetadata());
         			
-        			newColor = ColorUtil.getBlockStateColor(blockstate, null, null);
+        			newColor = ColorUtil.getBlockStateColor(blockstate, null, null, true);
             		
             		//PrimitiveMobs.PMlogger.info(heldItem.getDisplayName() + " " + newColor);
             		

@@ -190,9 +190,13 @@ public class EntityChameleon extends EntityAnimal
 			currentState = state;
 			currentMultiplier = colorMultiplier;
 			
-			int[] newColor = ColorUtil.getBlockStateColor(state, pos, getEntityWorld());
+			int[] newColor = ColorUtil.getBlockStateColor(state, pos, getEntityWorld(), true);
 			if(newColor != null)
 			{
+				if(ColorUtil.isColorInvalid(newColor))
+				{
+					newColor = new int[]{63,118,42,255};
+				}
 				setNewSkinRGB(newColor);
 			}
 		}
