@@ -3,6 +3,7 @@ package net.daveyx0.primitivemobs.entity.monster;
 
 import javax.annotation.Nullable;
 
+import net.daveyx0.multimob.entity.IMultiMob;
 import net.daveyx0.multimob.entity.ai.EntityAIBackOffFromEntity;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.daveyx0.primitivemobs.entity.item.EntityPrimitiveTNTPrimed;
@@ -24,7 +25,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class EntityFestiveCreeper extends EntityPrimitiveCreeper{
+public class EntityFestiveCreeper extends EntityPrimitiveCreeper implements IMultiMob {
 	
 	public EntityFestiveCreeper(World worldIn) {
 		super(worldIn);
@@ -49,12 +50,6 @@ public class EntityFestiveCreeper extends EntityPrimitiveCreeper{
     {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.35D);
-    }
-    
-    @Override
-    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-    {
-        return false;
     }
     
     public class EntityAIThrowTNT extends EntityAIBase
@@ -141,6 +136,12 @@ public class EntityFestiveCreeper extends EntityPrimitiveCreeper{
     protected ResourceLocation getLootTable()
     {
         return PrimitiveMobsLootTables.ENTITIES_FESTIVECREEPER;
+    }
+    
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+    	if(type == EnumCreatureType.MONSTER){return false;}
+    	return super.isCreatureType(type, forSpawnCount);
     }
 
 }

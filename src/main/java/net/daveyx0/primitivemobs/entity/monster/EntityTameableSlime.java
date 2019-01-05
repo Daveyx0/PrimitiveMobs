@@ -50,12 +50,6 @@ public abstract class EntityTameableSlime extends EntitySlime implements IEntity
         this.tasks.addTask(5, new EntityTameableSlime.AITameableSlimeHop(this));
         this.targetTasks.addTask(1, new EntityAIFindEntityNearestPlayer(this));
     }
-	
-    @Override
-    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-    {
-        return false;
-    }
 
     protected void entityInit()
     {

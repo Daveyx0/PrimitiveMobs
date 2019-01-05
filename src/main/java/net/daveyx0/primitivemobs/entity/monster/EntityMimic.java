@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Optional;
 
+import net.daveyx0.multimob.entity.IMultiMob;
 import net.daveyx0.multimob.message.MMMessageRegistry;
 import net.daveyx0.multimob.message.MessageMMParticle;
 import net.daveyx0.multimob.util.NBTUtil;
@@ -33,7 +34,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
-public class EntityMimic extends EntityMob {
+public class EntityMimic extends EntityMob implements IMultiMob {
 
 	private static final DataParameter<Optional<IBlockState>> CHEST = EntityDataManager.<Optional<IBlockState>>createKey(EntityMimic.class, DataSerializers.OPTIONAL_BLOCK_STATE);
 	
@@ -83,12 +84,6 @@ public class EntityMimic extends EntityMob {
 	{
 		explode = true;
 	}
-	
-    @Override
-    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-    {
-        return false;
-    }
     
     public void onLivingUpdate()
     {
@@ -210,6 +205,12 @@ public class EntityMimic extends EntityMob {
         super.readEntityFromNBT(compound);
 
         this.setChest(NBTUtil.getBlockStateFromNBT("chestState", compound));
+    }
+    
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+    	if(type == EnumCreatureType.MONSTER){return false;}
+    	return super.isCreatureType(type, forSpawnCount);
     }
 
 }

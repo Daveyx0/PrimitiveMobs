@@ -2,6 +2,8 @@ package net.daveyx0.primitivemobs.entity.passive;
 
 import javax.annotation.Nullable;
 
+import net.daveyx0.multimob.entity.IMultiMob;
+import net.daveyx0.multimob.entity.IMultiMobPassive;
 import net.daveyx0.multimob.util.ColorUtil;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.minecraft.block.state.IBlockState;
@@ -18,6 +20,7 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -27,7 +30,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityChameleon extends EntityAnimal
+public class EntityChameleon extends EntityAnimal implements IMultiMobPassive
 {
 
 	private float R;
@@ -202,10 +205,10 @@ public class EntityChameleon extends EntityAnimal
 		}
 	}
 	
-    @Override
     public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
     {
-        return false;
+    	if(type == EnumCreatureType.CREATURE){return false;}
+    	return super.isCreatureType(type, forSpawnCount);
     }
 
 }

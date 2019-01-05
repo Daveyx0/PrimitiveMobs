@@ -8,7 +8,7 @@ public class PrimitiveMobsConfigMobs {
 		enableGroveSprite, enableEnchantedBook, enableFilchLizard, enableBrainSlime,
 		enableRocketCreeper, enableFestiveCreeper, enableSupportCreeper, enableSkeletonWarrior,
 		enableBlazingJuggernaut, enableLilyLurker, enableSpiderFamily, enableTrollager,
-		enableLostMiner, enableSquirrel, enableMerchant, enableDodo, enableMimic,
+		enableLostMiner, enableMerchant, enableDodo, enableMimic,
 		enableSheepman, enableGoblin, enableHarpy, enableFlameSpewer, enableVoidWatcher;
 	
 	public static void load(Configuration config) {
@@ -32,7 +32,6 @@ public class PrimitiveMobsConfigMobs {
 		enableSpiderFamily = config.get(category, "Enable Spider Family", true, "Enable/Disable the Spider Family").getBoolean();
 		enableTrollager = config.get(category, "Enable Troll", true, "Enable/Disable the Troll").getBoolean();
 		enableLostMiner = config.get(category, "Enable Lost Miner", true, "Enable/Disable the Lost Miner").getBoolean();
-		enableSquirrel = config.get(category, "Enable Squirrel", true, "Enable/Disable the Squirrel").getBoolean();
 		enableMerchant = config.get(category, "Enable Traveling Merchant", true, "Enable/Disable the Traveling Merchant").getBoolean();
 		enableDodo = config.get(category, "Enable Dodo", true, "Enable/Disable the Dodo").getBoolean();
 		enableMimic= config.get(category, "Enable Mimic", true, "Enable/Disable the Mimic").getBoolean();
@@ -40,7 +39,7 @@ public class PrimitiveMobsConfigMobs {
 		enableGoblin = config.get(category, "Enable Goblin", true, "Enable/Disable the Goblin").getBoolean();
 		enableHarpy = config.get(category, "Enable Harpy", true, "Enable/Disable the Harpy").getBoolean();
 		enableFlameSpewer = config.get(category, "Enable Flame Spewer", true, "Enable/Disable the Flame Spewer").getBoolean();
-		enableVoidWatcher = config.get(category, "Enable Void Watcher", true, "Enable/Disable the Void Watcher").getBoolean();
+		enableVoidWatcher = config.get(category, "Enable Void Eye", true, "Enable/Disable the Void Eye").getBoolean();
 	}
 
 }

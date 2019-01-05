@@ -5,6 +5,8 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.daveyx0.multimob.entity.EntityMMSwimmingCreature;
+import net.daveyx0.multimob.entity.IMultiMob;
+import net.daveyx0.multimob.entity.IMultiMobWater;
 import net.daveyx0.multimob.entity.ai.EntityAISwimmingUnderwater;
 import net.daveyx0.multimob.util.EntityUtil;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
@@ -38,7 +40,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityLilyLurker extends EntityMMSwimmingCreature {
+public class EntityLilyLurker extends EntityMMSwimmingCreature implements IMultiMobWater {
 
 	int aggroTimer;
 	int timeOnLand;
@@ -75,12 +77,6 @@ public class EntityLilyLurker extends EntityMMSwimmingCreature {
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
     {
         return super.onInitialSpawn(difficulty, livingdata);
-    }
-    
-    @Override
-    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-    {
-        return false;
     }
     
     protected void applyEntityAttributes()
@@ -359,4 +355,9 @@ public class EntityLilyLurker extends EntityMMSwimmingCreature {
         return this.posY > 45.0D && this.posY < (double)this.getEntityWorld().getSeaLevel();
     }
 
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+    	if(type == EnumCreatureType.MONSTER){return false;}
+    	return super.isCreatureType(type, forSpawnCount);
+    }
 }

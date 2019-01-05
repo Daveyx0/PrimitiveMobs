@@ -2,6 +2,8 @@ package net.daveyx0.primitivemobs.entity.passive;
 
 import javax.annotation.Nullable;
 
+import net.daveyx0.multimob.entity.IMultiMob;
+import net.daveyx0.multimob.entity.IMultiMobPassive;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsVillagerProfessions;
 import net.minecraft.entity.EnumCreatureType;
@@ -25,7 +27,7 @@ import net.minecraft.village.Village;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityLostMiner extends EntityVillager {
+public class EntityLostMiner extends EntityVillager implements IMultiMobPassive {
 
 	private static final DataParameter<Boolean> IS_SAVED = EntityDataManager.<Boolean>createKey(EntityLostMiner.class, DataSerializers.BOOLEAN);
 	//private static final DataParameter<Boolean> DOOR_NEARBY = EntityDataManager.<Boolean>createKey(EntityLostMiner.class, DataSerializers.BOOLEAN);
@@ -206,11 +208,4 @@ public class EntityLostMiner extends EntityVillager {
     {
         return super.getCanSpawnHere() && this.posY < 50D && this.posY > 20D;
     }
-    
-    @Override
-    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-    {
-        return false;
-    }
-
 }

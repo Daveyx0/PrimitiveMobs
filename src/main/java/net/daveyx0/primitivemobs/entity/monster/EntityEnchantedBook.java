@@ -2,6 +2,7 @@ package net.daveyx0.primitivemobs.entity.monster;
 
 import javax.annotation.Nullable;
 
+import net.daveyx0.multimob.entity.IMultiMob;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
@@ -13,6 +14,7 @@ import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
@@ -30,7 +32,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityEnchantedBook extends EntityMob {
+public class EntityEnchantedBook extends EntityMob implements IMultiMob {
 
     public float floatingb;
     public float floatingc;
@@ -50,19 +52,14 @@ public class EntityEnchantedBook extends EntityMob {
     {
 		int prio = 0;
         this.tasks.addTask(++prio, new EntityAISwimming(this));
-        this.tasks.addTask(++prio, new EntityAIAttackMelee(this, 1.0D, false));
+        this.tasks.addTask(++prio, new EntityAIAttackMelee(this, 1.4D, false));
         this.tasks.addTask(++prio, new EntityAIMoveTowardsRestriction(this, 1.0D));
         this.tasks.addTask(++prio, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(++prio, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(++prio, new EntityAILookIdle(this));
         int attackPrio = 1;
         this.targetTasks.addTask(++attackPrio, new EntityAIHurtByTarget(this, true));
-    }
-	
-    @Override
-    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-    {
-        return false;
+        this.targetTasks.addTask(++attackPrio, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
     }
 	
     protected void applyEntityAttributes()
@@ -220,6 +217,12 @@ public class EntityEnchantedBook extends EntityMob {
     public boolean getCanSpawnHere()
     {
         return super.getCanSpawnHere() && this.posY < 40D;
+    }
+    
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+    	if(type == EnumCreatureType.MONSTER){return false;}
+    	return super.isCreatureType(type, forSpawnCount);
     }
   
 

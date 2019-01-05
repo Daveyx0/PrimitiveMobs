@@ -4,6 +4,8 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Sets;
 
+import net.daveyx0.multimob.entity.IMultiMob;
+import net.daveyx0.multimob.entity.IMultiMobPassive;
 import net.daveyx0.multimob.entity.ai.EntityAITemptItemStack;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsVillagerProfessions;
 import net.minecraft.block.Block;
@@ -38,7 +40,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 
-public class EntitySheepman extends EntityVillager implements net.minecraftforge.common.IShearable{
+public class EntitySheepman extends EntityVillager implements net.minecraftforge.common.IShearable, IMultiMobPassive {
 
 	private static final DataParameter<Byte> DYE_COLOR = EntityDataManager.<Byte>createKey(EntitySheepman.class, DataSerializers.BYTE);
 	private static final DataParameter<Boolean> CAN_DESPAWN = EntityDataManager.<Boolean>createKey(EntitySheepman.class, DataSerializers.BOOLEAN);
@@ -417,12 +419,10 @@ public void onStruckByLightning(EntityLightningBolt lightningBolt)
     }
 }
 
-@Override
 public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
 {
-    return false;
+	return super.isCreatureType(type, forSpawnCount);
 }
-
 
 }
 

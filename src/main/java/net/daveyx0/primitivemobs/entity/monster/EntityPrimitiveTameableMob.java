@@ -63,12 +63,6 @@ public class EntityPrimitiveTameableMob extends EntityMob {
 
 	        compound.setBoolean("Sitting", this.isSitting());
 	    }
-	    
-	    @Override
-	    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-	    {
-	        return false;
-	    }
 
 	    /**
 	     * (abstract) Protected helper method to read subclass entity data from NBT.

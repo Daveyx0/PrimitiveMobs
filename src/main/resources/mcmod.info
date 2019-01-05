@@ -1,9 +1,10 @@
+
 [
 {
   "modid": "primitivemobs",
   "name": "Primitive Mobs",
   "description": "A mod with familiar mobs.",
-  "version": "1.2.1 beta",
+  "version": "1.2.3",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",

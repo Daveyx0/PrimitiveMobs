@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import net.daveyx0.multimob.common.capabilities.CapabilityTameableEntity;
 import net.daveyx0.multimob.common.capabilities.ITameableEntity;
+import net.daveyx0.multimob.entity.IMultiMob;
 import net.daveyx0.multimob.util.EntityUtil;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
@@ -41,7 +42,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
-public class EntityRocketCreeper extends EntityPrimitiveCreeper {
+public class EntityRocketCreeper extends EntityPrimitiveCreeper implements IMultiMob {
 
 	private float explosionRadius = 3;
 	int timeBeforeJumping;
@@ -64,12 +65,6 @@ public class EntityRocketCreeper extends EntityPrimitiveCreeper {
         this.tasks.addTask(6, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
         this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false, new Class[0]));
-    }
-    
-    @Override
-    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-    {
-        return false;
     }
     
     @Override
@@ -265,6 +260,12 @@ public class EntityRocketCreeper extends EntityPrimitiveCreeper {
 
             this.world.spawnEntity(entityareaeffectcloud);
         }
+    }
+    
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+    	if(type == EnumCreatureType.MONSTER){return false;}
+    	return super.isCreatureType(type, forSpawnCount);
     }
 
 }

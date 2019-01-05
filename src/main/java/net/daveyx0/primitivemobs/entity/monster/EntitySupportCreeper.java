@@ -49,12 +49,6 @@ public class EntitySupportCreeper extends EntityPrimitiveCreeper {
         this.tasks.addTask(6, new EntityAILookIdle(this));
     }
     
-    @Override
-    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-    {
-        return false;
-    }
-    
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();

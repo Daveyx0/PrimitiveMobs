@@ -17,12 +17,11 @@ public class PrimitiveMobsConfigSpecial {
 	public static int filchLizardLootChance;
 	public static boolean merchantCanSettle;
 	public static boolean mimicGenerates;
-	public static boolean brainSlimeHostile;
 	public static boolean dodoMycelium;
 	public static boolean travelerVisit;
 	public static boolean rocketCreeperAlwaysJump;
 	public static boolean hauntedToolFullDurability;
-	public static boolean addAdditionalVanillaSpawns;
+	public static boolean groveSpritesPlant;
 	public static int mimicSpawnRate;
 	public static int[] lostMinerLootRange;
 
@@ -39,14 +38,13 @@ public class PrimitiveMobsConfigSpecial {
 		filchLizardLootChance = config.get(category1, "Chance that a Filch Lizard spawns holding loot", 25, "Set the chance that a Filch Lizard spawns holding loot in percentage").getInt();
 		merchantCanSettle = config.get(category1, "Traveling Merchant can settle", true, "Enable/Disable if the Traveling Merchant can settle after being bribed with an Emerald Block").getBoolean();
 		mimicGenerates = config.get(category1, "Mimic chests generate in caves", true, "Enable/Disable if the Mimic chests should generate in caves, instead of spawn like mobs").getBoolean();
-		brainSlimeHostile = config.get(category1, "Brain Slimes attack animals", true, "Enable/Disable if Brain Slimes should attack other animals/creatures").getBoolean();
 		dodoMycelium = config.get(category1, "Dodos convert Grass into Mycelium", true, "Enable/Disable if Dodos should convert Grass into Mycelium blocks overtime").getBoolean();
 		travelerVisit = config.get(category1, "Traveling Merchant enters houses", true, "Enable/Disable if the Traveling Merchant should enter houses").getBoolean();
 		rocketCreeperAlwaysJump = config.get(category1, "Rocket Creepers always jump, even without adequate room", false, "Enable/Disable if rocket creepers should always jump at the player, even if they would hit the ceiling").getBoolean();
 		lostMinerLootRange = config.get(category1, "Lost Miner emerald loot range", new int[]{2,2}, "Change the amount of emeralds you receive when saving a Lost Miner. First number = minimum. Second number = variable addition").getIntList();
 		hauntedToolFullDurability= config.get(category1, "Haunted Tool drop full durability", false, "Enable/Disable if Haunted Tools should drop full durability items.").getBoolean();
-		addAdditionalVanillaSpawns= config.get(category1, "More vanilla mob spawns", false, "Enable/Disable if more vanilla mobs should spawn; can be used if amount of vanilla mobs seems low.").getBoolean();
 		mimicSpawnRate = config.get(category1, "Spawn Rate of Mimics", 25, "How often a Mimic chest generates. Higher number = rarer. 0 = no mimics chests.").getInt();
+		groveSpritesPlant= config.get(category1, "Grove Sprites plant saplings", true, "Enable/Disable if Grove Sprites should plant sapling they hold.").getBoolean();
 	}
 	
 	public static String[] getTreasureSlimeLoot()
@@ -109,12 +107,6 @@ public class PrimitiveMobsConfigSpecial {
 		return mimicGenerates;
 	}
 	
-	public static boolean getBrainSlimeHostility()
-	{
-		return brainSlimeHostile;
-	}
-	
-	
 	public static boolean getDodoMycelium()
 	{
 		return dodoMycelium;
@@ -140,8 +132,8 @@ public class PrimitiveMobsConfigSpecial {
 		return hauntedToolFullDurability;
 	}
 	
-	public static boolean getVanillaSpawns()
+	public static boolean getGroveSpritesPlant()
 	{
-		return addAdditionalVanillaSpawns;
+		return groveSpritesPlant;
 	}
 }

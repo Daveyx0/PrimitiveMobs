@@ -9,6 +9,7 @@ import net.daveyx0.primitivemobs.client.TabPrimitiveMobs;
 import net.daveyx0.primitivemobs.common.PrimitiveMobsCommonProxy;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfig;
 import net.daveyx0.primitivemobs.message.PrimitiveMobsMessageRegistry;
+import net.daveyx0.primitivemobs.modint.PrimitiveMobsDTIntegration;
 import net.daveyx0.primitivemobs.modint.PrimitiveMobsJERIntegration;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
@@ -59,8 +60,6 @@ public class PrimitiveMobs {
 		PrimitiveMobsSpawnRegistry.registerSpawns();
 		PrimitiveTameableEntries.registerTameables();
 		proxy.init(event);
-
-		MMModIntegrationRegistry.registerModIntegration(new PrimitiveMobsJERIntegration());
 	}
 
 	@EventHandler

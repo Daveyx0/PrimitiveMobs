@@ -1,21 +1,30 @@
 package net.daveyx0.primitivemobs.entity.passive;
 
+import java.awt.Color;
+
 import javax.annotation.Nullable;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 
 import net.daveyx0.multimob.core.MultiMob;
+import net.daveyx0.multimob.entity.IMultiMob;
+import net.daveyx0.multimob.entity.IMultiMobPassive;
 import net.daveyx0.multimob.entity.ai.EntityAITemptItemStack;
 import net.daveyx0.multimob.message.MMMessageRegistry;
 import net.daveyx0.multimob.message.MessageMMParticle;
+import net.daveyx0.multimob.modint.DynamicTreesIntegration;
 import net.daveyx0.multimob.util.ColorUtil;
 import net.daveyx0.multimob.util.EntityUtil;
 import net.daveyx0.multimob.util.NBTUtil;
+import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
+import net.daveyx0.primitivemobs.core.PrimitiveMobs;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsItems;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
 import net.daveyx0.primitivemobs.entity.ai.EntityAIGroveSpriteTempt;
 import net.daveyx0.primitivemobs.item.ItemGroveSpriteSap;
+import net.daveyx0.primitivemobs.message.MessagePrimitiveColorSap;
+import net.daveyx0.primitivemobs.modint.PrimitiveMobsDTIntegration;
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
@@ -62,7 +71,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityGroveSprite extends EntityCreature 
+public class EntityGroveSprite extends EntityCreature implements IMultiMobPassive
 {
 	private float LeavesR = 0f;
 	private float LeavesG = 0f;
@@ -114,24 +123,36 @@ public class EntityGroveSprite extends EntityCreature
     		determineLogAndLeaves();
 
     		ItemStack sapling = new ItemStack(this.getLeaves().getBlock().getItemDropped(this.getLeaves(), rand, 100), 1, this.getLeaves().getBlock().damageDropped(this.getLeaves()));
-			if(!sapling.isEmpty())
+    		ItemStack sap = new ItemStack(PrimitiveMobsItems.WONDER_SAP, 1);
+			if(this.getHeldItem(EnumHand.MAIN_HAND).isEmpty() && !sapling.isEmpty())
 			{
 				this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, sapling);
 			}
+			
+			this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, sap);
 		
 			this.setSaplingAmount(1 + rand.nextInt(4));		
 			this.setSaplingTimer(rand.nextInt(1000) + 1000);
-    	}
-		
+    	}		
         return super.onInitialSpawn(difficulty, livingdata);
     }
 	
     private void determineLogAndLeaves() {
 
-    	Object[] tree = EntityUtil.searchTree(this, 10);
+    	Object[] tree = null;
+    	if(PrimitiveMobs.proxy.DynamicTreesInt != null)
+    	{
+    		tree = PrimitiveMobs.proxy.DynamicTreesInt.searchDynamicTree(this, 10);
+    	}
+    	
+    	if(tree == null || tree.length == 0)
+    	{
+    		tree = EntityUtil.searchTree(this, 10);
+    	}
     	
     	if(tree != null && tree.length > 0)
     	{
+    		
     		this.setLog((IBlockState)tree[0]);
     		this.setLeaves((IBlockState)tree[1]);
     		this.setLeavesPos((BlockPos)tree[2]);
@@ -198,6 +219,16 @@ public class EntityGroveSprite extends EntityCreature
    	   			setLeavesRGB(getColor(this.getEntityWorld(), this.getLeaves(), this.getLeavesPos(), null));
    	   			setLogRGB(getColor(this.getEntityWorld(), this.getLog(), null, EnumFacing.WEST));
    	   			setLogTopRGB(getColor(this.getEntityWorld(), this.getLog(), null, null));
+   	   			
+   	    		ItemStack clientSap = this.getHeldItemOffhand();
+   	    		if(this.getLog() != null)
+   	    		{
+
+   					int[] logTop = this.getColor(world, this.getLog(), null, null);
+   					Color logTopColor = new Color(logTop[0], logTop[1], logTop[2]);
+   					ItemGroveSpriteSap.setColor(clientSap,logTopColor.hashCode());
+   					MMMessageRegistry.getNetwork().sendToServer(new MessagePrimitiveColorSap(ItemGroveSpriteSap.getColor(clientSap), this.getUniqueID().toString()));
+   	    		}
    			}
    			else
    			{
@@ -208,7 +239,6 @@ public class EntityGroveSprite extends EntityCreature
    				this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Blocks.TORCH));
    				this.isImmuneToFire = true;
    			}
-
    		}
      
    		super.onUpdate();
@@ -286,7 +316,7 @@ public class EntityGroveSprite extends EntityCreature
 			
 			if(face != null)
 			{
-				newColor =	ColorUtil.getBlockStateColor(state, pos, worldIn, face, true);
+   	   			newColor =	ColorUtil.getBlockStateColor(state, pos, worldIn, face, true);
 			}
 			else
 			{
@@ -368,9 +398,10 @@ public class EntityGroveSprite extends EntityCreature
                 this.playSound(PrimitiveMobsSoundEvents.ENTITY_GROVESPRITE_THANKS, 1, 1);
                 if(!this.world.isRemote)
                 {
-                	ItemStack sap = new ItemStack(PrimitiveMobsItems.WONDER_SAP, rand.nextInt(4) + 1);
-            		sap = ItemGroveSpriteSap.onGroveSpriteDrop(this.world, this, sap);
+                	ItemStack sap = this.getHeldItemOffhand().copy();
+                	sap.setCount(rand.nextInt(4) + 1);
             		EntityItem item = this.entityDropItem(sap , 1);
+            		item.setDefaultPickupDelay();
                 }
             }
         	return true;
@@ -379,6 +410,11 @@ public class EntityGroveSprite extends EntityCreature
         {
             return super.processInteract(player, hand);
         }
+    }
+    
+    public void dropWonderSap()
+    {
+    	
     }
     
     /**
@@ -403,12 +439,14 @@ public class EntityGroveSprite extends EntityCreature
         	ItemStack coal = new ItemStack(Items.COAL, rand.nextInt(5) + lootingModifier);
     		EntityItem item = this.entityDropItem(coal , 1);
     	}
+    	/*
     	else if (this.getLog() != null)
         {
-        	ItemStack sap = new ItemStack(PrimitiveMobsItems.WONDER_SAP);
-    		sap = ItemGroveSpriteSap.onGroveSpriteDrop(this.world, this, sap);
+        	ItemStack sap = new ItemStack(PrimitiveMobsItems.WONDER_SAP, 1);
     		EntityItem item = this.entityDropItem(sap , 1);
-        }
+    		item.setDefaultPickupDelay();
+    		ItemGroveSpriteSap.onGroveSpriteDrop(this.world, this, item);
+        }*/
     }
     
 
@@ -676,7 +714,9 @@ public class EntityGroveSprite extends EntityCreature
             int j = 1;
             BlockPos blockpos = new BlockPos(this.sprite);
             
-        	if(this.sprite.getSaplingAmount() <= 0 || !hasChosen && sprite.rand.nextInt(20) != 0)
+            boolean flag = this.sprite.getEntityWorld().getGameRules().getBoolean("mobGriefing");
+            
+        	if((!flag || !PrimitiveMobsConfigSpecial.getGroveSpritesPlant()) && (this.sprite.getSaplingAmount() <= 0 || (!hasChosen && sprite.rand.nextInt(20) != 0)))
         	{
         		placeSapling = false;
         	}
@@ -743,7 +783,7 @@ public class EntityGroveSprite extends EntityCreature
                 	if((droppedItem != null && this.sprite.getHeldItemMainhand() != null && this.sprite.getHeldItemMainhand().getItem() == droppedItem.getItem() && 
                 			this.sprite.getHeldItemMainhand().getMetadata() == droppedItem.getMetadata()))
                 	{
-                    		MultiMob.LOGGER.info(state + " "+ droppedItem);
+                    		//MultiMob.LOGGER.info(state + " "+ droppedItem);
                             pos = pos.up();
                             if(worldIn.isAirBlock(pos))
                             {
@@ -777,9 +817,8 @@ public class EntityGroveSprite extends EntityCreature
 
     }
     
-    @Override
     public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
     {
-        return false;
+    	return super.isCreatureType(type, forSpawnCount);
     }
 }

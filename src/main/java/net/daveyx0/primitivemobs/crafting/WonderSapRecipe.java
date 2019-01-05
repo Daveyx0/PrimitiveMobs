@@ -7,7 +7,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import net.daveyx0.primitivemobs.item.ItemGroveSpriteSap;
+import net.daveyx0.primitivemobs.modint.PrimitiveMobsDTIntegration;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;

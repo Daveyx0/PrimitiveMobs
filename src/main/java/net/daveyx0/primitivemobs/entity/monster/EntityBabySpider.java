@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import net.daveyx0.multimob.common.capabilities.CapabilityTameableEntity;
 import net.daveyx0.multimob.common.capabilities.ITameableEntity;
+import net.daveyx0.multimob.entity.IMultiMob;
 import net.daveyx0.multimob.entity.ai.EntityAICustomFollowOwner;
 import net.daveyx0.multimob.entity.ai.EntityAICustomOwnerHurtByTarget;
 import net.daveyx0.multimob.entity.ai.EntityAICustomOwnerHurtTarget;
@@ -36,7 +37,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityBabySpider extends EntityPrimitiveSpider
+public class EntityBabySpider extends EntityPrimitiveSpider implements IMultiMob
 {
     private int rideAttemptDelay = rand.nextInt(100);
     boolean initChild = false;
@@ -71,12 +72,6 @@ public class EntityBabySpider extends EntityPrimitiveSpider
     public float getEyeHeight()
     {
         return this.height/2;
-    }
-    
-    @Override
-    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-    {
-        return false;
     }
     
     /**
@@ -220,6 +215,8 @@ public class EntityBabySpider extends EntityPrimitiveSpider
 	             	{
 	             		this.setEyeColor(getRandomEyeColor(this.world.rand));
 	             		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D + (rand.nextFloat() * 0.1));
+	             		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
+	             		this.setHealth(30);
 	             	}
 		            return true;
 		        }
@@ -407,6 +404,10 @@ public class EntityBabySpider extends EntityPrimitiveSpider
         return EnumDyeColor.byMetadata(i);
     }
 
-    
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+    	if(type == EnumCreatureType.MONSTER){return false;}
+    	return super.isCreatureType(type, forSpawnCount);
+    }
     
 }

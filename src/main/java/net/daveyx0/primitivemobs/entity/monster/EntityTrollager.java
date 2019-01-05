@@ -3,6 +3,7 @@ package net.daveyx0.primitivemobs.entity.monster;
 import javax.annotation.Nullable;
 
 import net.daveyx0.multimob.core.MultiMob;
+import net.daveyx0.multimob.entity.IMultiMob;
 import net.daveyx0.multimob.entity.ai.EntityAISenseEntityNearestPlayer;
 import net.daveyx0.multimob.message.MMMessageRegistry;
 import net.daveyx0.multimob.message.MessageMMParticle;
@@ -51,7 +52,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
-public class EntityTrollager extends EntityMob implements IAnimatedMob {
+public class EntityTrollager extends EntityMob implements IAnimatedMob, IMultiMob {
 
 	 private static final DataParameter<Integer> ANIMATION_STATE = EntityDataManager.<Integer>createKey(EntityTrollager.class, DataSerializers.VARINT);
 	 private static final DataParameter<BlockPos> CURRENT_THROWN_BLOCK = EntityDataManager.<BlockPos>createKey(EntityTrollager.class, DataSerializers.BLOCK_POS);
@@ -93,12 +94,6 @@ public class EntityTrollager extends EntityMob implements IAnimatedMob {
         this.targetTasks.addTask(++attackPrio, new EntityAIHurtByTarget(this, false));
         this.targetTasks.addTask(++attackPrio, new EntityAISenseEntityNearestPlayer(this, 40));
         this.targetTasks.addTask(++attackPrio, new EntityAINearestAttackableTarget(this, EntityIronGolem.class, true));
-    }
-	
-    @Override
-    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-    {
-        return false;
     }
 	
 	/**
@@ -189,7 +184,6 @@ public class EntityTrollager extends EntityMob implements IAnimatedMob {
 					this.getPassengers().get(0).dismountRidingEntity();
 				}
 			}
-			
 		}
 		else
 		{
@@ -198,7 +192,6 @@ public class EntityTrollager extends EntityMob implements IAnimatedMob {
 			this.previousYawStone = -2;
 			this.setNoAI(false);
 		}
-		
 	}
 	
     /**
@@ -651,5 +644,11 @@ public class EntityTrollager extends EntityMob implements IAnimatedMob {
 		
 		animVar = var;
 	}
+	
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+    	if(type == EnumCreatureType.MONSTER){return false;}
+    	return super.isCreatureType(type, forSpawnCount);
+    }
     
 }

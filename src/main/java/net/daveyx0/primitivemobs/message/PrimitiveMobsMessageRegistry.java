@@ -8,6 +8,7 @@ public class PrimitiveMobsMessageRegistry extends MMMessageRegistry{
 	public static void registerMessages()
 	{
 		registerMessage(MessagePrimitiveColor.Handler.class, MessagePrimitiveColor.class, Side.SERVER);
+		registerMessage(MessagePrimitiveColorSap.Handler.class, MessagePrimitiveColorSap.class, Side.SERVER);
 		registerMessage(MessagePrimitiveJumping.Handler.class, MessagePrimitiveJumping.class, Side.SERVER);
 		registerMessage(MessageTeleportEye.Handler.class, MessageTeleportEye.class, Side.SERVER);
 

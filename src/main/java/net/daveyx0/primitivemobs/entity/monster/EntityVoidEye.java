@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import net.daveyx0.multimob.core.MultiMob;
 import net.daveyx0.multimob.entity.EntityMMFlyingCreature;
+import net.daveyx0.multimob.entity.IMultiMob;
 import net.daveyx0.multimob.entity.ai.EntityAIFlyingAround;
 import net.daveyx0.multimob.entity.ai.EntityAISenseEntityNearestPlayer;
 import net.daveyx0.multimob.message.MMMessageRegistry;
@@ -34,7 +35,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.entity.boss.EntityDragon;
 
-public class EntityVoidEye extends EntityMMFlyingCreature {
+public class EntityVoidEye extends EntityMMFlyingCreature implements IMultiMob {
 
     private static final DataParameter<Integer> TARGET_ENTITY = EntityDataManager.<Integer>createKey(EntityVoidEye.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> CAN_SEE_TARGET = EntityDataManager.<Boolean>createKey(EntityVoidEye.class, DataSerializers.BOOLEAN);
@@ -74,12 +75,6 @@ public class EntityVoidEye extends EntityMMFlyingCreature {
         this.dataManager.register(TARGET_ENTITY, Integer.valueOf(0));
         this.dataManager.register(CAN_SEE_TARGET, Boolean.valueOf(false));
         this.dataManager.register(DOES_TELEPORT, Boolean.valueOf(false));
-    }
-    
-    @Override
-    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-    {
-        return false;
     }
     
 	public void setCanSeeTarget(boolean sees)
@@ -344,7 +339,7 @@ public class EntityVoidEye extends EntityMMFlyingCreature {
         else 
         {
             boolean flag = super.attackEntityFrom(source, amount);
-            if (source.isUnblockable() && this.rand.nextInt(5) != 0)
+            if (source.isUnblockable() && this.rand.nextInt(5) != 0 && world.isRemote)
             {
             	setTeleports(true);
             	MMMessageRegistry.getNetwork().sendToServer(new MessageTeleportEye(true, this.getUniqueID().toString()));
@@ -420,6 +415,12 @@ public class EntityVoidEye extends EntityMMFlyingCreature {
     		}
     	}
         return super.getCanSpawnHere();
+    }
+    
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+    	if(type == EnumCreatureType.MONSTER){return false;}
+    	return super.isCreatureType(type, forSpawnCount);
     }
 
 }

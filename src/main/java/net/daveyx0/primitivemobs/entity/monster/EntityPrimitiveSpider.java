@@ -84,12 +84,6 @@ public class EntityPrimitiveSpider extends EntityPrimitiveTameableMob {
 	        }
 	    }
 	    
-	    @Override
-	    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-	    {
-	        return false;
-	    }
-
 	    protected void applyEntityAttributes()
 	    {
 	        super.applyEntityAttributes();

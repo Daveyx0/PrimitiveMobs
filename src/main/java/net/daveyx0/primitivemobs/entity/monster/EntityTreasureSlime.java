@@ -3,6 +3,7 @@ package net.daveyx0.primitivemobs.entity.monster;
 import javax.annotation.Nullable;
 
 import net.daveyx0.multimob.client.particle.MMParticles;
+import net.daveyx0.multimob.entity.IMultiMob;
 import net.daveyx0.multimob.util.ColorUtil;
 import net.daveyx0.multimob.util.EntityUtil;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
@@ -31,7 +32,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
-public class EntityTreasureSlime extends EntityTameableSlime {
+public class EntityTreasureSlime extends EntityTameableSlime implements IMultiMob {
 
 	private float R = 0f;
 	private float G = 0f;
@@ -500,10 +501,10 @@ public class EntityTreasureSlime extends EntityTameableSlime {
         return this.getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL && EntityUtil.isValidMobLightLevel(this);
     }
     
-    @Override
     public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
     {
-        return false;
+    	if(type == EnumCreatureType.MONSTER){return false;}
+    	return super.isCreatureType(type, forSpawnCount);
     }
         
 }

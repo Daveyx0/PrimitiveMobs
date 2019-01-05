@@ -4,6 +4,8 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Sets;
 
+import net.daveyx0.multimob.entity.IMultiMob;
+import net.daveyx0.multimob.entity.IMultiMobPassive;
 import net.daveyx0.multimob.entity.ai.EntityAITemptItemStack;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsVillagerProfessions;
@@ -29,7 +31,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityTravelingMerchant extends EntityVillager {
+public class EntityTravelingMerchant extends EntityVillager implements IMultiMobPassive {
 
 	private static final DataParameter<Boolean> CAN_DESPAWN = EntityDataManager.<Boolean>createKey(EntityTravelingMerchant.class, DataSerializers.BOOLEAN);
 	
@@ -149,11 +151,9 @@ public class EntityTravelingMerchant extends EntityVillager {
         		) && j > 20 && this.getEntityWorld().getLight(blockpos) > 8 && super.getCanSpawnHere();
     }
     
-    @Override
     public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
     {
-        return false;
+    	return super.isCreatureType(type, forSpawnCount);
     }
-
 
 }

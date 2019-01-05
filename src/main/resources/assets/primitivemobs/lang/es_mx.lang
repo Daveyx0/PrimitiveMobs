@@ -1,0 +1,179 @@
+#Entities
+
+entity.primitivemobs.chameleon.name=Camaleon
+entity.primitivemobs.treasure_slime.name=Slime del Tesoro
+entity.primitivemobs.haunted_tool.name=Herramienta Encantada
+entity.primitivemobs.grovesprite.name=Grove Sprite
+entity.primitivemobs.bewitched_tome.name=Tomo Embrujado
+entity.primitivemobs.filch_lizard.name=Lagartija Ratera
+entity.primitivemobs.brain_slime.name=Slime Cerebral
+entity.primitivemobs.rocket_creeper.name=Creeper Cohete
+entity.primitivemobs.festive_creeper.name=Creeper Festivo
+entity.primitivemobs.support_creeper.name=Creeper de Apoyo
+entity.primitivemobs.skeleton_warrior.name=Esqueleto Guerrero
+entity.primitivemobs.blazing_juggernaut.name=Juggernaut Ardiente
+entity.primitivemobs.lily_lurker.name=Lirio Miron
+entity.primitivemobs.mother_spider.name=Arana Madre
+entity.primitivemobs.baby_spider.name=Bebe Arana
+entity.primitivemobs.trollager.name=Trollager
+entity.primitivemobs.lost_miner.name=Minero Perdido
+entity.primitivemobs.traveling_merchant.name=Mercader Viajero
+entity.primitivemobs.dodo.name=Dodo
+entity.primitivemobs.mimic.name=Mimico
+entity.primitivemobs.goblin.name=Duende
+entity.primitivemobs.flame_spewer.name=Vomita de Flama
+entity.primitivemobs.harpy.name=Arpia
+entity.primitivemobs.sheepman.name=Hombre Oveja
+entity.primitivemobs.void_eye.name=Ojo de Vacio
+
+#Items
+
+item.primitivemobs:camouflage_dye.name=Tinte de Camuflaje
+item.primitivemobs:dodo.name=Carne de Dodo
+item.primitivemobs:cooked_dodo.name=Carne de Dodo Cocinada
+item.primitivemobs:dodo_egg.name=Huevo de Dodo
+item.primitivemobs:mimic_orb.name=Orbe Mimico
+item.primitivemobs:summoner_orb.name=Orbe Invocador
+item.primitivemobs:wonder_sap.name=Savia Maravilla
+item.primitivemobs:spider_egg.name=Huevo de Arana
+item.primitivemobs:mysteryegg1.name=Huevo Misterioso
+item.primitivemobs:mysteryegg2.name=Huevo Misterioso
+item.primitivemobs:mysteryegg3.name=Huevo Misterioso
+item.primitivemobs:spider_eggshell.name=Cascara de Huevo de Arana
+item.primitivemobs:goblin_mace.name=Duende Maza
+
+#Armor
+
+item.primitivemobs:camouflage_helmet.name=Casco de Camuflaje
+item.primitivemobs:camouflage_chestplate.name=Pechera de Camuflaje
+item.primitivemobs:camouflage_leggings.name=Pantalones de Camuflaje
+item.primitivemobs:camouflage_boots.name=Botas de Camuflaje
+
+#Villager Professions
+entity.Villager.primitivemobs.ore_miner=Minero de Vetas
+entity.Villager.primitivemobs.gem_miner=Minero de Gemas
+entity.Villager.primitivemobs.stone_miner=Minero de Piedra
+entity.Villager.primitivemobs.traveling_merchant=Mercader Viajero
+entity.Villager.primitivemobs.sheepman_scavenger=Hombre Oveja Carronero
+entity.Villager.primitivemobs.sheepman_alchemist=Hombre Oveja Alquimista
+entity.Villager.primitivemobs.sheepman_thief=Hombre Oveja Ladron
+
+#JER Integration
+JER.catagory.primitivemobs.mimic_treasure=Botin del Tesoro del Mimico
+JER.catagory.primitivemobs.mimic_trap=Botin de Trampa Mimica
+entity.Villager.primitivemobs.fake_traveling_merchant=Mercader Viajero
+
+#Tamed
+death.tamed.sitting =%1$s se sento.
+death.tamed.wandering =%1$s vaga.
+death.tamed.following =%1$s ahora te sigue.
+
+#Old
+
+entity.primitivemobs.Sheepman.name=Hombre Oveja
+entity.primitivemobs.Summoner.name=Convocador
+entity.primitivemobs.Minion.name=Craneo Minion
+entity.primitivemobs.SheepmanSmith.name=Hombre Oveja Herrero
+entity.primitivemobs.Spider+.name=Arana+
+entity.primitivemobs.OreGolem.name=Golem de Mineral
+entity.primitivemobs.BlazeCow.name=Vaca Blaze
+entity.primitivemobs.EnderChicken.name=Pollo del End
+entity.primitivemobs.Sheeper.name=Ovejero
+entity.primitivemobs.Goblin.name=Goblin
+entity.primitivemobs.BewitchedTomeSpecial.name=Mazmorra del Tomo Embrujado
+entity.primitivemobs.Wizard.name=Mago
+
+item.primitivemobs.SpiderEgg.name=Huevo de Arana
+item.primitivemobs.MysteryEgg.name=Huevo Misterioso
+item.primitivemobs.SpiderEggShell.name=Cascara de Huevo de Arana
+item.primitivemobs.SkullMinionOrb.name=Orbe de Craneo Minion
+item.primitivemobs.PreciousPickaxe.name=Pico Precioso
+item.primitivemobs.PreciousAxe.name=Hacha Preciosa
+item.primitivemobs.TarBall.name=Bola de Alquitran
+item.primitivemobs.PinkSlimeBall.name=Bola de Slime Rosa
+item.primitivemobs.WebBall.name=Bola de Telarana
+item.primitivemobs.SmallRock.name=Roca Pequena
+item.primitivemobs.WizardTome.name=Tomo Embrujado
+
+item.primitivemobs.PetTreasureSlimeSpawner.name=Invocador de Mascota Slime del Tesoro
+item.primitivemobs.PreciousPickaxeSpawner.name=Invocador de Pico Precioso Encantado
+item.primitivemobs.RedSkullMinionSpawner.name=Invocador de Craneo Rojo Minion
+item.primitivemobs.BlueSkullMinionSpawner.name=Invocador de Craneo Azul Minion
+item.primitivemobs.GreenSkullMinionSpawner.name=Invocador de Craneo Verde Minion
+item.primitivemobs.YellowSkullMinionSpawner.name=Invocador de Craneo Amarillo Minion
+item.primitivemobs.MagentaSkullMinionSpawner.name=Invocador de Craneo Magenta Minion
+item.primitivemobs.WitherSkullMinionSpawner.name=Invocador de Craneo de Wither Minion
+item.primitivemobs.SpiderCaveStructureSpawner.name=Invocador de Arana de Cueva
+item.primitivemobs.GemCaveStructureSpawner.name=Invocador de Gema de Cueva
+item.primitivemobs.CreeperCaveStructureSpawner.name=Invocador de Creeper de Cueva
+item.primitivemobs.GoodWizardTowerStructureSpawner.name=Invocador de Torre de Lagartija Buena
+item.primitivemobs.NeutralWizardTowerStructureSpawner.name=Invocador de Lagartija Neutral
+item.primitivemobs.EvilWizardTowerStructureSpawner.name=Invocador de Lagartija Malvada
+
+tile.primitivemobs.Tar.name=Alquitran
+tile.primitivemobs.Log.Cinder.name=Tronco de Cinder
+tile.primitivemobs.Sapling.Cinder.name=Retono de Cinder
+tile.primitivemobs.Sapling.GroveSprite.name=Retono de Grove Sprite
+tile.primitivemobs.Leaf.Cinder.name=Hojas de Cinder
+tile.primitivemobs.SpiderEgg.name=Huevo de Arana
+tile.primitivemobs.Decorative.WebbedStone.name=Piedra Webbed
+tile.primitivemobs.Planks.Cinder.name=Madera de Cinder
+tile.primitivemobs.Stairs.Cinder.name=Escaleras de Cinder
+tile.primitivemobs.Slab.Cinder.name=Losa de Cinder
+tile.primitivemobs.Chest.Spider.name=Cofre de Webbed
+tile.primitivemobs.Chest.Gem.name=Cofre de Gema
+tile.primitivemobs.BookcaseSpawner.name=Invocador de Tomo Embrujado
+tile.primitivemobs.Chest.RandomMimic.name=Cofre
+tile.primitivemobs.Chest.EvilMimic.name=Cofre Malvado Mimico
+tile.primitivemobs.Chest.SkeletonWarriorMimic.name=Esqueleto Guerrero de Cofre Mimico
+tile.primitivemobs.Chest.HauntedToolMimic.name=Herramienta Encantada de Cofre Mimico
+tile.primitivemobs.Chest.BatMimic.name=Murcielago de Cofre Mimico
+tile.primitivemobs.Chest.ZombieMimic.name=Zombi de Cofre Mimico
+tile.primitivemobs.Chest.ExplosionMimic.name=Explosion de Cofre Mimico
+tile.primitivemobs.Chest.EnderMimic.name=Ender de Cofre Mimico
+tile.primitivemobs.Chest.Creeper.name=Creepy de Cofre Mimico
+
+key.primitivemobs.category=PrimitiveMobs
+key.primitivemobs.desc=Alternar Camuflaje
+
+enchantment.primitivemobs.stickyFeet=Pies Pegajosos
+enchantment.primitivemobs.explosiveSlash=Barrido Explosivo
+
+achievement.primitivemobs.lostminerhelp=Forever Alone
+achievement.primitivemobs.lostminerhelp.desc=Salva un Minero Perdido
+achievement.primitivemobs.camouflagedye=Esencia de Colores
+achievement.primitivemobs.camouflagedye.desc=Consigue Tinte de Camuflaje
+achievement.primitivemobs.camouflagearmor=Cosplay de Camaleon
+achievement.primitivemobs.camouflagearmor.desc=Crea una Armadura de Camuflaje
+achievement.primitivemobs.chameleonfriend=Amigo de Todos los Colores
+achievement.primitivemobs.chameleonfriend.desc=Domestica un Camaleon
+achievement.primitivemobs.specialcolor1=Color de Exploracion
+achievement.primitivemobs.specialcolor1.desc=Pista: Esporas
+achievement.primitivemobs.specialcolor2=Color del Descubrimiento
+achievement.primitivemobs.specialcolor2.desc=Pista: Cerca del Final
+achievement.primitivemobs.specialcolor3=Color de la Victoria
+achievement.primitivemobs.specialcolor3.desc=Pista: Dentro del Haz de Luz
+achievement.primitivemobs.redcreepsurvive=Invitado No Invitado
+achievement.primitivemobs.redcreepsurvive.desc=Mata a un Creeper Festivo
+achievement.primitivemobs.spiderowner=Mami?
+achievement.primitivemobs.spiderowner.desc=Consigue tu propia Bebe Arana
+achievement.primitivemobs.spiderstealer=Proteccion Infantil
+achievement.primitivemobs.spiderstealer.desc=Captura una Bebe Arana de una Mama Arana
+achievement.primitivemobs.spiderattack=Soldado de ocho patas
+achievement.primitivemobs.spiderattack.desc=Deja que tu Bebe Arana ataque a un mob
+achievement.primitivemobs.spidergrown=El Tiempo Vuela
+achievement.primitivemobs.spidergrown.desc=As que tu Bebe Arana cresca a su edad adulta
+achievement.primitivemobs.haunteddiamond=Destello Malvado
+achievement.primitivemobs.haunteddiamond.desc=Mata una Herramienta de Diamante Encantada
+achievement.primitivemobs.hauntedprecious=Mi Precioso
+achievement.primitivemobs.hauntedprecious.desc=Mata un Pico Precioso Encantado
+achievement.primitivemobs.mimicfake=Jack en una Caja
+achievement.primitivemobs.mimicfake.desc=Encuentra un Cofre Mimico que te ataque
+achievement.primitivemobs.mimicdungeon=No Es Un Cofre Falso
+achievement.primitivemobs.mimicdungeon.desc=Encuentra un Cofre Mimico que este en un Cofre de Mazmorra
+achievement.primitivemobs.treasureslimefriend=Companero Slimy
+achievement.primitivemobs.treasureslimefriend.desc=Consigue tu propia mascota Slime del Tesoro
+achievement.primitivemobs.treasureslimewhite=Colores Combinados
+achievement.primitivemobs.treasureslimewhite.desc=As que tu mascota Slime del Tesoro sea completamente blanca
+achievement.primitivemobs.blazingjugger=Sigueme
+achievement.primitivemobs.blazingjugger.desc=As que un Juggernaut Ardiente se meta al agua

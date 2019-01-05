@@ -5,11 +5,16 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import net.daveyx0.multimob.core.MultiMob;
+import net.daveyx0.multimob.message.MMMessageRegistry;
 import net.daveyx0.multimob.util.EntityUtil;
 import net.daveyx0.multimob.util.NBTUtil;
 import net.daveyx0.primitivemobs.entity.passive.EntityGroveSprite;
+import net.daveyx0.primitivemobs.message.MessagePrimitiveColor;
+import net.daveyx0.primitivemobs.message.MessagePrimitiveColorSap;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -42,35 +47,50 @@ public class ItemGroveSpriteSap extends ItemPrimitive {
     	}
     }
 	
-	public static ItemStack onGroveSpriteDrop(World worldIn, EntityGroveSprite sprite, ItemStack stack)
+	public static void setSapLogState(EntityGroveSprite sprite, ItemStack stack)
 	{
     	if(sprite != null)
     	{
     		NBTTagCompound itemtagcompound = new NBTTagCompound();
     		
+    		if(stack.hasTagCompound())
+    		{
+    			itemtagcompound = stack.getTagCompound();
+    		}
+    		
     		if(sprite.getLog() != null)
     		{
     			NBTUtil.setBlockStateToNBT(sprite.getLog(), "LogState", itemtagcompound);
     			
-    			int[] logTop = sprite.getColor(worldIn, sprite.getLog(), null, null);
-    			Color logTopColor = new Color(logTop[0], logTop[1], logTop[2]);
-    			
-            	NBTTagCompound nbttagcompound1 = itemtagcompound.getCompoundTag("display");
-
-                if (!itemtagcompound.hasKey("display", 10))
-                {
-                	itemtagcompound.setTag("display", nbttagcompound1);
-                }
-                
-                nbttagcompound1.setInteger("color", logTopColor.getRGB());
-    			
-    			
         		stack.setTagCompound(itemtagcompound);
     		}
     	}
-    	return stack;
 		
 	}
+	
+    /**
+     * Sets the color of the specified armor ItemStack
+     */
+    public static void setColor(ItemStack stack, int color)
+    {
+        NBTTagCompound nbttagcompound = stack.getTagCompound();
+
+        if (nbttagcompound == null)
+        {
+            nbttagcompound = new NBTTagCompound();
+            stack.setTagCompound(nbttagcompound);
+        }
+
+        NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
+
+        if (!nbttagcompound.hasKey("display", 10))
+        {
+            nbttagcompound.setTag("display", nbttagcompound1);
+        }
+
+        nbttagcompound1.setInteger("color", color);
+    
+    }
 	
 	public static ItemStack getLogFromSap(ItemStack sap, int logAmount)
 	{

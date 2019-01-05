@@ -55,12 +55,6 @@ public class EntityPrimitiveCreeper extends EntityCreeper
         super.onUpdate();
     }
     
-    @Override
-    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-    {
-        return false;
-    }
-    
     /**
      * Called when the entity is attacked.
      */

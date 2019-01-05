@@ -2,6 +2,7 @@ package net.daveyx0.primitivemobs.entity.monster;
 
 import javax.annotation.Nullable;
 
+import net.daveyx0.multimob.entity.IMultiMob;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigMobs;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
@@ -36,7 +37,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
-public class EntityMotherSpider extends EntityPrimitiveSpider {
+public class EntityMotherSpider extends EntityPrimitiveSpider implements IMultiMob {
 
 	private final int minFollowers = 3;
 	private final int maxFollowers = PrimitiveMobsConfigSpecial.getMaxSpiderFamilySize();
@@ -78,12 +79,6 @@ public class EntityMotherSpider extends EntityPrimitiveSpider {
         this.targetTasks.addTask(2, new EntityAIFollowerHurtByTarget(this));
         this.targetTasks.addTask(3, new EntityPrimitiveSpider.AISpiderTarget(this, EntityPlayer.class));
         this.targetTasks.addTask(4, new EntityPrimitiveSpider.AISpiderTarget(this, EntityIronGolem.class));
-    }
-    
-    @Override
-    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-    {
-        return false;
     }
 	
 	public void onUpdate()
@@ -266,6 +261,12 @@ public class EntityMotherSpider extends EntityPrimitiveSpider {
     protected ResourceLocation getLootTable()
     {
         return PrimitiveMobsLootTables.ENTITIES_MOTHERSPIDER;
+    }
+    
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+    	if(type == EnumCreatureType.MONSTER){return false;}
+    	return super.isCreatureType(type, forSpawnCount);
     }
     
 }

@@ -2,6 +2,7 @@ package net.daveyx0.primitivemobs.entity.passive;
 
 import javax.annotation.Nullable;
 
+import net.daveyx0.multimob.entity.IMultiMobPassive;
 import net.daveyx0.multimob.entity.ai.EntityAITemptItemStack;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsItems;
@@ -32,7 +33,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityDodo extends EntityChicken
+public class EntityDodo extends EntityChicken implements IMultiMobPassive
 {
 	public int timeUntilNextShed;
 	public int timeUntilNextDodoEgg;
@@ -89,8 +90,6 @@ public class EntityDodo extends EntityChicken
         	this.setHeldItem(EnumHand.MAIN_HAND, this.getRandomBreedingItem());
         }
         
-        this.timeUntilNextEgg = 100;
-        
         if (!this.world.isRemote && !this.isChild() && !this.isChickenJockey() && --this.timeUntilNextShed <= 0 && PrimitiveMobsConfigSpecial.dodoMycelium)
         {
             this.playSound(SoundEvents.BLOCK_GRASS_BREAK, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
@@ -98,7 +97,7 @@ public class EntityDodo extends EntityChicken
             this.timeUntilNextShed = this.rand.nextInt(6000) + 6000;
         }
         
-        if (!this.world.isRemote && !this.isChild() && !this.isChickenJockey() && --this.timeUntilNextEgg <= 0)
+        if (!this.world.isRemote && !this.isChild() && !this.isChickenJockey() && --this.timeUntilNextDodoEgg <= 0)
         {
             this.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
             this.dropItem(PrimitiveMobsItems.DODO_EGG, 1);
@@ -179,11 +178,10 @@ public class EntityDodo extends EntityChicken
         return this.world.getBlockState(blockpos.down()).getBlock() == Blocks.MYCELIUM && this.world.getLight(blockpos) > 8 && this.getBlockPathWeight(new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ)) >= 0.0F && flag;
     }
     
-    @Override
     public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
     {
-        return false;
+    	if(type == EnumCreatureType.CREATURE){return false;}
+    	return super.isCreatureType(type, forSpawnCount);
     }
-
 
 }

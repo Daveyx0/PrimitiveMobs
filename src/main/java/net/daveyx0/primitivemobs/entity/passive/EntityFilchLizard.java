@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Sets;
 
+import net.daveyx0.multimob.entity.IMultiMobPassive;
 import net.daveyx0.multimob.entity.ai.EntityAIGrabItemFromFloor;
 import net.daveyx0.multimob.entity.ai.EntityAIStealFromPlayer;
 import net.daveyx0.multimob.util.EntityUtil;
@@ -34,7 +35,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityFilchLizard extends EntityCreature implements IAnimals {
+public class EntityFilchLizard extends EntityCreature implements IMultiMobPassive {
 
 	private int itemChance = 4;
 	private EntityAIAvoidEntity<EntityPlayer> avoidEntity;
@@ -176,9 +177,8 @@ public class EntityFilchLizard extends EntityCreature implements IAnimals {
         return this.getEntityWorld().getBlockState(blockpos.down()).getBlock() == this.spawnableBlock && this.getEntityWorld().getLight(blockpos) > 8 && super.getCanSpawnHere();
     }
     
-    @Override
     public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
     {
-        return false;
+    	return super.isCreatureType(type, forSpawnCount);
     }
 }

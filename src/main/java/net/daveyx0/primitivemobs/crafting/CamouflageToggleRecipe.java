@@ -29,7 +29,6 @@ public class CamouflageToggleRecipe extends ShapelessOreRecipe {
 	@Override
 	public ItemStack getCraftingResult(final InventoryCrafting inv) {
 		ItemStack output = super.getCraftingResult(inv); 
-		MultiMob.LOGGER.info(output);
 		
 		if (!output.isEmpty()) {
 			
@@ -43,7 +42,10 @@ public class CamouflageToggleRecipe extends ShapelessOreRecipe {
 					if(output.getItem() instanceof ItemCamouflageArmor)
 					{
 						ItemCamouflageArmor armor = (ItemCamouflageArmor)output.getItem();
+						armor.setColor(output, armor.getColor(ingredient));
+						armor.setColorBlockState(output, armor.getColorBlockState(ingredient)); 
 						armor.setCannotChange(output, !armor.getCannotChange(ingredient));
+						output.setItemDamage(ingredient.getItemDamage());
 					}
 				}
 				}

@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import net.daveyx0.multimob.entity.IMultiMob;
 import net.daveyx0.multimob.util.EntityUtil;
 import net.daveyx0.primitivemobs.config.PrimitiveMobsConfigSpecial;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
@@ -38,7 +39,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityHauntedTool extends EntityMob {
+public class EntityHauntedTool extends EntityMob implements IMultiMob {
 
     public float floatingb;
     public float floatingc;
@@ -60,19 +61,13 @@ public class EntityHauntedTool extends EntityMob {
     {
 		int prio = 0;
         this.tasks.addTask(++prio, new EntityAISwimming(this));
-        this.tasks.addTask(++prio, new EntityAIAttackMelee(this, 1.0D, false));
+        this.tasks.addTask(++prio, new EntityAIAttackMelee(this, 1.3D, false));
         this.tasks.addTask(++prio, new EntityAIMoveTowardsRestriction(this, 1.0D));
         this.tasks.addTask(++prio, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(++prio, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(++prio, new EntityAILookIdle(this));
         int attackPrio = 1;
         this.targetTasks.addTask(++attackPrio, new EntityAIHurtByTarget(this, false));
-    }
-	
-    @Override
-    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-    {
-        return false;
     }
 	
     protected void applyEntityAttributes()
@@ -325,4 +320,9 @@ public class EntityHauntedTool extends EntityMob {
 		return 0.2D;
 	}
 
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+    	if(type == EnumCreatureType.MONSTER){return false;}
+    	return super.isCreatureType(type, forSpawnCount);
+    }
 }

@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Optional;
 
 import net.daveyx0.multimob.client.particle.MMParticles;
+import net.daveyx0.multimob.entity.IMultiMob;
 import net.daveyx0.multimob.message.MMMessageRegistry;
 import net.daveyx0.multimob.message.MessageMMParticle;
 import net.daveyx0.multimob.util.EntityUtil;
@@ -48,7 +49,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityBrainSlime extends EntitySlime {
+public class EntityBrainSlime extends EntitySlime implements IMultiMob {
 
 	public int attackDelay;
 	public float suckingb;
@@ -93,13 +94,7 @@ public class EntityBrainSlime extends EntitySlime {
         this.getDataManager().register(SATURATION, Integer.valueOf(0));
         this.getDataManager().register(VICTIM_UNIQUE_ID, Optional.absent());
     }
-    
-    @Override
-    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-    {
-        return false;
-    }
-	
+
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
     {
@@ -294,12 +289,12 @@ public class EntityBrainSlime extends EntitySlime {
 	public void damageHelmetOrEntity(EntityLivingBase base)
 	{
 		ItemStack stack = base.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-		float damage = (float)this.getAttackStrength();
+		int damage = (int)this.getAttackStrength();
 		
-		if(!stack.isEmpty() && stack.getItem().isDamageable())
+		if(!stack.isEmpty() && stack.getItem().isDamageable() && stack.isItemStackDamageable())
 		{
 			stack.damageItem(this.getAttackStrength(), base);
-			if(stack.getItemDamage() == 0)
+			if(stack.getItemDamage() > stack.getMaxDamage())
 			{
 				base.setItemStackToSlot(EntityEquipmentSlot.HEAD, ItemStack.EMPTY);
 			}
@@ -762,6 +757,12 @@ public class EntityBrainSlime extends EntitySlime {
 	        int k = MathHelper.floor(this.posZ);
 	        BlockPos blockpos = new BlockPos(i, j, k);
 	        return this.getEntityWorld().getBlockState(blockpos.down()).getBlock() == this.spawnableBlock;
+	    }
+	    
+	    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+	    {
+	    	if(type == EnumCreatureType.MONSTER){return false;}
+	    	return super.isCreatureType(type, forSpawnCount);
 	    }
 }
 	

@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import net.daveyx0.multimob.entity.EntityMMFlyingMob;
+import net.daveyx0.multimob.entity.IMultiMob;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsLootTables;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsSoundEvents;
 import net.minecraft.entity.Entity;
@@ -27,7 +28,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityHarpy extends EntityMMFlyingMob {
+public class EntityHarpy extends EntityMMFlyingMob implements IMultiMob {
 
 	public EntityHarpy(World worldIn) {
 		super(worldIn);
@@ -56,12 +57,6 @@ public class EntityHarpy extends EntityMMFlyingMob {
     public SoundEvent getAmbientSound()
     {
         return PrimitiveMobsSoundEvents.ENTITY_HARPY_IDLE;
-    }
-    
-    @Override
-    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
-    {
-        return false;
     }
     
     public void onUpdate()
@@ -258,5 +253,11 @@ public class EntityHarpy extends EntityMMFlyingMob {
     protected SoundEvent getDeathSound()
     {
         return PrimitiveMobsSoundEvents.ENTITY_HARPY_HURT;
+    }
+    
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount)
+    {
+    	if(type == EnumCreatureType.MONSTER){return false;}
+    	return super.isCreatureType(type, forSpawnCount);
     }
 }

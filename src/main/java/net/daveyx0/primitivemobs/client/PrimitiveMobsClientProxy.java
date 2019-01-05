@@ -18,16 +18,18 @@ public class PrimitiveMobsClientProxy extends PrimitiveMobsCommonProxy {
 	    public void preInit(FMLPreInitializationEvent event) {
 	        OBJLoader.INSTANCE.addDomain(PrimitiveMobsReference.MODID);
 	        PrimitiveMobsEntityRegistry.registerRenderers();
+	        super.preInit(event);
 	    }
 
 	    @Override
 	    public void init(FMLInitializationEvent event) {
-
+	    	super.init(event);
 	    }
 
 	    @Override
 	    public void postInit(FMLPostInitializationEvent event) {
 	    	PrimitiveMobsItems.registerItemColors();
+	    	super.postInit(event);
 	    }
 	    
 }
