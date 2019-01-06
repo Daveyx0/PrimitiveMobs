@@ -140,6 +140,7 @@ public class EntityGroveSprite extends EntityCreature implements IMultiMobPassiv
     private void determineLogAndLeaves() {
 
     	Object[] tree = null;
+    	
     	if(PrimitiveMobs.proxy.DynamicTreesInt != null)
     	{
     		tree = PrimitiveMobs.proxy.DynamicTreesInt.searchDynamicTree(this, 10);

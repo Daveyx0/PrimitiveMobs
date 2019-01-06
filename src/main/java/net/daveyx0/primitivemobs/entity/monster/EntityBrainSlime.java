@@ -48,6 +48,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ISpecialArmor;
 
 public class EntityBrainSlime extends EntitySlime implements IMultiMob {
 
@@ -293,10 +294,13 @@ public class EntityBrainSlime extends EntitySlime implements IMultiMob {
 		
 		if(!stack.isEmpty() && stack.getItem().isDamageable() && stack.isItemStackDamageable())
 		{
-			stack.damageItem(this.getAttackStrength(), base);
-			if(stack.getItemDamage() > stack.getMaxDamage())
+			if (stack.getItem() instanceof ISpecialArmor)
 			{
-				base.setItemStackToSlot(EntityEquipmentSlot.HEAD, ItemStack.EMPTY);
+				((ISpecialArmor) stack.getItem()).damageArmor(base, stack, DamageSource.causeMobDamage(this), damage, EntityEquipmentSlot.HEAD.getIndex());
+			}
+			else
+			{
+				stack.damageItem(damage, base);
 			}
 		}
 		else if(base.attackEntityFrom(DamageSource.causeMobDamage(this), damage >= 6 ? damage : 6))

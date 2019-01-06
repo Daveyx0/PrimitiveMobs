@@ -5,6 +5,7 @@ import net.daveyx0.multimob.modint.MMModIntegrationRegistry;
 import net.daveyx0.primitivemobs.core.PrimitiveMobsReference;
 import net.daveyx0.primitivemobs.modint.PrimitiveMobsDTIntegration;
 import net.daveyx0.primitivemobs.modint.PrimitiveMobsJERIntegration;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -14,7 +15,6 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod.EventBusSubscriber(modid = PrimitiveMobsReference.MODID)
 public class PrimitiveMobsCommonProxy
 {
-
 	public PrimitiveMobsDTIntegration DynamicTreesInt;
 
 public void preInit(FMLPreInitializationEvent event) {
@@ -27,8 +27,14 @@ public void init(FMLInitializationEvent event) {
 
 public void postInit(FMLPostInitializationEvent event) {
 
-	MMModIntegrationRegistry.registerModIntegration(new PrimitiveMobsJERIntegration());
-	DynamicTreesInt = (PrimitiveMobsDTIntegration)MMModIntegrationRegistry.registerModIntegration(new PrimitiveMobsDTIntegration());
+	if(Loader.isModLoaded("jeresources"))
+	{
+		MMModIntegrationRegistry.registerModIntegration(new PrimitiveMobsJERIntegration());
+	}
+	if(Loader.isModLoaded("dynamictrees"))
+	{
+		DynamicTreesInt = (PrimitiveMobsDTIntegration)MMModIntegrationRegistry.registerModIntegration(new PrimitiveMobsDTIntegration());
+	}
 }
 
 }

@@ -36,12 +36,6 @@ public class PrimitiveMobsDTIntegration extends DynamicTreesIntegration {
 		super.init();
 	}
 	
-	public void attemptToPlaceSeed()
-	{
-		
-	}
-
-	
 	 public Object[] searchDynamicTree(EntityLiving entity, double d)
 	    {
 	    	Object[] states = new Object[3];
@@ -67,7 +61,7 @@ public class PrimitiveMobsDTIntegration extends DynamicTreesIntegration {
 	                    {
 	                        continue;
 	                    }
-	                    else if (state != null && state.getBlock() instanceof ITreePart && TreeHelper.isBranch(state))
+	                    else if (TreeHelper.isBranch(state))
 	                    {
                         	Species species = TreeHelper.getExactSpecies(state, entity.getEntityWorld(), pos);
 	                    	BlockPos posRoot = TreeHelper.findRootNode(state, entity.getEntityWorld(), pos);

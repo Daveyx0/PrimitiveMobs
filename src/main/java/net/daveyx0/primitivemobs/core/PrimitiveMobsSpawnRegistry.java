@@ -21,7 +21,7 @@ public class PrimitiveMobsSpawnRegistry extends MMSpawnRegistry
 		registerSpawnEntry(new MMConfigSpawnEntry("_BewitchedTome_Stronghold", "primitivemobs:bewitched_tome", 100, true).setupBaseMobSpawnEntry(false).setHeightLevel(-1, 45).setStructures(new String[]{"Stronghold"}));
 		registerSpawnEntry(new MMConfigSpawnEntry("_SkeletonWarrior", "primitivemobs:skeleton_warrior", 100, true).setupBaseMobSpawnEntry(false).setGroupSize(3, 3));
 		registerSpawnEntry(new MMConfigSpawnEntry("_SpiderFamily", "primitivemobs:mother_spider", 40, true).setupBaseMobSpawnEntry(false));
-		registerSpawnEntry(new MMConfigSpawnEntry("_BlazingJuggernaut", "primitivemobs:blazing_juggernaut", 30, true).setDimensions(new int[]{-1}));
+		registerSpawnEntry(new MMConfigSpawnEntry("_BlazingJuggernaut", "primitivemobs:blazing_juggernaut", 20, true).setDimensions(new int[]{-1}));
 		registerSpawnEntry(new MMConfigSpawnEntry("_Trollager", "primitivemobs:trollager", 5, true).setupBaseMobSpawnEntry(false).setNeedsMoreSpace(true));
 		registerSpawnEntry(new MMConfigSpawnEntry("_Trollager_Underground", "primitivemobs:trollager", 25, true).setupBaseMobSpawnEntry(false).setHeightLevel(-1, 45).setNeedsMoreSpace(true));
 		registerSpawnEntry(new MMConfigSpawnEntry("_VoidEye_Overworld", "primitivemobs:void_eye", 20, true).setupBaseMobSpawnEntry(false).setDimensions(new int[]{0}).setHeightLevel(-1, 20));
@@ -38,7 +38,7 @@ public class PrimitiveMobsSpawnRegistry extends MMSpawnRegistry
 		registerSpawnEntry(new MMConfigSpawnEntry("_Dodo", "primitivemobs:dodo", 100, true).setupBaseAnimalSpawnEntry(false).setSpawnBlocks(new String[]{"minecraft:mycelium"}).setGroupSize(1, 2).setCreatureType("MULTIMOBPASSIVE"));
 		registerSpawnEntry(new MMConfigSpawnEntry("_FilchLizard", "primitivemobs:filch_lizard", 25, true).setBiomeTypes(new String[]{"SANDY"}).setCreatureType("MULTIMOBPASSIVE").setGroupSize(1, 2));
 		registerSpawnEntry(new MMConfigSpawnEntry("_GroveSprite", "primitivemobs:grovesprite", 100, true).setupBaseAnimalSpawnEntry(false).setBiomeTypes(new String[]{"FOREST"}).setCreatureType("MULTIMOBPASSIVE").setGroupSize(1, 2));
-		registerSpawnEntry(new MMConfigSpawnEntry("_Sheepman", "primitivemobs:sheepman", 60, true).setDimensions(new int[]{-1}).setCreatureType("MULTIMOBPASSIVE").setGroupSize(1, 2));
+		registerSpawnEntry(new MMConfigSpawnEntry("_Sheepman", "primitivemobs:sheepman", 40, true).setDimensions(new int[]{-1}).setCreatureType("MULTIMOBPASSIVE").setGroupSize(1, 2));
 		
 		//Lava mobs
 		registerSpawnEntry(new MMConfigSpawnEntry("_FlameSpewer_Overworld", "primitivemobs:flame_spewer", 100, true).setDimensions(new int[]{0}).setNeedsMoreSpace(true).setSpawnType("LAVA").setCreatureType("MULTIMOBLAVA"));
