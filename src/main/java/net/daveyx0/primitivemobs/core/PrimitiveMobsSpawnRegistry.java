@@ -21,11 +21,10 @@ public class PrimitiveMobsSpawnRegistry extends MMSpawnRegistry
 		registerSpawnEntry(new MMConfigSpawnEntry("_BewitchedTome_Stronghold", "primitivemobs:bewitched_tome", 100, true).setupBaseMobSpawnEntry(false).setHeightLevel(-1, 45).setStructures(new String[]{"Stronghold"}));
 		registerSpawnEntry(new MMConfigSpawnEntry("_SkeletonWarrior", "primitivemobs:skeleton_warrior", 100, true).setupBaseMobSpawnEntry(false).setGroupSize(3, 3));
 		registerSpawnEntry(new MMConfigSpawnEntry("_SpiderFamily", "primitivemobs:mother_spider", 40, true).setupBaseMobSpawnEntry(false));
-		registerSpawnEntry(new MMConfigSpawnEntry("_BlazingJuggernaut", "primitivemobs:blazing_juggernaut", 20, true).setDimensions(new int[]{-1}));
+		registerSpawnEntry(new MMConfigSpawnEntry("_BlazingJuggernaut", "primitivemobs:blazing_juggernaut", 10, true).setDimensions(new int[]{-1}));
 		registerSpawnEntry(new MMConfigSpawnEntry("_Trollager", "primitivemobs:trollager", 5, true).setupBaseMobSpawnEntry(false).setNeedsMoreSpace(true));
 		registerSpawnEntry(new MMConfigSpawnEntry("_Trollager_Underground", "primitivemobs:trollager", 25, true).setupBaseMobSpawnEntry(false).setHeightLevel(-1, 45).setNeedsMoreSpace(true));
-		registerSpawnEntry(new MMConfigSpawnEntry("_VoidEye_Overworld", "primitivemobs:void_eye", 20, true).setupBaseMobSpawnEntry(false).setDimensions(new int[]{0}).setHeightLevel(-1, 20));
-		registerSpawnEntry(new MMConfigSpawnEntry("_VoidEye_End", "primitivemobs:void_eye", 20, true).setDimensions(new int[]{1}));
+		registerSpawnEntry(new MMConfigSpawnEntry("_VoidEye_Overworld", "primitivemobs:void_eye", 10, true).setupBaseMobSpawnEntry(false).setDimensions(new int[]{0}).setHeightLevel(-1, 20));
 		registerSpawnEntry(new MMConfigSpawnEntry("_Harpy", "primitivemobs:harpy", 100, true).setHeightLevel(100, -1).setGroupSize(1, 3).setOverrideCanSpawnHere(true).setSpawnBlocks(new String[]{"minecraft:grass","minecraft:stone", "minecraft:dirt", "minecraft:snow"}));
 		registerSpawnEntry(new MMConfigSpawnEntry("_Goblin", "primitivemobs:goblin", 50, true).setupBaseMobSpawnEntry(false).setHeightLevel(-1, 30).setGroupSize(3, 3));
 		registerSpawnEntry(new MMConfigSpawnEntry("_Goblin_Mineshaft", "primitivemobs:goblin", 100, true).setupBaseMobSpawnEntry(false).setStructures(new String[] {"Mineshaft"}));

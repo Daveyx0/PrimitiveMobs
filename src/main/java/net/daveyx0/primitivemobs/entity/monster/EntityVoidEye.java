@@ -1,5 +1,8 @@
 package net.daveyx0.primitivemobs.entity.monster;
 
+import java.util.Collections;
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import net.daveyx0.multimob.core.MultiMob;
@@ -52,7 +55,7 @@ public class EntityVoidEye extends EntityMMFlyingCreature implements IMultiMob {
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(1.0D);
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
@@ -235,6 +238,12 @@ public class EntityVoidEye extends EntityMMFlyingCreature implements IMultiMob {
         return ((Integer)this.dataManager.get(TARGET_ENTITY)).intValue() != 0;
     }
     
+    public int getTargetedEntityID( )
+    {
+    	 return ((Integer)this.dataManager.get(TARGET_ENTITY)).intValue();
+    }
+
+    
     /**
      * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
      * prevent them from trampling crops
@@ -268,6 +277,17 @@ public class EntityVoidEye extends EntityMMFlyingCreature implements IMultiMob {
         public boolean shouldExecute()
         {
             EntityLivingBase entitylivingbase = this.eye.getAttackTarget();
+            List<EntityVoidEye> voidEyesList =  this.eye.world.<EntityVoidEye>getEntitiesWithinAABB(EntityVoidEye.class, this.eye.getEntityBoundingBox().grow(20, 20, 20), null);
+            if(voidEyesList != null && !voidEyesList.isEmpty() && !this.eye.hasTargetedEntity())
+            {
+            	for(EntityVoidEye voidEye : voidEyesList)
+            	{
+            		if(entitylivingbase != null && voidEye.hasTargetedEntity() && voidEye.getTargetedEntityID() == entitylivingbase.getEntityId())
+            		{
+            			return false;
+            		}
+            	}
+            }
             return entitylivingbase != null && entitylivingbase.isEntityAlive();
         }
 
