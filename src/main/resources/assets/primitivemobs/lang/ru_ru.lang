@@ -2,19 +2,19 @@
 
 entity.primitivemobs.chameleon.name=Хамелеон
 entity.primitivemobs.treasure_slime.name=Слизень-сокровищница
-entity.primitivemobs.haunted_tool.name=Инструмент-призрак
-entity.primitivemobs.grovesprite.name=Лесной эльф
+entity.primitivemobs.haunted_tool.name=Одержимый инструмент
+entity.primitivemobs.grovesprite.name=Живой росток
 entity.primitivemobs.bewitched_tome.name=Заколдованная книга
 entity.primitivemobs.filch_lizard.name=Ящер-воришка
-entity.primitivemobs.brain_slime.name=Мозговой слизень
-entity.primitivemobs.rocket_creeper.name=Крипер-рокета
+entity.primitivemobs.brain_slime.name=Слизень-мозговик
+entity.primitivemobs.rocket_creeper.name=Крипер-ракета
 entity.primitivemobs.festive_creeper.name=Праздничный крипер
 entity.primitivemobs.support_creeper.name=Крипер-помощник
 entity.primitivemobs.skeleton_warrior.name=Скелет-воин
 entity.primitivemobs.blazing_juggernaut.name=Ифрит-джаггернаут
 entity.primitivemobs.lily_lurker.name=Таящийся за кувшинкой
 entity.primitivemobs.mother_spider.name=Мама-паук
-entity.primitivemobs.baby_spider.name=Паук-малыш
+entity.primitivemobs.baby_spider.name=Малыш-паук
 entity.primitivemobs.trollager.name=Тролль-житель
 entity.primitivemobs.lost_miner.name=Потерявшийся шахтер
 entity.primitivemobs.traveling_merchant.name=Странствующий торговец
@@ -62,7 +62,7 @@ JER.catagory.primitivemobs.mimic_treasure=Добыча c мимика
 JER.catagory.primitivemobs.mimic_trap=Добыча ловушки мимика
 entity.Villager.primitivemobs.fake_traveling_merchant=Странствующий торговец
 
-#Tamed
+#Tamed (Doesn't seem working) 
 death.tamed.sitting=%1$s теперь сидит.
 death.tamed.wandering=%1$s теперь блуждает.
 death.tamed.following=%1$s теперь следует за вами.
@@ -72,7 +72,7 @@ death.tamed.following=%1$s теперь следует за вами.
 
 entity.primitivemobs.Summoner.name=Summoner
 entity.primitivemobs.Minion.name=Skull Minion
-entity.primitivemobs.SheepmanSmith.name=Sheepman Smith
+entity.primitivemobs.SheepmanSmith.name=Овцечеловек-кузнец
 entity.primitivemobs.Spider+.name=Spider+
 entity.primitivemobs.OreGolem.name=Ore Golem
 entity.primitivemobs.BlazeCow.name=Blaze Cow
@@ -81,14 +81,14 @@ entity.primitivemobs.Sheeper.name=Sheeper
 entity.primitivemobs.BewitchedTomeSpecial.name=Dungeon Bewitched Tome
 entity.primitivemobs.Wizard.name=Wizard
 
-item.primitivemobs.SpiderEgg.name=Spider Egg
-item.primitivemobs.MysteryEgg.name=Mystery Egg
+item.primitivemobs.SpiderEgg.name=Яйцо паука
+item.primitivemobs.MysteryEgg.name=Таинственное яйцо
 item.primitivemobs.SpiderEggShell.name=Spider Egg Shell
 item.primitivemobs.SkullMinionOrb.name=Skull Minion Orb
 item.primitivemobs.PreciousPickaxe.name=Precious Pickaxe
 item.primitivemobs.PreciousAxe.name=Precious Axe
 item.primitivemobs.TarBall.name=Ball of Tar
-item.primitivemobs.PinkSlimeBall.name=Pink Slime Ball
+item.primitivemobs.PinkSlimeBall.name=Розовая слизь
 item.primitivemobs.WebBall.name=Web Ball
 item.primitivemobs.SmallRock.name=Small Rock
 item.primitivemobs.WizardTome.name=Wizard Tome
