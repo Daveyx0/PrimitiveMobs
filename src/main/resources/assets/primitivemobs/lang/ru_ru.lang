@@ -1,0 +1,177 @@
+#Entities
+
+entity.primitivemobs.chameleon.name=Хамелеон
+entity.primitivemobs.treasure_slime.name=Слизень-сокровищница
+entity.primitivemobs.haunted_tool.name=Одержимый инструмент
+entity.primitivemobs.grovesprite.name=Живое деревце
+entity.primitivemobs.bewitched_tome.name=Заколдованная книга
+entity.primitivemobs.filch_lizard.name=Ящер-воришка
+entity.primitivemobs.brain_slime.name=Слизень-мозговик
+entity.primitivemobs.rocket_creeper.name=Крипер-ракета
+entity.primitivemobs.festive_creeper.name=Праздничный крипер
+entity.primitivemobs.support_creeper.name=Крипер-помощник
+entity.primitivemobs.skeleton_warrior.name=Скелет-воин
+entity.primitivemobs.blazing_juggernaut.name=Ифрит-джаггернаут
+entity.primitivemobs.lily_lurker.name=Таящийся за кувшинкой
+entity.primitivemobs.mother_spider.name=Мама-паук
+entity.primitivemobs.baby_spider.name=Малыш-паук
+entity.primitivemobs.trollager.name=Тролль-житель
+entity.primitivemobs.lost_miner.name=Потерявшийся шахтер
+entity.primitivemobs.traveling_merchant.name=Странствующий торговец
+entity.primitivemobs.dodo.name=Дронт
+entity.primitivemobs.mimic.name=Подражатель
+entity.primitivemobs.goblin.name=Гоблин
+entity.primitivemobs.flame_spewer.name=Извергатель пламени
+entity.primitivemobs.harpy.name=Гарпия
+entity.primitivemobs.sheepman.name=Овцечеловек
+entity.primitivemobs.void_eye.name=Глаз пустоты
+
+#Items
+
+item.primitivemobs:camouflage_dye.name=Камуфляжный краситель
+item.primitivemobs:dodo.name=Сырое мясо дронта
+item.primitivemobs:cooked_dodo.name=Жареное мясо дронта
+item.primitivemobs:dodo_egg.name=Яйцо дронта
+item.primitivemobs:mimic_orb.name=Сфера подражателя
+item.primitivemobs:wonder_sap.name=Изумительный сок
+item.primitivemobs:spider_egg.name=Паучье яйцо
+item.primitivemobs:mysteryegg1.name=Таинственное яйцо
+item.primitivemobs:mysteryegg2.name=Таинственное яйцо
+item.primitivemobs:mysteryegg3.name=Таинственное яйцо
+item.primitivemobs:spider_eggshell.name=Оболочка паучьего яйца
+item.primitivemobs:goblin_mace.name=Гоблинская булава
+
+#Armor
+
+item.primitivemobs:camouflage_helmet.name=Камуфляжный шлем
+item.primitivemobs:camouflage_chestplate.name=Камуфляжная куртка
+item.primitivemobs:camouflage_leggings.name=Камуфляжные штаны
+item.primitivemobs:camouflage_boots.name=Камуфляжные ботинки
+
+#Villager Professions
+entity.Villager.primitivemobs.ore_miner=Рудокоп
+entity.Villager.primitivemobs.gem_miner=Добытчик драгоценных камней
+entity.Villager.primitivemobs.stone_miner=Добытчик камня
+entity.Villager.primitivemobs.traveling_merchant=Странствующий торговец
+entity.Villager.primitivemobs.sheepman_scavenger=Овцечеловек-мусорщик
+entity.Villager.primitivemobs.sheepman_alchemist=Овцечеловек-алхимик
+entity.Villager.primitivemobs.sheepman_thief=Овцечеловек-вор
+
+#JER Integration
+JER.catagory.primitivemobs.mimic_treasure=Добыча c подражателя
+JER.catagory.primitivemobs.mimic_trap=Добыча ловушки подражателя
+entity.Villager.primitivemobs.fake_traveling_merchant=Странствующий торговец
+
+#Tamed (Doesn't seem working) 
+death.tamed.sitting=%1$s теперь сидит.
+death.tamed.wandering=%1$s теперь блуждает.
+death.tamed.following=%1$s теперь следует за вами.
+
+
+#Old
+
+entity.primitivemobs.Summoner.name=Призыватель
+entity.primitivemobs.Minion.name=Череп-миньон
+entity.primitivemobs.SheepmanSmith.name=Овцечеловек-кузнец
+entity.primitivemobs.Spider+.name=Паук+
+entity.primitivemobs.OreGolem.name=Рудный голем
+entity.primitivemobs.BlazeCow.name=Пылающая корова
+entity.primitivemobs.EnderChicken.name=Эндер-курица
+entity.primitivemobs.Sheeper.name=Шипер
+entity.primitivemobs.BewitchedTomeSpecial.name=Заколдованная книга сокровищницы
+entity.primitivemobs.Wizard.name=Чародей
+
+item.primitivemobs.SpiderEgg.name=Паучье яйцо
+item.primitivemobs.MysteryEgg.name=Таинственное яйцо
+item.primitivemobs.SpiderEggShell.name=Оболочка паучьего яйца
+item.primitivemobs.SkullMinionOrb.name=Сфера черепа-миньона
+item.primitivemobs.PreciousPickaxe.name=Драгоценная кирка
+item.primitivemobs.PreciousAxe.name=Драгоценный топор
+item.primitivemobs.TarBall.name=Сгусток смолы
+item.primitivemobs.PinkSlimeBall.name=Розовая слизь
+item.primitivemobs.WebBall.name=Клубок паутины
+item.primitivemobs.SmallRock.name=Камешек
+item.primitivemobs.WizardTome.name=Книга чародея
+
+item.primitivemobs.PetTreasureSlimeSpawner.name=Спаунер питомца Слизня-сокровищницы
+item.primitivemobs.PreciousPickaxeSpawner.name=Спаунер Драгоценной одержимой кирки
+item.primitivemobs.RedSkullMinionSpawner.name=Спаунер красного черепа-миньона
+item.primitivemobs.BlueSkullMinionSpawner.name=Спаунер синего черепа-миньона
+item.primitivemobs.GreenSkullMinionSpawner.name=Спаунер зеленого черепа-миньона
+item.primitivemobs.YellowSkullMinionSpawner.name=Спаунер жёлтого черепа-миньона
+item.primitivemobs.MagentaSkullMinionSpawner.name=Спаунер пурпурного черепа-миньона
+item.primitivemobs.WitherSkullMinionSpawner.name=Спаунер черепа-миньона иссушителя
+item.primitivemobs.SpiderCaveStructureSpawner.name=Спаунер пещеры пауков
+item.primitivemobs.GemCaveStructureSpawner.name=Спаунер пещеры драгоценных камней
+item.primitivemobs.CreeperCaveStructureSpawner.name=Спаунер пещеры криперов
+item.primitivemobs.GoodWizardTowerStructureSpawner.name=Спаунер башни мага (Добрый)
+item.primitivemobs.NeutralWizardTowerStructureSpawner.name=Спаунер башни мага (Нейтральный)
+item.primitivemobs.EvilWizardTowerStructureSpawner.name=Спаунер башни злого чародея
+
+tile.primitivemobs.Tar.name=Смола
+tile.primitivemobs.Log.Cinder.name=Cinder Log
+tile.primitivemobs.Sapling.Cinder.name=Cinder Sapling
+tile.primitivemobs.Sapling.GroveSprite.name=Саженец живого деревца
+tile.primitivemobs.Leaf.Cinder.name=Cinder Leaves
+tile.primitivemobs.SpiderEgg.name=Паучье яйцо
+tile.primitivemobs.Decorative.WebbedStone.name=Паутинчатый камень
+tile.primitivemobs.Planks.Cinder.name=Cinder Planks
+tile.primitivemobs.Stairs.Cinder.name=Cinder Stairs
+tile.primitivemobs.Slab.Cinder.name=Cinder Slab
+tile.primitivemobs.Chest.Spider.name=Паутинчатый сундук
+tile.primitivemobs.Chest.Gem.name=Сундук драгоценных камней
+tile.primitivemobs.BookcaseSpawner.name=Спаунер заколдованной книги
+tile.primitivemobs.Chest.RandomMimic.name=Сундук
+tile.primitivemobs.Chest.EvilMimic.name=Сундук злого подражателя
+tile.primitivemobs.Chest.SkeletonWarriorMimic.name=Сундук подражателя (Скелет-воин)
+tile.primitivemobs.Chest.HauntedToolMimic.name=Сундук подражателя (Одержимый инструмент)
+tile.primitivemobs.Chest.BatMimic.name=Сундук подражателя (Летучая мышь)
+tile.primitivemobs.Chest.ZombieMimic.name=Сундук подражателя (Зомби)
+tile.primitivemobs.Chest.ExplosionMimic.name=Сундук взрывающегося подражателя
+tile.primitivemobs.Chest.EnderMimic.name=Подражатель эндер-сундука
+tile.primitivemobs.Chest.Creeper.name=Сундук крипера
+
+key.primitivemobs.category=PrimitiveMobs
+key.primitivemobs.desc=Включить камуфляж
+
+enchantment.primitivemobs.stickyFeet=Липкие стопы
+enchantment.primitivemobs.explosiveSlash=Взрывное кромсание
+
+achievement.primitivemobs.lostminerhelp=Одинок навсегда
+achievement.primitivemobs.lostminerhelp.desc=Спасите потерявшегося шахтера
+achievement.primitivemobs.camouflagedye=Эссенция цветов
+achievement.primitivemobs.camouflagedye.desc=Получите камуфляжный краситель
+achievement.primitivemobs.camouflagearmor=Почти хамелеон
+achievement.primitivemobs.camouflagearmor.desc=Сделайте камуфляжный комплект
+achievement.primitivemobs.chameleonfriend=Красочный друг
+achievement.primitivemobs.chameleonfriend.desc=Приручите хамелеона
+achievement.primitivemobs.specialcolor1=Цвет исследования
+achievement.primitivemobs.specialcolor1.desc=Подсказка: споры
+achievement.primitivemobs.specialcolor2=Цвет открытия
+achievement.primitivemobs.specialcolor2.desc=Подсказка: Возле енда
+achievement.primitivemobs.specialcolor3=Цвет победы
+achievement.primitivemobs.specialcolor3.desc=Подсказка: внутри луча
+achievement.primitivemobs.redcreepsurvive=Незваный гость
+achievement.primitivemobs.redcreepsurvive.desc=Убейте Праздничного крипера
+achievement.primitivemobs.spiderowner=Мамочка?
+achievement.primitivemobs.spiderowner.desc=Заполучите себе Паука-малыша
+achievement.primitivemobs.spiderstealer=Защита детей
+achievement.primitivemobs.spiderstealer.desc=Заберите Малыша-паука у Мамы-паука
+achievement.primitivemobs.spiderattack=Восьминогий солдат
+achievement.primitivemobs.spiderattack.desc=Позвольте вашему Малышу-пауку атаковать моба
+achievement.primitivemobs.spidergrown=Время пролетает незаметно
+achievement.primitivemobs.spidergrown.desc=Вырастите Малыша-паука до зрелости
+achievement.primitivemobs.haunteddiamond=Одержимый блеск
+achievement.primitivemobs.haunteddiamond.desc=Одолейте алмазный одержимый инструмент
+achievement.primitivemobs.hauntedprecious=Моя прелесть
+achievement.primitivemobs.hauntedprecious.desc=Одолейте драгоценную одержимую кирку
+achievement.primitivemobs.mimicfake=Как чёртик из табакерки
+achievement.primitivemobs.mimicfake.desc=Найдите подражателя, который вас атакует
+achievement.primitivemobs.mimicdungeon=Не такой уж и фальшивый сундук
+achievement.primitivemobs.mimicdungeon.desc=Найдите Подражателя который превратится в Сундук сокровищницы
+achievement.primitivemobs.treasureslimefriend=Слизистый компаньон
+achievement.primitivemobs.treasureslimefriend.desc=Заполучите себе питомца Слизня-сокровищницу
+achievement.primitivemobs.treasureslimewhite=Сочетание цветов
+achievement.primitivemobs.treasureslimewhite.desc=Сделайте вашего Слизня-сокровищницу полностью белым
+achievement.primitivemobs.blazingjugger=Следуй за мной
+achievement.primitivemobs.blazingjugger.desc=Одолейте ифрита-джаггернаута отведя его в воду
