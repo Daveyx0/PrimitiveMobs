@@ -101,6 +101,11 @@ public class EntityBrainSlime extends EntitySlime implements IMultiMob {
     {
         int i = this.rand.nextInt(3);
         this.setSlimeSize(i, true);
+        if(i == 0)
+        {
+            this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(2.0);
+            this.setHealth(this.getMaxHealth());
+        }
         return livingdata;
     }
 	
